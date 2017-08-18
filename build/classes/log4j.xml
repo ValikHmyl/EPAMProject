@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration xmlns:log4j='http://jakarta.apache.org/log4j/'>
+	<appender name="Console" class="org.apache.log4j.ConsoleAppender">
+		<layout class="org.apache.log4j.PatternLayout" >
+			<param name="ConversionPattern" value="%d{HH:mm:ss} [%t] %-5p %c %x - %m%n"/>
+		</layout>
+	</appender>
+	<appender name="RollingFile" class="org.apache.log4j.RollingFileAppender">
+		<param name="File" value="d:/logs/cafe_log.txt" />
+		<param name="MaxFileSize" value="50KB"/>
+   		<param name="MaxBackupIndex" value="5"/>
+			<layout class="org.apache.log4j.PatternLayout" >
+				<param name="ConversionPattern" value="%d{dd.MM.yyyy HH:mm:ss} [%t] %-5p %c %x - %m%n"/>
+			</layout>
+	</appender>
+	<root>
+		<appender-ref ref="RollingFile" />
+		<appender-ref ref="Console"/>
+	</root>
+</log4j:configuration>

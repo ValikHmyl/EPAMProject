@@ -1,0 +1,168 @@
+body {
+	background: url(../img/bg.jpg);
+	padding-top: 70px;
+}
+
+.navbar-brand {
+	font-family: 'Arizonia', kursive;
+	font-size: 26px;
+}
+
+a {
+	color: #4c4c4c;
+}
+
+a:focus, a:hover, .cart a:hover {
+	color: #fd720b;
+}
+
+.nav>li>a:focus, .nav>li>a:hover {
+	background: none;
+}
+
+table {
+	margin: 10px auto;
+}
+
+td {
+	padding: 0 5px;
+}
+
+hr {
+	margin-bottom: 5px;
+	border-top-color: #d6bf9a;
+}
+
+.nav-pills li{
+	background-color: #e7e7e7;
+}
+
+.menu, .nav-pills li, .table {
+	border: 2px solid #d6bf9a;
+	border-radius: 10px;
+	box-shadow: 0 0 10px #808080;
+}
+
+.cart {
+	color: #fff;
+	border-radius: 5px;
+	background: linear-gradient(to bottom, #7b6d66 0, #965e2d 100%);
+	padding: 10px 15px 8px;
+}
+
+.cart a {
+	color: #fff;
+	font-weight: bold;
+	text-decoration: underline;
+}
+
+.category, .menu-item {
+	position: relative;
+	overflow: hidden;
+	border: 1px solid #bbb;
+	left: 50%;
+	transform: translate(-50%, 0);
+}
+
+.category {
+	width: 230px;
+	height: 230px;
+}
+
+.menu-item {
+	width: 250px;
+	margin-bottom: 10px;
+	border-radius: 4px;
+}
+
+.menu-item p, .table-condensed td {
+	font-family: 'Sedgwick Ave', cursive;
+	font-size: 22px;
+}
+
+.menu-item input {
+	width: 43px;
+}
+
+.menu div, .menu-item div, .menu-item div+button {
+	margin-bottom: 10px;
+}
+
+.category span {
+	position: absolute;
+	top: 10px;
+	left: 50%;
+	transform: translate(-50%, 0);
+}
+
+.category a:hover, .category a:active, .category a:focus, .category a:visited
+	{
+	text-decoration: none;
+}
+
+.category:hover {
+	border: 1px solid #fd720b;
+}
+
+.category a:hover {
+	color: #fd720b;
+}
+
+.topbar {
+	background: linear-gradient(to bottom, #f6f6f6 0, #e8e8e8 100%);
+}
+
+.icon-bar {
+	background-color: #4c4c4c;
+}
+
+.table-condensed, .table-condensed th, .table-condensed td {
+	border: 2px solid #d6bf9a;
+}
+
+.footer {
+	padding: 8px 0;
+	background: linear-gradient(to bottom, #999999 0, #e7e7e7 100%);
+}
+
+.affix {
+	top: 50%;
+	transform: translate(0, -50%);
+}
+
+.delete:hover {
+	cursor: pointer;
+}
+
+.order-confirm {
+	width: 700px;
+}
+
+@media ( max-width : 768px) {
+	.cart {
+		margin: auto;
+		width: 250px;
+		padding: 2px;
+	}
+	.nav-pills li a {
+		padding: 5px 10px;
+	}
+	.item-img {
+		display: none;
+	}
+	.order-confirm {
+		width: 500px;
+	}
+}
+
+@media ( max-width : 500px) {
+	.order-confirm {
+		width: 350px;
+	}
+}
+
+@media ( max-height : 500px) {
+	.nav-pills li a {
+		padding: 5px 10px;
+	}
+}
