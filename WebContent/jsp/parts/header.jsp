@@ -28,6 +28,7 @@
 <script	src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
 
+
 </head>
 <body>
 	<div class="navbar navbar-fixed-top topbar">
@@ -96,7 +97,7 @@
 						</c:otherwise>
 					</c:choose>
 					<li>
-						<a href="${pageContext.request.contextPath}/jsp/order/cart.jsp">
+						<a href="${pageContext.request.contextPath}/jsp/common/cart.jsp">
 							<span class="glyphicon glyphicon-shopping-cart"></span>
 							<span class="badge amount"><ctg:cartAmount cart="${cart }"/></span>
 						</a>

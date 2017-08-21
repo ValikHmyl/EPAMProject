@@ -103,7 +103,7 @@ public class UserReceiverImpl extends UserReceiver {
 		try {
 			orders = dao.findUserOrders(userId);
 		} catch (DAOException e) {
-			throw new ReceiverException("", e);
+			throw new ReceiverException("Finding  orders exception", e);
 		}
 		return orders;
 	}

@@ -14,4 +14,5 @@ public abstract class OrderReceiver {
 
 	public abstract boolean makeAnOrder(User user, HashMap<MenuItem, Integer> cart, String datetime)
 			throws ReceiverException;
+	public abstract boolean cancelOrder(int orderId,StringBuilder message) throws ReceiverException;
 }

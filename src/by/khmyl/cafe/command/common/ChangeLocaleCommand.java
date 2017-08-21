@@ -8,10 +8,16 @@ import com.google.gson.JsonObject;
 import by.khmyl.cafe.command.AbstractCommand;
 import by.khmyl.cafe.command.util.Router;
 
+/**
+ * Command for changing language on pages.
+ */
 public class ChangeLocaleCommand extends AbstractCommand {
 	private static final String LOCALE = "locale";
 	private static final String SUCCESS = "success";
 
+	/* (non-Javadoc)
+	 * @see by.khmyl.cafe.command.AbstractCommand#execute(javax.servlet.http.HttpServletRequest)
+	 */
 	@Override
 	public Router execute(HttpServletRequest request) {
 		HttpSession session = request.getSession(true);

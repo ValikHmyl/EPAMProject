@@ -16,6 +16,9 @@ import by.khmyl.cafe.exception.ReceiverException;
 import by.khmyl.cafe.receiver.UserReceiver;
 import by.khmyl.cafe.receiver.impl.UserReceiverImpl;
 
+/**
+ * Command for changing user's password.
+ */
 public class ChangePasswordCommand extends AbstractCommand {
 	private static final Logger LOGGER = LogManager.getLogger(ChangePasswordCommand.class);
 	private static final String NEW_PASSWORD = "newPassword";
@@ -26,6 +29,9 @@ public class ChangePasswordCommand extends AbstractCommand {
 
 	private UserReceiver receiver = new UserReceiverImpl();
 
+	/* (non-Javadoc)
+	 * @see by.khmyl.cafe.command.AbstractCommand#execute(javax.servlet.http.HttpServletRequest)
+	 */
 	@Override
 	public Router execute(HttpServletRequest request) {
 		Router router = new Router();

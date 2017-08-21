@@ -136,7 +136,7 @@ $("#repeatNewPassword").keyup(function() {
 $("#newEmail").keyup(
 		function() {
 			var regex = new RegExp(
-					"\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*\\.\\w{2,3}");
+					"\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*(\\.\\w{2,3})");
 			if (!regex.test($("#newEmail").val())) {
 				$("#notValidEmail").css("display", "block");
 				$('#emailSubmit').prop('disabled', true).removeClass("btn-success").addClass("btn-default");
@@ -160,7 +160,6 @@ $("#avatarImg").change(function() {
 		$("#noFile").css("display", "inline");
 	}
 });
-
 
 
 				});

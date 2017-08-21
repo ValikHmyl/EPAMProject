@@ -26,8 +26,10 @@
 <title>${title }</title>
 </head>
 <body>
+	<div class="wrapper">
 	<jsp:include page="/jsp/parts/header.jsp"/>
 	<jsp:include page="/jsp/parts/topBanner.jsp"/>
+	<div class="content">
 	<div class="row container">
 		<div class="col-xs-4 col-sm-3">
 			<ul class="nav nav-pills nav-stacked " data-spy="affix" data-offset-top="200">
@@ -72,5 +74,6 @@
     	    </div>
    		</div>
      </div>
-     
+     </div>
 <jsp:include page="/jsp/parts/footer.jsp"/>
+</div>

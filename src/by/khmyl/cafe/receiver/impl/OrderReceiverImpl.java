@@ -7,6 +7,7 @@ import by.khmyl.cafe.dao.OrderDAO;
 import by.khmyl.cafe.dao.impl.MenuDAOImpl;
 import by.khmyl.cafe.dao.impl.OrderDAOImpl;
 import by.khmyl.cafe.entity.MenuItem;
+import by.khmyl.cafe.entity.Order;
 import by.khmyl.cafe.entity.User;
 import by.khmyl.cafe.exception.DAOException;
 import by.khmyl.cafe.exception.ReceiverException;
@@ -54,10 +55,31 @@ public class OrderReceiverImpl extends OrderReceiver {
 		}
 		OrderDAO dao = new OrderDAOImpl();
 		try {
-			dao.addOrder(user.getId(), cart, datetime);
+			dao.addOrder(user, cart, datetime);
 		} catch (DAOException e) {
 			throw new ReceiverException("Making order exception", e);
 		}
+		return true;
+	}
+
+	@Override
+	public boolean cancelOrder(int orderId, StringBuilder message) throws ReceiverException {
+		OrderDAO dao = new OrderDAOImpl();
+		Order order = null;
+		try {
+			order = dao.findOrder(orderId);
+			if (Validator.validateDatetime(order.getConfirmDate())) {
+
+				dao.cancelOrder(orderId);
+			} else {
+				message.append("You can't cancel this order already! Order can't be when there is less then an hour before choosen datetime");
+				return false;
+			}
+		} catch (DAOException e) {
+			message.append("Something goes wrong! Try again leter.");
+			throw new ReceiverException("Cancel order exception " + e, e);
+		}
+
 		return true;
 	}
 

@@ -17,6 +17,9 @@ import by.khmyl.cafe.exception.ReceiverException;
 import by.khmyl.cafe.receiver.CommonReceiver;
 import by.khmyl.cafe.receiver.impl.CommonReceiverImpl;
 
+/**
+ * Command for present menu on page.
+ */
 public class MenuCommand extends AbstractCommand {
 	private static final Logger LOGGER = LogManager.getLogger(MenuCommand.class);
 	private static final String CATEGORY = "category";
@@ -24,6 +27,9 @@ public class MenuCommand extends AbstractCommand {
 
 	private CommonReceiver receiver = new CommonReceiverImpl();
 
+	/* (non-Javadoc)
+	 * @see by.khmyl.cafe.command.AbstractCommand#execute(javax.servlet.http.HttpServletRequest)
+	 */
 	@Override
 	public Router execute(HttpServletRequest request) {
 		String category = request.getParameter(CATEGORY);

@@ -3,9 +3,9 @@
 <fmt:setBundle basename="resources.pagecontent" />
 <fmt:message key="footer" var="footer"/>
 <fmt:message key="footer.info" var="info"/>
-<hr>
+
 <div class="footer">
-	<div class="container row text-center">
+	<div class="row text-center">
       		<div class="col-xs-5">
       			<a href="${pageContext.request.contextPath}/index.jsp"><img alt="logo" src="${pageContext.request.contextPath}/img/logo.png" width="85px"></a>
       			<p> ©2017 «McCafe» - ${footer }</p>
@@ -19,5 +19,7 @@
 </div>
 <script src="${pageContext.request.contextPath}/js/header.js"></script>
 <script src="${pageContext.request.contextPath}/js/order.js"></script>
+<script src="${pageContext.request.contextPath}/js/user.js"></script>
+
 </body>
 </html>

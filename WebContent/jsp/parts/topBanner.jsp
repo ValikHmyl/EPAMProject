@@ -24,7 +24,7 @@
 			</div>
 			<div class="col-sm-4">
 				<div class="cart text-center">
-					<a href="${pageContext.request.contextPath}/jsp/order/cart.jsp">${inCart }</a> <span class="amount"><ctg:cartAmount cart="${cart }"/></span> ${goods}
+					<a href="${pageContext.request.contextPath}/jsp/common/cart.jsp">${inCart }</a> <span class="amount"><ctg:cartAmount cart="${cart }"/></span> ${goods}
 					<c:choose>
 						<c:when test="${user!=null }">
 							<a href="${pageContext.request.contextPath}/jsp/order/order.jsp">

@@ -33,9 +33,11 @@
 </style>
 </head>
 <body>
+	<div class="wrapper">
 	<jsp:include page="/jsp/parts/header.jsp"/>
+	<div class="content">
 	<h2 class="text-center">${signUp }</h2>
-	<div class="container">
+	<div class="container ">
 	<form class="form-horizontal" name="signUp" method="POST" action="${pageContext.request.contextPath}/controller">
 		<input type="hidden" name="command" value="sign_up" /> 
 		<div class="form-group ">
@@ -83,4 +85,6 @@
 		</div>
 	</form>
 	</div>
+	</div>
 	<jsp:include page="/jsp/parts/footer.jsp"/>
+	</div>

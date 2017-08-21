@@ -18,7 +18,11 @@ import by.khmyl.cafe.exception.ReceiverException;
 import by.khmyl.cafe.receiver.OrderReceiver;
 import by.khmyl.cafe.receiver.impl.OrderReceiverImpl;
 
+/**
+ * Command for deleting menu item from cart.
+ */
 public class DeleteFromCartCommand extends AbstractCommand {
+
 	private static final Logger LOGGER = LogManager.getLogger(DeleteFromCartCommand.class);
 	private static final String CART = "cart";
 	private static final String SUCCESS = "success";
@@ -27,6 +31,9 @@ public class DeleteFromCartCommand extends AbstractCommand {
 	private static final String ERROR_MSG = "errorMsg";
 	private OrderReceiver receiver = new OrderReceiverImpl();
 
+	/* (non-Javadoc)
+	 * @see by.khmyl.cafe.command.AbstractCommand#execute(javax.servlet.http.HttpServletRequest)
+	 */
 	@Override
 	public Router execute(HttpServletRequest request) {
 		int itemId = Integer.parseInt(request.getParameter(ITEM_ID));

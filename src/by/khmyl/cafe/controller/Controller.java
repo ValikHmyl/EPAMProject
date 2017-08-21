@@ -14,6 +14,13 @@ import by.khmyl.cafe.command.AbstractCommand;
 import by.khmyl.cafe.command.util.CommandProvider;
 import by.khmyl.cafe.command.util.Router;
 
+
+/**
+ * Class for processing requests from a client. 	
+ * It serves as the main Servlet in application, extends from
+ * {@link HttpServlet} class.
+ * 
+ */
 @WebServlet("/controller")
 @MultipartConfig(fileSizeThreshold=1024*1024*5, maxFileSize=1024*1024*50, maxRequestSize=1024*1024*50)
 

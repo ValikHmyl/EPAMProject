@@ -18,8 +18,10 @@ import by.khmyl.cafe.entity.User;
 import by.khmyl.cafe.exception.ReceiverException;
 import by.khmyl.cafe.receiver.OrderReceiver;
 import by.khmyl.cafe.receiver.impl.OrderReceiverImpl;
-import by.khmyl.cafe.util.Validator;
 
+/**
+ * Command for making user order.
+ */
 public class MakeAnOrderCommand extends AbstractCommand {
 	private static final Logger LOGGER = LogManager.getLogger(MakeAnOrderCommand.class);
 	private static final String USER = "user";
@@ -30,6 +32,9 @@ public class MakeAnOrderCommand extends AbstractCommand {
 
 	private OrderReceiver receiver = new OrderReceiverImpl();
 
+	/* (non-Javadoc)
+	 * @see by.khmyl.cafe.command.AbstractCommand#execute(javax.servlet.http.HttpServletRequest)
+	 */
 	@Override
 	public Router execute(HttpServletRequest request) {
 		HttpSession session = request.getSession(true);
@@ -38,7 +43,7 @@ public class MakeAnOrderCommand extends AbstractCommand {
 		String time = request.getParameter(TIME);
 		Router router = new Router(RouteType.REDIRECT);
 		HashMap<MenuItem, Integer> cart = (HashMap<MenuItem, Integer>) session.getAttribute(CART);
-		String datetime = date + " " + time; 											
+		String datetime = date + " " + time;
 		if (user == null) {
 			router.setPath(PathConstant.SIGN_IN);
 		} else {

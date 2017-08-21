@@ -7,8 +7,14 @@ import by.khmyl.cafe.command.util.PathConstant;
 import by.khmyl.cafe.command.util.Router;
 import by.khmyl.cafe.command.util.Router.RouteType;
 
+/**
+ * Error command to redirect on error page.
+ */
 public class ErrorCommand extends AbstractCommand {
 
+	/* (non-Javadoc)
+	 * @see by.khmyl.cafe.command.AbstractCommand#execute(javax.servlet.http.HttpServletRequest)
+	 */
 	@Override
 	public Router execute(HttpServletRequest request) {
 		return new Router(PathConstant.ERROR_404,RouteType.REDIRECT);

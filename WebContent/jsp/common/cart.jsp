@@ -21,8 +21,10 @@
 <title>${title }</title>
 </head>
 <body>
+	<div class="wrapper">
 	<jsp:include page="/jsp/parts/header.jsp"/>
 	<jsp:include page="/jsp/parts/topBanner.jsp"/>
+	<div class="content">
 	<div class="container text-center">
 	<c:choose>
 		<c:when test="${cart!=null and !cart.isEmpty()}">
@@ -42,7 +44,7 @@
 							<td class="item-img"><img class="img-responsive" width="130" height="130" alt="" src="${pageContext.request.contextPath}/img/menu/${elem.imageName}"></td>
 							<td>${elem.name }</td>
 							<td>$${elem.price} x ${cart[elem]}</td>
-							<td>$<span class="price">${(elem.price-elem.price*user.discount/100)*cart[elem]}</span></td>
+							<td>$<span class="price">${elem.price*cart[elem]}</span></td>
 							<td><span class="glyphicon glyphicon-remove delete" data-id="${elem.id}" data-amount="${cart[elem]}" title="${delete }"></span></td>
 						</tr>
 					</c:forEach>
@@ -57,7 +59,7 @@
 			
 			<c:choose>
 				<c:when test="${user!=null }">
-					<div class="text-info small">*${discount }${user.discount }%</div>
+				
 					<a href="${pageContext.request.contextPath}/jsp/order/order.jsp">
 						<button class="order btn btn-default">${order}</button>
 					</a>
@@ -86,5 +88,6 @@
     	    </div>
    		</div>
      </div>
-     
+     </div>
 	<jsp:include page="/jsp/parts/footer.jsp"/>
+	</div>

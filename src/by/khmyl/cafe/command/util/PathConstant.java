@@ -9,8 +9,8 @@ public class PathConstant {
 	public static final String ERROR_404 = "/jsp/error/404.jsp";
 	public static final String MENU = "/jsp/common/menu.jsp";
 	public static final String ORDER = "/jsp/order/order.jsp";
-	public static final String PROFILE = "/jsp/user/userOrders.jsp";
-	
+	public static final String PROFILE = "/jsp/user/profile.jsp";
+	public static final String USER_ORDERS = "/jsp/user/userOrders.jsp";
 	
 	private PathConstant() {
 	}

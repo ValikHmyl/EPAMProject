@@ -18,6 +18,9 @@ import by.khmyl.cafe.exception.ReceiverException;
 import by.khmyl.cafe.receiver.CommonReceiver;
 import by.khmyl.cafe.receiver.impl.CommonReceiverImpl;
 
+/**
+ * Command for Sign In system.
+ */
 public class SignInCommand extends AbstractCommand {
 	private static final Logger LOGGER = LogManager.getLogger(SignInCommand.class);
 	private static final String USERNAME = "username";
@@ -26,6 +29,9 @@ public class SignInCommand extends AbstractCommand {
 	private static final String ERROR_MESSAGES = "errorMessages";
 	private CommonReceiver receiver = new CommonReceiverImpl();
 
+	/* (non-Javadoc)
+	 * @see by.khmyl.cafe.command.AbstractCommand#execute(javax.servlet.http.HttpServletRequest)
+	 */
 	@Override
 	public Router execute(HttpServletRequest request) {
 		Router router = new Router(RouteType.REDIRECT);

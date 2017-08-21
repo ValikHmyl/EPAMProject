@@ -24,9 +24,10 @@
 }
 </style>
 </head>
-<body>      		
+<body>     
+	<div class="wrapper">
 <jsp:include page="/jsp/parts/header.jsp"/>
-
+<div class="content">
 	<h2 class="text-center">${title }</h2>
 	<div class="container">
 	<form class="form-horizontal" name="signIn" method="POST" action="${pageContext.request.contextPath}/controller">
@@ -54,4 +55,6 @@
 		</div>
 	</form>
 	</div>
+	</div>
 <jsp:include page="/jsp/parts/footer.jsp"/>
+</div>

@@ -13,14 +13,24 @@ import by.khmyl.cafe.command.AbstractCommand;
 import by.khmyl.cafe.command.util.CommandProvider;
 import by.khmyl.cafe.command.util.Router;
 
+/**
+ * Class for processing ajax requests from a client . 	
+ */
 @WebServlet("/ajax")
 public class AjaxController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	
+	/* (non-Javadoc)
+	 * @see javax.servlet.http.HttpServlet#doGet(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		processRequest(request, response);
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.servlet.http.HttpServlet#doPost(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		processRequest(request, response);

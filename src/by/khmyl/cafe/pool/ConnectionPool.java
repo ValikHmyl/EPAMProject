@@ -27,7 +27,65 @@ public class ConnectionPool {
 		init();
 	}
 
-	private void init(){
+	public static ConnectionPool getInstance() {
+		if (!flag.get()) {
+			lock.lock();
+			try {
+				if (instance == null) {
+					instance = new ConnectionPool();
+					flag.set(true);
+				}
+			} finally {
+				lock.unlock();
+			}
+		}
+		return instance;
+	}
+
+	public ProxyConnection takeConnection() {
+		ProxyConnection connection = null;
+		try {
+			connection = pool.take();
+		} catch (InterruptedException e) {
+			LOGGER.log(Level.ERROR, "Can't take connection from pool: ", e);
+		}
+		return connection;
+	}
+
+	public void putConnection(ProxyConnection connection) {
+		try {
+			if (!connection.getAutoCommit()) {
+				connection.setAutoCommit(true);
+			}
+			pool.put(connection);
+		} catch (InterruptedException e) {
+			LOGGER.log(Level.ERROR, "Can't put connection to pool: ", e);
+		} catch (SQLException e) {
+			LOGGER.log(Level.ERROR, "Can't set autocommit: ", e);
+		}
+	}
+
+	public void destroyPool() {
+		try {
+			int poolSize = pool.size();
+			for (int i = 0; i < poolSize; i++) {
+				pool.take().realClose();
+			}
+			Enumeration<Driver> drivers = DriverManager.getDrivers();
+			while (drivers.hasMoreElements()) {
+				Driver driver = drivers.nextElement();
+				DriverManager.deregisterDriver(driver);
+			}
+		} catch (SQLException | InterruptedException e) {
+			LOGGER.log(Level.ERROR, "Exception: ", e);
+		}
+	}
+
+	public int size() {
+		return pool.size();
+	}
+
+	private void init() {
 		try {
 			ResourceBundle resource = ResourceBundle.getBundle("resources.db");
 			String url = resource.getString("db.url");
@@ -41,7 +99,7 @@ public class ConnectionPool {
 				try {
 					pool.add(new ProxyConnection(DriverManager.getConnection(url, properties)));
 				} catch (SQLException e) {
-					LOGGER.log(Level.ERROR, "Can't create connection " ,e);
+					LOGGER.log(Level.ERROR, "Can't create connection ", e);
 				}
 			}
 			if (pool.isEmpty()) {
@@ -63,61 +121,8 @@ public class ConnectionPool {
 			throw new RuntimeException("Can't create db connection pool", e);
 
 		} catch (SQLException e) {
-			LOGGER.log(Level.ERROR,"Can't create db connection pool ", e);
+			LOGGER.log(Level.ERROR, "Can't create db connection pool ", e);
 		}
 
-	}
-
-	public static ConnectionPool getInstance() {
-		if (!flag.get()) {
-			lock.lock();
-			try {
-				if (instance == null) {
-					instance = new ConnectionPool();
-					flag.set(true);
-				}
-			} finally {
-				lock.unlock();
-			}
-		}
-		return instance;
-	}
-
-	public ProxyConnection takeConnection(){
-		ProxyConnection connection = null;
-		try {
-			connection = pool.take();
-		} catch (InterruptedException e) {
-			LOGGER.log(Level.ERROR,"Can't take connection from pool: ", e);
-		}
-		return connection;
-	}
-
-	public void putConnection(ProxyConnection connection) {
-		try {
-			if (!connection.getAutoCommit()) {
-				connection.setAutoCommit(true);
-			}
-			pool.put(connection);
-		} catch (InterruptedException e) {
-			LOGGER.log(Level.ERROR, "Can't put connection to pool: ", e);
-		} catch (SQLException e) {
-			LOGGER.log(Level.ERROR, "Can't set autocommit: ", e);
-		}
-	}
-
-	public void destroyPool() {
-		try {
-			for (int i = 0; i < pool.size(); i++) {
-				pool.take().close();
-			}
-			Enumeration<Driver> drivers = DriverManager.getDrivers();
-			while (drivers.hasMoreElements()) {
-				Driver driver = drivers.nextElement();
-				DriverManager.deregisterDriver(driver);
-			}
-		} catch (SQLException | InterruptedException e) {
-			LOGGER.log(Level.ERROR, "Exception: " ,e);
-		}
 	}
 }

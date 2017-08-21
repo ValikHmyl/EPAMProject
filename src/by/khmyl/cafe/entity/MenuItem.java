@@ -2,6 +2,9 @@ package by.khmyl.cafe.entity;
 
 import java.math.BigDecimal;
 
+/**
+ * Encapsulate an information from database about menu item.
+ */
 public class MenuItem extends Entity {
 	private int id;
 	private String name;
@@ -10,11 +13,23 @@ public class MenuItem extends Entity {
 	private String portion;
 	private String imageName;
 
+	/**
+	 * Instantiates a new menu item.
+	 */
 	public MenuItem() {
 	}
 
+	/**
+	 * Instantiates a new menu item.
+	 *
+	 * @param id menu id
+	 * @param name name of menu item
+	 * @param price price
+	 * @param categoryId category id
+	 * @param portion portion
+	 * @param imageName image name 
+	 */
 	public MenuItem(int id, String name, BigDecimal price, int categoryId, String portion, String imageName) {
-		super();
 		this.id = id;
 		this.name = name;
 		this.price = price;
@@ -23,54 +38,117 @@ public class MenuItem extends Entity {
 		this.imageName = imageName;
 	}
 
+	/**
+	 * Gets the id.
+	 *
+	 * @return the id
+	 */
 	public int getId() {
 		return id;
 	}
 
+	/**
+	 * Sets the id.
+	 *
+	 * @param id the new id
+	 */
 	public void setId(int id) {
 		this.id = id;
 	}
 
+	/**
+	 * Gets the name.
+	 *
+	 * @return the name
+	 */
 	public String getName() {
 		return name;
 	}
 
+	/**
+	 * Sets the name.
+	 *
+	 * @param name the new name
+	 */
 	public void setName(String name) {
 		this.name = name;
 	}
 
+	/**
+	 * Gets the price.
+	 *
+	 * @return the price
+	 */
 	public BigDecimal getPrice() {
 		return price;
 	}
 
+	/**
+	 * Sets the price.
+	 *
+	 * @param price the new price
+	 */
 	public void setPrice(BigDecimal price) {
 		this.price = price;
 	}
 
+	/**
+	 * Gets the category id.
+	 *
+	 * @return the category id
+	 */
 	public int getCategoryId() {
 		return categoryId;
 	}
 
+	/**
+	 * Sets the category id.
+	 *
+	 * @param categoryId the new category id
+	 */
 	public void setCategoryId(int categoryId) {
 		this.categoryId = categoryId;
 	}
 
+	/**
+	 * Gets the portion.
+	 *
+	 * @return the portion
+	 */
 	public String getPortion() {
 		return portion;
 	}
 
+	/**
+	 * Sets the portion.
+	 *
+	 * @param portion the new portion
+	 */
 	public void setPortion(String portion) {
 		this.portion = portion;
 	}
 
+	/**
+	 * Gets the image name.
+	 *
+	 * @return the image name
+	 */
 	public String getImageName() {
 		return imageName;
 	}
 
+	/**
+	 * Sets the image name.
+	 *
+	 * @param imageName the new image name
+	 */
 	public void setImageName(String imageName) {
 		this.imageName = imageName;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -84,6 +162,9 @@ public class MenuItem extends Entity {
 		return result;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -120,6 +201,9 @@ public class MenuItem extends Entity {
 		return true;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
 	@Override
 	public String toString() {
 		return "MenuItem [id=" + id + ", name=" + name + ", price=" + price + ", categoryId=" + categoryId

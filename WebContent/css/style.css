@@ -28,11 +28,6 @@ td {
 	padding: 0 5px;
 }
 
-hr {
-	margin-bottom: 5px;
-	border-top-color: #d6bf9a;
-}
-
 .nav-pills li{
 	background-color: #e7e7e7;
 }
@@ -121,10 +116,26 @@ hr {
 }
 
 .footer {
+	
 	padding: 8px 0;
 	background: linear-gradient(to bottom, #999999 0, #e7e7e7 100%);
 }
 
+html,
+body {
+  height: 100%;
+}
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.content {
+  flex: 1 0 auto;
+}
+.footer {
+  flex: 0 0 auto;
+}
 .affix {
 	top: 50%;
 	transform: translate(0, -50%);
@@ -137,6 +148,7 @@ hr {
 .order-confirm {
 	width: 700px;
 }
+
 
 @media ( max-width : 768px) {
 	.cart {

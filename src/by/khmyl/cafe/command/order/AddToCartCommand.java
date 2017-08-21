@@ -17,6 +17,9 @@ import by.khmyl.cafe.exception.ReceiverException;
 import by.khmyl.cafe.receiver.OrderReceiver;
 import by.khmyl.cafe.receiver.impl.OrderReceiverImpl;
 
+/**
+ * Command for adding menu item in cart.
+ */
 public class AddToCartCommand extends AbstractCommand {
 	private static final Logger LOGGER = LogManager.getLogger(AddToCartCommand.class);
 
@@ -29,6 +32,9 @@ public class AddToCartCommand extends AbstractCommand {
 
 	private OrderReceiver receiver = new OrderReceiverImpl();
 
+	/* (non-Javadoc)
+	 * @see by.khmyl.cafe.command.AbstractCommand#execute(javax.servlet.http.HttpServletRequest)
+	 */
 	@Override
 	public Router execute(HttpServletRequest request) {
 		int itemId = Integer.parseInt(request.getParameter(ITEM_ID));

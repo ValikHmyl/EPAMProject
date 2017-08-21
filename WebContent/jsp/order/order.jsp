@@ -12,8 +12,10 @@
 <title>${title }</title>	
 </head>
 <body>
+	<div class="wrapper">
 	<jsp:include page="/jsp/parts/header.jsp"/>
 	<jsp:include page="/jsp/parts/topBanner.jsp"/>
+	<div class="content">
 	<div class="container">
 		
 		<h2 class="text-center">Order</h2>
@@ -31,16 +33,19 @@
 		${elem.name }
 		</div>
 		<div class="col-xs-6">
-		$${elem.price} x ${cart[elem]}=$<span class="price">${(elem.price-elem.price*user.discount/100)*cart[elem]}</span>
+		$${elem.price} x ${cart[elem]}=$<span class="price">${elem.price*cart[elem]}</span>
 		</div>
 		</c:forEach>
 		<div class="col-xs-6">total</div><div class="col-xs-6">  $<span id="total"></span></div>
-	
-
+		<div class="col-xs-6">your disc</div><div class="col-xs-6">  <span id="discount">${100-user.discount*100 }</span>%</div>
+		<div class="col-xs-6">saving</div><div class="col-xs-6">  $<span id="saving"></span></div>
+		
+		<div class="col-xs-6">total</div><div class="col-xs-6">  $<span id="totalD"></span></div>
+		
 		<div class="col-xs-6">date</div>
-		<input type="hidden" name="command" value="order" /><div class="col-xs-6"> <input type="date" name="date" id="date" required/></div>
+		<input type="hidden" name="command" value="order" /><div class="col-xs-6"> <input type="date" name="date" class="date" required/></div>
 		<div class="col-xs-6">time</div><div class="col-xs-6">
-		<select id="time" name="time"> 
+		<select class="time" name="time"> 
 			<option>09:30</option>
 			<option>10:00</option>
 			<option>10:30</option>
@@ -73,5 +78,6 @@
 	</form>
 	</div>
 	<c:if test="${requestScope['errorMsg'] }"> <div>error</div></c:if>
+	</div>
 	<jsp:include page="/jsp/parts/footer.jsp"/>
-	
+	</div>

@@ -11,10 +11,17 @@ import by.khmyl.cafe.exception.DAOException;
 import by.khmyl.cafe.pool.ConnectionPool;
 import by.khmyl.cafe.pool.ProxyConnection;
 
+/**
+ * Creates a connection to database with the help of {@link ConnectionPool}, and
+ * realizes a set of requests to database for menu.
+ */
 public class MenuDAOImpl extends MenuDAO {
 	private static final String SQL_SELECT_MENU_BY_CATEGORY = "SELECT menu.id, menu.name, menu.price, menu.category_id,menu.portion, menu.img_name FROM menu JOIN category ON menu.category_id=category.id WHERE category.name LIKE ?";
 	private static final String SQL_SELECT_MENU_ITEM = "SELECT * FROM menu WHERE menu.id=?";
 
+	/* (non-Javadoc)
+	 * @see by.khmyl.cafe.dao.MenuDAO#findMenu(java.lang.String)
+	 */
 	@Override
 	public ArrayList<MenuItem> findMenu(String category) throws DAOException {
 		ArrayList<MenuItem> menuList = new ArrayList<>();
@@ -39,6 +46,9 @@ public class MenuDAOImpl extends MenuDAO {
 		return menuList;
 	}
 
+	/* (non-Javadoc)
+	 * @see by.khmyl.cafe.dao.MenuDAO#findMenuItem(int)
+	 */
 	@Override
 	public MenuItem findMenuItem(int id) throws DAOException {
 		MenuItem menuItem = null;

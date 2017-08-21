@@ -1,6 +1,5 @@
 package by.khmyl.cafe.command.user;
 
-import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -9,19 +8,19 @@ import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 import by.khmyl.cafe.command.AbstractCommand;
 import by.khmyl.cafe.command.util.Router;
-import by.khmyl.cafe.entity.Order;
 import by.khmyl.cafe.entity.User;
 import by.khmyl.cafe.exception.ReceiverException;
 import by.khmyl.cafe.receiver.UserReceiver;
 import by.khmyl.cafe.receiver.impl.UserReceiverImpl;
 
+/**
+ * Command for changing user's email in profile.
+ */
 public class ChangeEmailCommand extends AbstractCommand {
-
 	private static final Logger LOGGER = LogManager.getLogger(ChangePasswordCommand.class);
 	private static final String NEW_EMAIL = "newEmail";
 	private static final String USER = "user";
@@ -31,6 +30,9 @@ public class ChangeEmailCommand extends AbstractCommand {
 
 	private UserReceiver receiver = new UserReceiverImpl();
 
+	/* (non-Javadoc)
+	 * @see by.khmyl.cafe.command.AbstractCommand#execute(javax.servlet.http.HttpServletRequest)
+	 */
 	@Override
 	public Router execute(HttpServletRequest request) {
 		Router router = new Router();

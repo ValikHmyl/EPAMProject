@@ -13,6 +13,12 @@ public class EncryptManager {
 	private EncryptManager() {
 	}
 
+	/**
+	 * Encrypt password before fill it in database.
+	 *
+	 * @param password user password
+	 * @return encrypted password
+	 */
 	public static String enñrypt(String password) {
 		String str = null;
 		try {
@@ -25,6 +31,12 @@ public class EncryptManager {
 		return str;
 	}
 
+	/**
+	 * Deñrypt password from database.
+	 *
+	 * @param password encrypted password
+	 * @return decrypted password
+	 */
 	public static String deñrypt(String password) {
 		String str = null;
 		try {

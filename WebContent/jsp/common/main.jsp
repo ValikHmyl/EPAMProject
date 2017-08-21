@@ -22,9 +22,11 @@
 <title>${title}</title>
 </head>
 <body>
+	<div class="wrapper">
 	<jsp:include page="/jsp/parts/header.jsp"/>
 	<jsp:include page="/jsp/parts/topBanner.jsp"/>
-	<div class="container">
+	<div class="content">
+	<div class="container ">
 		<div class="well">
 			Lorem ipsum dolor sit amet, consectetur
 			adipiscing elit. In facilisis nibh sed nulla hendrerit, in euismod
@@ -33,7 +35,7 @@
 			finibus turpis, et dictum purus. 
 		</div>
 	</div>
-	<div class="container">
+	<div class="container ">
 		<div class="well well-sm menu row text-center">
 			<div class="col-sm-4">	
 				<div class="category">	
@@ -88,5 +90,6 @@
 			enim bibendum. Cras aliquam ut metus eu mattis. Proin elementum
 			interdum hendrerit. Donec dapibus scelerisque lobortis. Integer a
 			finibus turpis, et dictum purus. 
-	</div>
+	</div></div>
 	<jsp:include page="/jsp/parts/footer.jsp"/>
+	</div>

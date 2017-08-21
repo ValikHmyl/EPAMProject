@@ -1,5 +1,6 @@
-package by.khmyl.cafe.dao.util;
+package by.khmyl.cafe.type;
 
 public enum OrderStatusType {
+
 	ACTIVE, OVERDUE, TAKEN
 }

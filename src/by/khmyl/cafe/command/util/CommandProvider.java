@@ -10,7 +10,16 @@ import by.khmyl.cafe.command.AbstractCommand;
 import by.khmyl.cafe.command.CommandType;
 
 public class CommandProvider {
+	
 	private static final Logger LOGGER = LogManager.getLogger(CommandProvider.class);
+	
+	/**
+	 * Define command from request and return concrete one
+	 *
+	 * @param request parameter, which client sends to the server by HTTP protocol 
+	 * and waits for processing it.
+	 * @return concrete command that appropriate to given parameter 
+	 */
 	public AbstractCommand defineCommand(HttpServletRequest request) {
 		AbstractCommand current = null;
 		String commandName = request.getParameter("command");

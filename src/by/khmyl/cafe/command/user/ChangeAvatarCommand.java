@@ -22,6 +22,9 @@ import by.khmyl.cafe.exception.ReceiverException;
 import by.khmyl.cafe.receiver.UserReceiver;
 import by.khmyl.cafe.receiver.impl.UserReceiverImpl;
 
+/**
+ * Command for changing user's avatar in profile.
+ */
 public class ChangeAvatarCommand extends AbstractCommand {
 	private static final Logger LOGGER = LogManager.getLogger(ChangeAvatarCommand.class);
 	private static final String UPLOAD_PATH = "avatars";
@@ -30,6 +33,9 @@ public class ChangeAvatarCommand extends AbstractCommand {
 
 	private UserReceiver receiver = new UserReceiverImpl();
 
+	/* (non-Javadoc)
+	 * @see by.khmyl.cafe.command.AbstractCommand#execute(javax.servlet.http.HttpServletRequest)
+	 */
 	@Override
 	public Router execute(HttpServletRequest request) {
 		Router router = new Router(RouteType.REDIRECT);
