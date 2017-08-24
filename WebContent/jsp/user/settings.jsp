@@ -13,10 +13,10 @@
 </head>
 <body>
 	<div class="wrapper">
-	<jsp:include page="/jsp/parts/header.jsp" />
+	<jsp:include page="/WEB-INF/parts/header.jsp" />
 	<div class="content">
 	<div class="container row">
-		<jsp:include page="/jsp/parts/userNav.jsp" />
+		<jsp:include page="/WEB-INF/parts/user_nav.jsp" />
 		<div class="col-xs-8">		<button type="button" class="btn "  id="changePassword">change_pass</button>
 			<div class="well text-center center-block" id="passwordForm" style="display: none">
 				<h4 class="text-center">ChangePwd</h4>
@@ -102,4 +102,4 @@
    		</div>
      </div>
      </div>
-	<jsp:include page="/jsp/parts/footer.jsp" /></div>
+	<jsp:include page="/WEB-INF/parts/footer.jsp" /></div>

@@ -16,6 +16,12 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.locks.ReentrantLock;
 
+/**
+ * Provides a pool of connections to database. If connection to database is not
+ * necessary any more, it goes back to pool.
+ * <p>
+ * All connections are synchronized.
+ */
 public class ConnectionPool {
 	private static final Logger LOGGER = LogManager.getLogger(ConnectionPool.class);
 	private static ConnectionPool instance = null;
@@ -27,6 +33,11 @@ public class ConnectionPool {
 		init();
 	}
 
+	/**
+	 * Gets the single instance of ConnectionPool.
+	 *
+	 * @return single instance of ConnectionPool
+	 */
 	public static ConnectionPool getInstance() {
 		if (!flag.get()) {
 			lock.lock();
@@ -42,6 +53,11 @@ public class ConnectionPool {
 		return instance;
 	}
 
+	/**
+	 * Take connection from the pool.
+	 *
+	 * @return connection
+	 */
 	public ProxyConnection takeConnection() {
 		ProxyConnection connection = null;
 		try {
@@ -52,6 +68,11 @@ public class ConnectionPool {
 		return connection;
 	}
 
+	/**
+	 * Put connection back into the pool.
+	 *
+	 * @param connection connection
+	 */
 	public void putConnection(ProxyConnection connection) {
 		try {
 			if (!connection.getAutoCommit()) {
@@ -65,6 +86,9 @@ public class ConnectionPool {
 		}
 	}
 
+	/**
+	 * Destroy pool.
+	 */
 	public void destroyPool() {
 		try {
 			int poolSize = pool.size();
@@ -77,10 +101,15 @@ public class ConnectionPool {
 				DriverManager.deregisterDriver(driver);
 			}
 		} catch (SQLException | InterruptedException e) {
-			LOGGER.log(Level.ERROR, "Exception: ", e);
+			LOGGER.log(Level.ERROR, "Destroy pool error:", e);
 		}
 	}
 
+	/**
+	 * Size of pool.
+	 *
+	 * @return size of pool
+	 */
 	public int size() {
 		return pool.size();
 	}
@@ -121,7 +150,7 @@ public class ConnectionPool {
 			throw new RuntimeException("Can't create db connection pool", e);
 
 		} catch (SQLException e) {
-			LOGGER.log(Level.ERROR, "Can't create db connection pool ", e);
+			LOGGER.log(Level.ERROR, "Can't create db connection ", e);
 		}
 
 	}

@@ -7,7 +7,7 @@
 	<uri>tags</uri>
 	<tag>
 		<name>cartAmount</name>
-		<tag-class>by.khmyl.cafe.tag.cartAmountTag</tag-class>
+		<tag-class>by.khmyl.cafe.tag.AmountPresentTag</tag-class>
 		<body-content>empty</body-content>
 		<attribute>
 			<name>cart</name>
@@ -15,4 +15,29 @@
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
 	</tag>
+	 <tag>
+        <name>pagination</name>
+        <tag-class>by.khmyl.cafe.tag.PaginationTag</tag-class>
+        <body-content>scriptless</body-content>
+        <attribute>
+            <name>total</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>limit</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>command</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+          <attribute>
+            <name>filter</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
 </taglib>	

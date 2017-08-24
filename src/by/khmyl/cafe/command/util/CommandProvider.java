@@ -29,7 +29,7 @@ public class CommandProvider {
 				current = currentEnum.getCommand();
 			} catch (IllegalArgumentException e) {
 				current=CommandType.ERROR.getCommand();
-				LOGGER.log(Level.ERROR, "Can't define command.");
+				LOGGER.log(Level.ERROR, "Can't define command."+e.getMessage());
 			}
 		} else {
 			current=CommandType.ERROR.getCommand();

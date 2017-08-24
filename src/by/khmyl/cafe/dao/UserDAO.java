@@ -1,5 +1,7 @@
 package by.khmyl.cafe.dao;
 
+import java.util.ArrayList;
+
 import by.khmyl.cafe.entity.User;
 import by.khmyl.cafe.exception.DAOException;
 
@@ -17,6 +19,9 @@ public abstract class UserDAO extends AbstractDAO {
 	 */
 	public abstract User findUser(String username) throws DAOException;
 	
+	public abstract ArrayList<User> findUsers(int startIndex,String filter) throws DAOException;
+	
+	public abstract int countUsers(String filter) throws DAOException;
 	/**
 	 * Change password.
 	 *
@@ -62,5 +67,6 @@ public abstract class UserDAO extends AbstractDAO {
 	 * @throws DAOException In case if occurred an error with SQL query or connection.
 	 */
 	public abstract void addUser(String username, String password, String email) throws DAOException;
+	
 	
 }

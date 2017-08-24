@@ -10,9 +10,6 @@ import org.apache.log4j.Logger;
 import by.khmyl.cafe.pool.ConnectionPool;
 import by.khmyl.cafe.pool.ProxyConnection;
 
-/**
- * The Class AbstractDAO.
- */
 public abstract class AbstractDAO {
 	
 	/** The Constant LOGGER. */

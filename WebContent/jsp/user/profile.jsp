@@ -1,6 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
 <html>
 <head>
 <link rel="shortcut icon" type="image/x-icon"
@@ -13,11 +14,11 @@
 </head>
 <body>
 	<div class="wrapper">
-		<jsp:include page="/jsp/parts/header.jsp" />
+		<jsp:include page="/WEB-INF/parts/header.jsp" />
 		<div class="content">
 		<div class="container row">
-			<jsp:include page="/jsp/parts/userNav.jsp" />
+			<jsp:include page="/WEB-INF/parts/user_nav.jsp" />
 
 		</div>
 	</div>
-		<jsp:include page="/jsp/parts/footer.jsp" /></div>
+		<jsp:include page="/WEB-INF/parts/footer.jsp" /></div>

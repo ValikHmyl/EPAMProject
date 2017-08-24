@@ -17,25 +17,33 @@ import by.khmyl.cafe.entity.User;
 import by.khmyl.cafe.exception.DAOException;
 import by.khmyl.cafe.pool.ConnectionPool;
 import by.khmyl.cafe.pool.ProxyConnection;
-import by.khmyl.cafe.type.OrderStatusType;
 
 /**
  * Creates a connection to database with the help of {@link ConnectionPool}, and
  * realizes a set of requests to database for order.
  */
 public class OrderDAOImpl extends OrderDAO {
+	private static final int MAX_ON_PAGE = 10;
+	private static final String ACTIVE = "active";
 	private static final String SQL_CREATE_ORDER = "INSERT INTO cafe.order(user_id,confirm_date,order_date,status) VALUES (?,?,?,?)";
 	private static final String SQL_FIND_ORDER_ID = "SELECT id  FROM cafe.order WHERE user_id=? AND order_date=? ORDER BY id DESC";
 	private static final String SQL_FIND_ORDER = "SELECT *  FROM cafe.order WHERE id=?";
 	private static final String SQL_ADD_PRICE = "UPDATE cafe.order SET total_price=? WHERE id=?";
 	private static final String SQL_ADD_IN_CART = "INSERT INTO cafe.cart (order_id,menu_id,amount) VALUES (?,?,?)";
-	private static final String SQL_FIND_USER_ORDERS = "SELECT * FROM cafe.order WHERE user_id=? ORDER BY order_date DESC";
 	private static final String SQL_FIND_CART = "SELECT * FROM cafe.cart WHERE order_id=?";
 	private static final String SQL_DELETE_ORDER = "DELETE FROM cafe.order WHERE id=?";
 	private static final String SQL_DELETE_CART = "DELETE FROM cafe.cart WHERE order_id=?";
+	private static final String SQL_COUNT_USER_ORDERS = "SELECT sum(counts) FROM (SELECT count(id) AS counts  FROM cafe.order GROUP BY status,user_id HAVING user_id=? AND status LIKE ?) AS result;";
+	private static final String SQL_FIND_USER_ORDERS = "SELECT * FROM cafe.order WHERE user_id=? AND status LIKE ? ORDER BY id DESC LIMIT ?, ?";
+	private static final String SQL_FIND_ORDERS = "SELECT * FROM cafe.order WHERE status LIKE ? ORDER BY id DESC LIMIT ?, ?";
+	private static final String SQL_COUNT_ORDERS = "SELECT sum(counts) FROM (SELECT count(id) AS counts  FROM cafe.order GROUP BY status HAVING status LIKE ?) AS result;";
+	private static final String SQL_EDIT_ORDER = "UPDATE cafe.order SET confirm_date=? WHERE id=?";
 
-	/* (non-Javadoc)
-	 * @see by.khmyl.cafe.dao.OrderDAO#addOrder(by.khmyl.cafe.entity.User, java.util.HashMap, java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see by.khmyl.cafe.dao.OrderDAO#addOrder(by.khmyl.cafe.entity.User,
+	 * java.util.HashMap, java.lang.String)
 	 */
 	@Override
 	public void addOrder(User user, HashMap<MenuItem, Integer> cart, String datetime) throws DAOException {
@@ -53,7 +61,7 @@ public class OrderDAOImpl extends OrderDAO {
 			createOrderStatement.setString(2, datetime);
 			String currentDate = new SimpleDateFormat("yyyy-MM-dd HH:mm").format(new Date());
 			createOrderStatement.setString(3, currentDate);
-			createOrderStatement.setString(4, OrderStatusType.ACTIVE.name());
+			createOrderStatement.setString(4, ACTIVE);
 			createOrderStatement.executeUpdate();
 			findOrderStatement = cn.prepareStatement(SQL_FIND_ORDER_ID);
 			findOrderStatement.setInt(1, user.getId());
@@ -84,12 +92,12 @@ public class OrderDAOImpl extends OrderDAO {
 			} catch (SQLException e1) {
 				throw new DAOException("Rollback  error", e);
 			}
-			throw new DAOException("SQL creating order exception", e);
+			throw new DAOException("SQL creating order exception - " + e.getMessage(), e);
 		} finally {
 			try {
 				cn.setAutoCommit(true);
 			} catch (SQLException e) {
-				throw new DAOException("Can't set autocommit", e);
+				throw new DAOException("Can't set autocommit - " + e.getMessage(), e);
 			}
 			close(cn);
 
@@ -101,11 +109,13 @@ public class OrderDAOImpl extends OrderDAO {
 
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see by.khmyl.cafe.dao.OrderDAO#findUserOrders(int)
 	 */
 	@Override
-	public ArrayList<Order> findUserOrders(int userId) throws DAOException {
+	public ArrayList<Order> findUserOrders(int userId, int startIndex, String filter) throws DAOException {
 		PreparedStatement orderStatement = null;
 		ResultSet orderSet = null;
 		PreparedStatement cartStatement = null;
@@ -116,7 +126,12 @@ public class OrderDAOImpl extends OrderDAO {
 			cn = ConnectionPool.getInstance().takeConnection();
 
 			orderStatement = cn.prepareStatement(SQL_FIND_USER_ORDERS);
+
 			orderStatement.setInt(1, userId);
+			orderStatement.setString(2, filter);
+			orderStatement.setInt(3, startIndex);
+			orderStatement.setInt(4, MAX_ON_PAGE);
+
 			orderSet = orderStatement.executeQuery();
 			MenuDAO menuDAO = new MenuDAOImpl();
 			while (orderSet.next()) {
@@ -129,29 +144,24 @@ public class OrderDAOImpl extends OrderDAO {
 				while (cartSet.next()) {
 					cart.put(menuDAO.findMenuItem(cartSet.getInt(2)), cartSet.getInt(3));
 				}
-				currentOrder.setId(orderSet.getInt(1));
-				currentOrder.setUserId(userId);
-				SimpleDateFormat dateFormate = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-				currentOrder.setConfirmDate(dateFormate.format(orderSet.getTimestamp(3)));
-				currentOrder.setOrderDate(dateFormate.format(orderSet.getTimestamp(4)));
-				currentOrder.setStatus(OrderStatusType.valueOf(orderSet.getString(5).toUpperCase()));
+				currentOrder = extractData(orderSet);
 				currentOrder.setCart(cart);
-				currentOrder.setTotalPrice(orderSet.getBigDecimal(6));
 				orders.add(currentOrder);
 			}
 
 		} catch (SQLException e) {
-			throw new DAOException("SQL finding user orders exception", e);
+			throw new DAOException("SQL finding user orders exception - " + e.getMessage(), e);
 		} finally {
 			close(cn);
 			close(cartStatement);
 			close(orderStatement);
 		}
-
 		return orders;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see by.khmyl.cafe.dao.OrderDAO#findOrder(int)
 	 */
 	@Override
@@ -167,16 +177,10 @@ public class OrderDAOImpl extends OrderDAO {
 			ps.setInt(1, orderId);
 			rs = ps.executeQuery();
 			if (rs.next()) {
-				order.setId(orderId);
-				order.setUserId(rs.getInt(2));
-				SimpleDateFormat dateFormate = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-				order.setConfirmDate(dateFormate.format(rs.getTimestamp(3)));
-				order.setOrderDate(dateFormate.format(rs.getTimestamp(4)));
-				order.setStatus(OrderStatusType.valueOf(rs.getString(5).toUpperCase()));
-				order.setTotalPrice(rs.getBigDecimal(6));
+				order = extractData(rs);
 			}
 		} catch (SQLException e) {
-			throw new DAOException("SQL add user exception", e);
+			throw new DAOException("SQL add user exception - " + e.getMessage(), e);
 		} finally {
 			close(cn);
 			close(ps);
@@ -184,7 +188,51 @@ public class OrderDAOImpl extends OrderDAO {
 		return order;
 	}
 
-	/* (non-Javadoc)
+	@Override
+	public ArrayList<Order> findOrders(int startIndex, String filter) throws DAOException {
+		PreparedStatement orderStatement = null;
+		ResultSet orderSet = null;
+		PreparedStatement cartStatement = null;
+		ResultSet cartSet = null;
+		ProxyConnection cn = null;
+		ArrayList<Order> orders = new ArrayList<>();
+		try {
+			cn = ConnectionPool.getInstance().takeConnection();
+
+			orderStatement = cn.prepareStatement(SQL_FIND_ORDERS);
+			orderStatement.setString(1, filter);
+			orderStatement.setInt(2, startIndex);
+			orderStatement.setInt(3, MAX_ON_PAGE);
+			orderSet = orderStatement.executeQuery();
+			MenuDAO menuDAO = new MenuDAOImpl();
+			while (orderSet.next()) {
+				Order currentOrder = new Order();
+				HashMap<MenuItem, Integer> cart = new HashMap<>();
+				int orderId = orderSet.getInt(1);
+				cartStatement = cn.prepareStatement(SQL_FIND_CART);
+				cartStatement.setInt(1, orderId);
+				cartSet = cartStatement.executeQuery();
+				while (cartSet.next()) {
+					cart.put(menuDAO.findMenuItem(cartSet.getInt(2)), cartSet.getInt(3));
+				}
+				currentOrder = extractData(orderSet);
+				currentOrder.setCart(cart);
+				orders.add(currentOrder);
+			}
+
+		} catch (SQLException e) {
+			throw new DAOException("SQL finding orders exception - " + e.getMessage(), e);
+		} finally {
+			close(cn);
+			close(cartStatement);
+			close(orderStatement);
+		}
+		return orders;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see by.khmyl.cafe.dao.OrderDAO#cancelOrder(int)
 	 */
 	@Override
@@ -208,12 +256,12 @@ public class OrderDAOImpl extends OrderDAO {
 			} catch (SQLException e1) {
 				throw new DAOException("Rollback  error", e);
 			}
-			throw new DAOException("SQL cancel order exception", e);
+			throw new DAOException("SQL cancel order exception - " + e.getMessage(), e);
 		} finally {
 			try {
 				cn.setAutoCommit(true);
 			} catch (SQLException e) {
-				throw new DAOException("Can't set autocommit", e);
+				throw new DAOException("Can't set autocommit - " + e.getMessage(), e);
 			}
 			close(cn);
 
@@ -221,4 +269,95 @@ public class OrderDAOImpl extends OrderDAO {
 			close(cartStatement);
 		}
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see by.khmyl.cafe.dao.OrderDAO#countOrders(int)
+	 */
+	@Override
+	public int countUserOrders(int userId, String filter) throws DAOException {
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		ProxyConnection cn = null;
+		int amount = 0;
+		try {
+			cn = ConnectionPool.getInstance().takeConnection();
+			ps = cn.prepareStatement(SQL_COUNT_USER_ORDERS);
+			ps.setInt(1, userId);
+			ps.setString(2, filter);
+			rs = ps.executeQuery();
+			if (rs.next()) {
+				amount = rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			throw new DAOException("SQL counting orders exception - " + e.getMessage(), e);
+
+		} finally {
+			close(cn);
+			close(ps);
+		}
+
+		return amount;
+	}
+
+	@Override
+	public int countOrders(String filter) throws DAOException {
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		ProxyConnection cn = null;
+		int amount = 0;
+		try {
+			cn = ConnectionPool.getInstance().takeConnection();
+			ps = cn.prepareStatement(SQL_COUNT_ORDERS);
+			ps.setString(1, filter);
+			rs = ps.executeQuery();
+			if (rs.next()) {
+				amount = rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			throw new DAOException("SQL counting orders exception - " + e.getMessage(), e);
+
+		} finally {
+			close(cn);
+			close(ps);
+		}
+
+		return amount;
+	}
+
+	@Override
+	public void editOrder(int orderId, String newDatetime) throws DAOException {
+		PreparedStatement ps = null;
+		ProxyConnection cn = null;
+		try {
+			cn = ConnectionPool.getInstance().takeConnection();
+			ps = cn.prepareStatement(SQL_EDIT_ORDER);
+			ps.setString(1, newDatetime);
+			ps.setInt(2, orderId);
+			ps.executeUpdate();
+
+		} catch (SQLException e) {
+			throw new DAOException("SQL edit order exception - " + e.getMessage(), e);
+		} finally {
+			close(cn);
+			close(ps);
+		}
+
+	}
+
+	private Order extractData(ResultSet rs) throws SQLException {
+		Order order = new Order();
+		order.setId(rs.getInt(1));
+		order.setUserId(rs.getInt(2));
+		SimpleDateFormat dateFormate = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		order.setConfirmDate(dateFormate.format(rs.getTimestamp(3)));
+		order.setOrderDate(dateFormate.format(rs.getTimestamp(4)));
+		order.setStatus(rs.getString(5).toUpperCase());
+		order.setTotalPrice(rs.getBigDecimal(6));
+
+		return order;
+
+	}
+
 }

@@ -1,6 +1,5 @@
 package by.khmyl.cafe.command.user;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
 
@@ -27,20 +26,22 @@ import by.khmyl.cafe.receiver.impl.UserReceiverImpl;
  */
 public class ChangeAvatarCommand extends AbstractCommand {
 	private static final Logger LOGGER = LogManager.getLogger(ChangeAvatarCommand.class);
-	private static final String UPLOAD_PATH = "avatars";
-	private static final String UPLOADS = "uploads";
+	private static final String UPLOAD_PATH = "img/avatars";
 	private static final String USER = "user";
 
 	private UserReceiver receiver = new UserReceiverImpl();
 
-	/* (non-Javadoc)
-	 * @see by.khmyl.cafe.command.AbstractCommand#execute(javax.servlet.http.HttpServletRequest)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see by.khmyl.cafe.command.AbstractCommand#execute(javax.servlet.http.
+	 * HttpServletRequest)
 	 */
 	@Override
 	public Router execute(HttpServletRequest request) {
 		Router router = new Router(RouteType.REDIRECT);
-		String appPath = request.getServletContext().getInitParameter(UPLOADS);
-		String savePath = appPath + File.separator + UPLOAD_PATH;
+		String appPath = request.getServletContext().getRealPath("");
+		String savePath = appPath + UPLOAD_PATH;
 		HttpSession session = request.getSession(true);
 		User user = (User) session.getAttribute(USER);
 		Collection<Part> parts;
@@ -52,7 +53,6 @@ public class ChangeAvatarCommand extends AbstractCommand {
 		} catch (IOException | ServletException | ReceiverException e) {
 			LOGGER.log(Level.ERROR, e);
 			router.setPath(PathConstant.ERROR_500);
-			router.setRouteType(RouteType.REDIRECT);
 		}
 		return router;
 	}

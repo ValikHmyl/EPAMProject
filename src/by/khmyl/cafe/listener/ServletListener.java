@@ -7,6 +7,7 @@ import javax.servlet.annotation.WebListener;
 import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+
 import by.khmyl.cafe.pool.ConnectionPool;
 
 @WebListener
@@ -22,7 +23,7 @@ public class ServletListener implements ServletContextListener {
 	@Override
 	public void contextInitialized(ServletContextEvent arg0) {
 		pool = ConnectionPool.getInstance();
-		LOGGER.log(Level.INFO, "Connection pool as successfully initialized.");
+		LOGGER.log(Level.INFO, "Connection pool has been successfully initialized.");
 	}
 
 }

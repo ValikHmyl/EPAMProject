@@ -32,8 +32,11 @@ public class MakeAnOrderCommand extends AbstractCommand {
 
 	private OrderReceiver receiver = new OrderReceiverImpl();
 
-	/* (non-Javadoc)
-	 * @see by.khmyl.cafe.command.AbstractCommand#execute(javax.servlet.http.HttpServletRequest)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see by.khmyl.cafe.command.AbstractCommand#execute(javax.servlet.http.
+	 * HttpServletRequest)
 	 */
 	@Override
 	public Router execute(HttpServletRequest request) {
@@ -46,15 +49,17 @@ public class MakeAnOrderCommand extends AbstractCommand {
 		String datetime = date + " " + time;
 		if (user == null) {
 			router.setPath(PathConstant.SIGN_IN);
+		}
+		if (cart.isEmpty()) {
+			router.setPath(PathConstant.CART);
 		} else {
 			try {
 				if (receiver.makeAnOrder(user, cart, datetime)) {
 					cart.clear();
-					router.setPath(PathConstant.MAIN);// change on room
+					router.setPath(PathConstant.USER_ALL_ORDERS);
 				} else {
 					request.setAttribute(ERROR_MSG, true);
 					router.setPath(PathConstant.ORDER);
-					router.setRouteType(RouteType.FORWARD);
 				}
 			} catch (ReceiverException e) {
 				LOGGER.log(Level.ERROR, e);

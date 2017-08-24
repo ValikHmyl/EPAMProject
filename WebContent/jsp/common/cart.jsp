@@ -22,8 +22,8 @@
 </head>
 <body>
 	<div class="wrapper">
-	<jsp:include page="/jsp/parts/header.jsp"/>
-	<jsp:include page="/jsp/parts/topBanner.jsp"/>
+	<jsp:include page="/WEB-INF/parts/header.jsp"/>
+	<jsp:include page="/WEB-INF/parts/top_banner.jsp"/>
 	<div class="content">
 	<div class="container text-center">
 	<c:choose>
@@ -89,5 +89,5 @@
    		</div>
      </div>
      </div>
-	<jsp:include page="/jsp/parts/footer.jsp"/>
+	<jsp:include page="/WEB-INF/parts/footer.jsp"/>
 	</div>

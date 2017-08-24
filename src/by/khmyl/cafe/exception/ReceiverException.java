@@ -1,5 +1,9 @@
 package by.khmyl.cafe.exception;
 
+/**
+ * Indicates that occurred an error, while processing operations for receiver
+ * layer.
+ */
 public class ReceiverException extends Exception {
 	private static final long serialVersionUID = 1L;
 

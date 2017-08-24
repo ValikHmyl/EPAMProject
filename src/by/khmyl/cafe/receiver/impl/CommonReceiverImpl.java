@@ -12,8 +12,13 @@ import by.khmyl.cafe.exception.DAOException;
 import by.khmyl.cafe.exception.ReceiverException;
 import by.khmyl.cafe.receiver.CommonReceiver;
 import by.khmyl.cafe.util.EncryptManager;
+import by.khmyl.cafe.util.MailSender;
 import by.khmyl.cafe.util.Validator;
 
+/**
+ * Realizes validation of clients requests and if they are valid sends them for
+ * further processing.
+ */
 public class CommonReceiverImpl extends CommonReceiver {
 	private static final String WRONG_DATA = "wrongData";
 	private static final String BANNED = "banned";
@@ -23,7 +28,15 @@ public class CommonReceiverImpl extends CommonReceiver {
 	private static final String EMAIL_ERROR = "emailError";
 	private static final String EMAIL_EXIST = "emailExist";
 	private static final String USERNAME_EXSIST = "usernameExist";
+	private static final String EMAIL_SUBJECT = "Sign Up in McCafe";
+	private static final String EMAIL_CONTENT = "<h2>Welcome in McCafe system!</h2> <p>Your successfully sign up in system of McCafe.</p>";
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see by.khmyl.cafe.receiver.CommonReceiver#signIn(java.lang.String,
+	 * java.lang.String, java.util.ArrayList)
+	 */
 	@Override
 	public User signIn(String username, String password, ArrayList<String> errorMessages) throws ReceiverException {
 		User user = null;
@@ -32,7 +45,7 @@ public class CommonReceiverImpl extends CommonReceiver {
 			try {
 				user = dao.findUser(username);
 			} catch (DAOException e) {
-				throw new ReceiverException("Finding user exception", e);
+				throw new ReceiverException("Finding user exception: " + e.getMessage(), e);
 			}
 			if (user == null) {
 				errorMessages.add(WRONG_DATA);
@@ -50,6 +63,13 @@ public class CommonReceiverImpl extends CommonReceiver {
 		return user;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see by.khmyl.cafe.receiver.CommonReceiver#signUp(java.lang.String,
+	 * java.lang.String, java.lang.String, java.lang.String,
+	 * java.util.ArrayList)
+	 */
 	@Override
 	public boolean signUp(String username, String password, String repeatPassword, String email,
 			ArrayList<String> errorMessages) throws ReceiverException {
@@ -83,13 +103,20 @@ public class CommonReceiverImpl extends CommonReceiver {
 			if (isValid) {
 				password = EncryptManager.enñrypt(password);
 				dao.addUser(username, password, email);
+				MailSender sender = new MailSender(EMAIL_SUBJECT, EMAIL_CONTENT, email);
+				sender.start();
 			}
 		} catch (DAOException e) {
-			throw new ReceiverException("Finding  user data exception", e);
+			throw new ReceiverException("Finding  user data exception: " + e.getMessage(), e);
 		}
 		return isValid;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see by.khmyl.cafe.receiver.CommonReceiver#getMenu(java.lang.String)
+	 */
 	@Override
 	public ArrayList<MenuItem> getMenu(String category) throws ReceiverException {
 		MenuDAO dao = new MenuDAOImpl();
@@ -97,7 +124,7 @@ public class CommonReceiverImpl extends CommonReceiver {
 		try {
 			list = dao.findMenu(category);
 		} catch (DAOException e) {
-			throw new ReceiverException("Finding menu exception", e);
+			throw new ReceiverException("Finding menu exception: " + e.getMessage(), e);
 		}
 		return list;
 	}

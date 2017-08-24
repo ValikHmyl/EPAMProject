@@ -3,17 +3,16 @@ package by.khmyl.cafe.entity;
 import java.math.BigDecimal;
 import java.util.HashMap;
 
-import by.khmyl.cafe.type.OrderStatusType;
 
 /**
  * Encapsulate an information about user's order.
  */
-public class Order extends Entity {
+public class Order {
 	private int id;
 	private int userId;
 	private String confirmDate;
 	private String orderDate;
-	private OrderStatusType status;
+	private String status;
 	private BigDecimal totalPrice;
 	private HashMap<MenuItem, Integer> cart;
 
@@ -28,7 +27,7 @@ public class Order extends Entity {
 	 * @param totalPrice total price of order with discount
 	 * @param cart cart with menu items and amount 
 	 */
-	public Order(int id, int userId, String confirmDate, String orderDate, OrderStatusType status,
+	public Order(int id, int userId, String confirmDate, String orderDate, String status,
 			BigDecimal totalPrice, HashMap<MenuItem, Integer> cart) {
 		this.id = id;
 		this.userId = userId;
@@ -123,7 +122,7 @@ public class Order extends Entity {
 	 *
 	 * @return the status
 	 */
-	public OrderStatusType getStatus() {
+	public String getStatus() {
 		return status;
 	}
 
@@ -132,7 +131,7 @@ public class Order extends Entity {
 	 *
 	 * @param status the new status
 	 */
-	public void setStatus(OrderStatusType status) {
+	public void setStatus(String status) {
 		this.status = status;
 	}
 

@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 /**
  * Encapsulate an information from database about menu item.
  */
-public class MenuItem extends Entity {
+public class MenuItem {
 	private int id;
 	private String name;
 	private BigDecimal price;

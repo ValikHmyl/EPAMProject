@@ -3,20 +3,12 @@
 	xmlns="http://java.sun.com/xml/ns/javaee"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
 	version="3.0">
-	<welcome-file-list>
-		<welcome-file>index.jsp</welcome-file>
-	</welcome-file-list>
-
 	<jsp-config>
 		<taglib>
 			<taglib-uri>tags</taglib-uri>
 			<taglib-location>/WEB-INF/tld/app.tld</taglib-location>
 		</taglib>
 	</jsp-config>
-	<context-param>
-		<param-name>uploads</param-name>
-		<param-value>c:/Users/DELL/workspace/FinalProject/WebContent/img/</param-value>
-	</context-param>
 	<error-page>
 		<error-code>404</error-code>
 		<location>/jsp/error/404.jsp</location>

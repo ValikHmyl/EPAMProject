@@ -23,8 +23,8 @@
 </head>
 <body>
 	<div class="wrapper">
-	<jsp:include page="/jsp/parts/header.jsp"/>
-	<jsp:include page="/jsp/parts/topBanner.jsp"/>
+	<jsp:include page="/WEB-INF/parts/header.jsp"/>
+	<jsp:include page="/WEB-INF/parts/top_banner.jsp"/>
 	<div class="content">
 	<div class="container ">
 		<div class="well">
@@ -91,5 +91,5 @@
 			interdum hendrerit. Donec dapibus scelerisque lobortis. Integer a
 			finibus turpis, et dictum purus. 
 	</div></div>
-	<jsp:include page="/jsp/parts/footer.jsp"/>
+	<jsp:include page="/WEB-INF/parts/footer.jsp"/>
 	</div>

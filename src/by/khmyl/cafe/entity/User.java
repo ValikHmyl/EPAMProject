@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 /**
  * Encapsulate an information about user.
  */
-public class User extends Entity {
+public class User {
 	private int id;
 	private String username;
 	private String password;

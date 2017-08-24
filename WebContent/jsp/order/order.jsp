@@ -13,8 +13,8 @@
 </head>
 <body>
 	<div class="wrapper">
-	<jsp:include page="/jsp/parts/header.jsp"/>
-	<jsp:include page="/jsp/parts/topBanner.jsp"/>
+	<jsp:include page="/WEB-INF/parts/header.jsp"/>
+	<jsp:include page="/WEB-INF/parts/top_banner.jsp"/>
 	<div class="content">
 	<div class="container">
 		
@@ -79,5 +79,5 @@
 	</div>
 	<c:if test="${requestScope['errorMsg'] }"> <div>error</div></c:if>
 	</div>
-	<jsp:include page="/jsp/parts/footer.jsp"/>
+	<jsp:include page="/WEB-INF/parts/footer.jsp"/>
 	</div>

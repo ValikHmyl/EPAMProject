@@ -11,6 +11,10 @@ public class UploadHelper {
 
 	public UploadHelper(String savePath) {
 		this.setSavePath(savePath);
+		File fileSaveDir = new File(savePath);
+		if (!fileSaveDir.exists()) {
+			fileSaveDir.mkdir();
+		}
 	}
 
 	public String extractFileName(Part part) {

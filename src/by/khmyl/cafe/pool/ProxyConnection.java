@@ -18,19 +18,34 @@ import java.sql.Struct;
 import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.Executor;
-
+/**
+ * Wrapper of standard Connection.
+ */
 public class ProxyConnection implements Connection {
 	private Connection connection;
 
+	/**
+	 * Instantiates a new proxy connection.
+	 *
+	 * @param connection connection for wrapping 
+	 */
 	ProxyConnection(Connection connection) {
 		this.connection = connection;
 	}
 
+	/**
+	 * Put connection back into the pool
+	 */
 	@Override
 	public void close() throws SQLException {
 		ConnectionPool.getInstance().putConnection(this);
 	}
 
+	/** Real close
+	 * @see java.sql.Connection#close()
+	 *
+	 * @throws SQLException the SQL exception
+	 */
 	void realClose() throws SQLException {
 		connection.close();
 	}

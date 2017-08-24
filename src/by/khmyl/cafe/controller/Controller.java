@@ -1,6 +1,8 @@
 package by.khmyl.cafe.controller;
 
 import java.io.IOException;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -14,15 +16,13 @@ import by.khmyl.cafe.command.AbstractCommand;
 import by.khmyl.cafe.command.util.CommandProvider;
 import by.khmyl.cafe.command.util.Router;
 
-
 /**
- * Class for processing requests from a client. 	
- * It serves as the main Servlet in application, extends from
- * {@link HttpServlet} class.
+ * Class for processing requests from a client. It serves as the main Servlet in
+ * application, extends from {@link HttpServlet} class.
  * 
  */
 @WebServlet("/controller")
-@MultipartConfig(fileSizeThreshold=1024*1024*5, maxFileSize=1024*1024*50, maxRequestSize=1024*1024*50)
+@MultipartConfig(fileSizeThreshold = 1024 * 1024 * 5, maxFileSize = 1024 * 1024 * 50, maxRequestSize = 1024 * 1024 * 50)
 
 public class Controller extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -58,4 +58,5 @@ public class Controller extends HttpServlet {
 		}
 		}
 	}
+
 }

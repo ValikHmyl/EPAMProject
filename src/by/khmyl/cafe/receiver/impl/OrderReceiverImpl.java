@@ -14,8 +14,15 @@ import by.khmyl.cafe.exception.ReceiverException;
 import by.khmyl.cafe.receiver.OrderReceiver;
 import by.khmyl.cafe.util.Validator;
 
+/**
+ * Realizes validation of user's order requests and if they are valid sends them
+ * for further processing.
+ */
 public class OrderReceiverImpl extends OrderReceiver {
 
+	/* (non-Javadoc)
+	 * @see by.khmyl.cafe.receiver.OrderReceiver#addToCart(int, int, java.util.HashMap)
+	 */
 	@Override
 	public MenuItem addToCart(int itemId, int amount, HashMap<MenuItem, Integer> cart) throws ReceiverException {
 		MenuDAO dao = new MenuDAOImpl();
@@ -29,11 +36,14 @@ public class OrderReceiverImpl extends OrderReceiver {
 				cart.put(menuItem, amount);
 			}
 		} catch (DAOException e) {
-			throw new ReceiverException("Finding menu item exception", e);
+			throw new ReceiverException("Finding menu item exception: " + e.getMessage(), e);
 		}
 		return menuItem;
 	}
 
+	/* (non-Javadoc)
+	 * @see by.khmyl.cafe.receiver.OrderReceiver#deleteFromCart(int, java.util.HashMap)
+	 */
 	@Override
 	public MenuItem deleteFromCart(int itemId, HashMap<MenuItem, Integer> cart) throws ReceiverException {
 		MenuDAO dao = new MenuDAOImpl();
@@ -42,12 +52,15 @@ public class OrderReceiverImpl extends OrderReceiver {
 			menuItem = dao.findMenuItem(itemId);
 			cart.remove(menuItem);
 		} catch (DAOException e) {
-			throw new ReceiverException("Finding menu item exception", e);
+			throw new ReceiverException("Finding menu item exception: " + e.getMessage(), e);
 		}
 		return menuItem;
 
 	}
 
+	/* (non-Javadoc)
+	 * @see by.khmyl.cafe.receiver.OrderReceiver#makeAnOrder(by.khmyl.cafe.entity.User, java.util.HashMap, java.lang.String)
+	 */
 	@Override
 	public boolean makeAnOrder(User user, HashMap<MenuItem, Integer> cart, String datetime) throws ReceiverException {
 		if (!Validator.validateDatetime(datetime)) {
@@ -57,11 +70,14 @@ public class OrderReceiverImpl extends OrderReceiver {
 		try {
 			dao.addOrder(user, cart, datetime);
 		} catch (DAOException e) {
-			throw new ReceiverException("Making order exception", e);
+			throw new ReceiverException("Making order exception: " + e.getMessage(), e);
 		}
 		return true;
 	}
 
+	/* (non-Javadoc)
+	 * @see by.khmyl.cafe.receiver.OrderReceiver#cancelOrder(int, java.lang.StringBuilder)
+	 */
 	@Override
 	public boolean cancelOrder(int orderId, StringBuilder message) throws ReceiverException {
 		OrderDAO dao = new OrderDAOImpl();
@@ -69,7 +85,6 @@ public class OrderReceiverImpl extends OrderReceiver {
 		try {
 			order = dao.findOrder(orderId);
 			if (Validator.validateDatetime(order.getConfirmDate())) {
-
 				dao.cancelOrder(orderId);
 			} else {
 				message.append("You can't cancel this order already! Order can't be when there is less then an hour before choosen datetime");
@@ -77,10 +92,9 @@ public class OrderReceiverImpl extends OrderReceiver {
 			}
 		} catch (DAOException e) {
 			message.append("Something goes wrong! Try again leter.");
-			throw new ReceiverException("Cancel order exception " + e, e);
+			throw new ReceiverException("Cancel order exception: " + e.getMessage(), e);
 		}
 
 		return true;
 	}
-
 }

@@ -1,5 +1,6 @@
 package by.khmyl.cafe.dao.impl;
 
+import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -18,8 +19,11 @@ import by.khmyl.cafe.pool.ProxyConnection;
 public class MenuDAOImpl extends MenuDAO {
 	private static final String SQL_SELECT_MENU_BY_CATEGORY = "SELECT menu.id, menu.name, menu.price, menu.category_id,menu.portion, menu.img_name FROM menu JOIN category ON menu.category_id=category.id WHERE category.name LIKE ?";
 	private static final String SQL_SELECT_MENU_ITEM = "SELECT * FROM menu WHERE menu.id=?";
+	private static final String SQL_ADD_MENU_ITEM = "INSERT INTO menu (name, price, category_id, portion, img_name) VALUES (?, ?, (SELECT id FROM category WHERE name LIKE ?) , ?, ?)";
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see by.khmyl.cafe.dao.MenuDAO#findMenu(java.lang.String)
 	 */
 	@Override
@@ -34,11 +38,10 @@ public class MenuDAOImpl extends MenuDAO {
 			ps.setString(1, category);
 			rs = ps.executeQuery();
 			while (rs.next()) {
-				menuList.add(new MenuItem(rs.getInt(1), rs.getString(2), rs.getBigDecimal(3), rs.getInt(4),
-						rs.getString(5),rs.getString(6)));
+				menuList.add(extractData(rs));
 			}
 		} catch (SQLException e) {
-			throw new DAOException("SQL add user exception", e);
+			throw new DAOException("SQL find menu exception - " + e.getMessage(), e);
 		} finally {
 			close(cn);
 			close(ps);
@@ -46,7 +49,9 @@ public class MenuDAOImpl extends MenuDAO {
 		return menuList;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see by.khmyl.cafe.dao.MenuDAO#findMenuItem(int)
 	 */
 	@Override
@@ -61,11 +66,10 @@ public class MenuDAOImpl extends MenuDAO {
 			ps.setInt(1, id);
 			rs = ps.executeQuery();
 			if (rs.next()) {
-				menuItem = new MenuItem(rs.getInt(1), rs.getString(2), rs.getBigDecimal(3), rs.getInt(4),
-						rs.getString(5),rs.getString(6));
+				menuItem = extractData(rs);
 			}
 		} catch (SQLException e) {
-			throw new DAOException("SQL add user exception", e);
+			throw new DAOException("SQL find menu item exception - " + e.getMessage(), e);
 		} finally {
 			close(cn);
 			close(ps);
@@ -73,4 +77,36 @@ public class MenuDAOImpl extends MenuDAO {
 		return menuItem;
 	}
 
+	@Override
+	public void addMenuItem(String name, String category, BigDecimal price, String portion, String imageName)
+			throws DAOException {
+		PreparedStatement ps = null;
+		ProxyConnection cn = null;
+		try {
+			cn = ConnectionPool.getInstance().takeConnection();
+			ps = cn.prepareStatement(SQL_ADD_MENU_ITEM);
+			ps.setString(1, name);
+			ps.setBigDecimal(2, price);
+			ps.setString(3, category);
+			ps.setString(4, portion);
+			ps.setString(5, imageName);
+			ps.executeUpdate();
+		} catch (SQLException e) {
+			throw new DAOException("SQL add user exception - " + e.getMessage(), e);
+		} finally {
+			close(cn);
+			close(ps);
+		}
+	}
+
+	private MenuItem extractData(ResultSet rs) throws SQLException {
+		MenuItem menuItem = new MenuItem();
+		menuItem.setId(rs.getInt(1));
+		menuItem.setName(rs.getString(2));
+		menuItem.setPrice(rs.getBigDecimal(3));
+		menuItem.setCategoryId(rs.getInt(4));
+		menuItem.setPortion(rs.getString(5));
+		menuItem.setImageName(rs.getString(6));
+		return menuItem;
+	}
 }

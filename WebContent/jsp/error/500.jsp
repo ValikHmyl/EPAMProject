@@ -3,5 +3,11 @@
 <html>
 <head>
 </head>
-<body>500</body>
-</html>
+<body>
+	<div class="wrapper">
+		<jsp:include page="/WEB-INF/parts/header.jsp" />
+		<div class="content">
+			<img alt="500Error"
+				src="${pageContext.request.contextPath}/img/500error.png">
+		</div>
+		<jsp:include page="/WEB-INF/parts/footer.jsp" /></div>

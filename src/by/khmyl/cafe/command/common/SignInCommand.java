@@ -44,16 +44,17 @@ public class SignInCommand extends AbstractCommand {
 				HttpSession session = request.getSession(true);
 				session.setAttribute(USER, user);
 				router.setPath(PathConstant.MAIN);
+			
 			} else {
 				request.setAttribute(ERROR_MESSAGES, errorMessages);
 				router.setPath(PathConstant.SIGN_IN);
 				router.setRouteType(RouteType.FORWARD);
+				request.setAttribute(USERNAME, username);
 				
 			}
 		} catch (ReceiverException e) {
 			LOGGER.log(Level.ERROR, e);
 			router.setPath(PathConstant.ERROR_500);
-			router.setRouteType(RouteType.FORWARD);
 		}
 		return router;
 

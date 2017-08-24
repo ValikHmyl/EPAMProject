@@ -114,7 +114,9 @@ td {
 .table-condensed, .table-condensed th, .table-condensed td {
 	border: 2px solid #d6bf9a;
 }
-
+.more{
+	background-color:#fff;
+}
 .footer {
 	
 	padding: 8px 0;
