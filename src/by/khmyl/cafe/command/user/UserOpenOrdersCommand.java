@@ -8,9 +8,9 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
 import by.khmyl.cafe.command.AbstractCommand;
-import by.khmyl.cafe.command.util.PathConstant;
-import by.khmyl.cafe.command.util.Router;
-import by.khmyl.cafe.command.util.Router.RouteType;
+import by.khmyl.cafe.command.Router;
+import by.khmyl.cafe.command.Router.RouteType;
+import by.khmyl.cafe.constant.PathConstant;
 import by.khmyl.cafe.entity.Order;
 import by.khmyl.cafe.entity.User;
 import by.khmyl.cafe.exception.ReceiverException;
@@ -48,19 +48,24 @@ public class UserOpenOrdersCommand extends AbstractCommand {
 		int startIndex = (pageNumber != null) ? Integer.valueOf(pageNumber) : 1;
 		startIndex = (startIndex - 1) * MAX_ON_PAGE;
 		String filter = request.getParameter(FILTER);
-		try {
-			PaginationHelper<Order> orders = null;
-			orders = receiver.openOrders(user.getId(), startIndex, filter);
-			request.setAttribute(ORDERS, orders.getItems());
-			request.setAttribute(LIMIT, MAX_ON_PAGE);
-			request.setAttribute(TOTAL_AMOUNT, orders.getAmount());
-			request.setAttribute(FILTER, filter);
+		if (user != null) {
+			try {
+				PaginationHelper<Order> orders = null;
+				orders = receiver.openOrders(user.getId(), startIndex, filter);
+				request.setAttribute(ORDERS, orders.getItems());
+				request.setAttribute(LIMIT, MAX_ON_PAGE);
+				request.setAttribute(TOTAL_AMOUNT, orders.getAmount());
+				request.setAttribute(FILTER, filter);
 
-			router.setPath(PathConstant.USER_ORDERS);
-			router.setRouteType(RouteType.FORWARD);
-		} catch (ReceiverException e) {
-			LOGGER.log(Level.ERROR, e);
-			router.setPath(PathConstant.ERROR_500);
+				router.setPath(PathConstant.USER_ORDERS);
+				router.setRouteType(RouteType.FORWARD);
+			} catch (ReceiverException e) {
+				LOGGER.log(Level.ERROR, e);
+				router.setPath(PathConstant.ERROR_500);
+				router.setRouteType(RouteType.REDIRECT);
+			}
+		} else {
+			router.setPath(PathConstant.SIGN_IN);
 			router.setRouteType(RouteType.REDIRECT);
 		}
 		return router;

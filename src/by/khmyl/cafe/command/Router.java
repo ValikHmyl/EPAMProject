@@ -1,4 +1,4 @@
-package by.khmyl.cafe.command.util;
+package by.khmyl.cafe.command;
 
 /**
  * Class for keeping information about page path and route type.    
@@ -9,7 +9,7 @@ public class Router {
 	 * Types of redirecting on another page.
 	 */
 	public enum RouteType {
-		FORWARD, REDIRECT;
+		FORWARD, REDIRECT
 	}
 
 	private String path;

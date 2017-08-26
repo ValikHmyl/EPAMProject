@@ -10,9 +10,9 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
 import by.khmyl.cafe.command.AbstractCommand;
-import by.khmyl.cafe.command.util.PathConstant;
-import by.khmyl.cafe.command.util.Router;
-import by.khmyl.cafe.command.util.Router.RouteType;
+import by.khmyl.cafe.command.Router;
+import by.khmyl.cafe.command.Router.RouteType;
+import by.khmyl.cafe.constant.PathConstant;
 import by.khmyl.cafe.entity.MenuItem;
 import by.khmyl.cafe.entity.User;
 import by.khmyl.cafe.exception.ReceiverException;

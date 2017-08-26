@@ -35,12 +35,15 @@
 							<c:if test="${user.status }"><form method="POST" action="${pageContext.request.contextPath}/controller">
 							<input type="hidden" name="command" value="ban_user">
 							<input type="hidden" name="userId" value="${user.id }">
+							<input type="hidden" name="userEmail" value="${user.email }">
 							<button type="submit"> ban</button>
 							</form>
 							</c:if>
 							<c:if test="${!user.status }"><form method="POST" action="${pageContext.request.contextPath}/controller">
 							<input type="hidden" name="command" value="activate_user">
 							<input type="hidden" name="userId" value="${user.id }">
+							<input type="hidden" name="userEmail" value="${user.email }">
+							
 							<button type="submit"> activate</button>
 							</form>
 							</c:if>

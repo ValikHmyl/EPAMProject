@@ -20,6 +20,18 @@
 			<div class="container row">
 		<jsp:include page="/WEB-INF/parts/admin_nav.jsp" />
 		<div class="well col-sm-7">
+				<form  method="POST" action="${pageContext.request.contextPath}/controller">
+<input type="hidden" name="command" value="search_order">
+
+  <div class="input-group">
+    <input type="number"  name="orderId" class="form-control" placeholder="Search Order By ID" min="1">
+    <div class="input-group-btn">
+      <button class="btn btn-default" type="submit">
+        <i class="glyphicon glyphicon-search"></i>
+      </button>
+    </div>
+  </div>
+</form>
 				<ul class="nav nav-tabs text-center">
 					<li><a href="${pageContext.request.contextPath}/controller?command=admin_open_orders&filter=all&pageNumber=1">all</a></li>
   					<li><a href="${pageContext.request.contextPath}/controller?command=admin_open_orders&filter=active&pageNumber=1">Active</a></li>

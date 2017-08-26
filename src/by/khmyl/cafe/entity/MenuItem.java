@@ -12,6 +12,7 @@ public class MenuItem {
 	private int categoryId;
 	private String portion;
 	private String imageName;
+	private boolean status;
 
 	/**
 	 * Instantiates a new menu item.
@@ -22,20 +23,28 @@ public class MenuItem {
 	/**
 	 * Instantiates a new menu item.
 	 *
-	 * @param id menu id
-	 * @param name name of menu item
-	 * @param price price
-	 * @param categoryId category id
-	 * @param portion portion
-	 * @param imageName image name 
+	 * @param id
+	 *            menu id
+	 * @param name
+	 *            name of menu item
+	 * @param price
+	 *            price
+	 * @param categoryId
+	 *            category id
+	 * @param portion
+	 *            portion
+	 * @param imageName
+	 *            image name
 	 */
-	public MenuItem(int id, String name, BigDecimal price, int categoryId, String portion, String imageName) {
+	public MenuItem(int id, String name, BigDecimal price, int categoryId, String portion, String imageName,
+			boolean status) {
 		this.id = id;
 		this.name = name;
 		this.price = price;
 		this.categoryId = categoryId;
 		this.portion = portion;
 		this.imageName = imageName;
+		this.status = status;
 	}
 
 	/**
@@ -50,7 +59,8 @@ public class MenuItem {
 	/**
 	 * Sets the id.
 	 *
-	 * @param id the new id
+	 * @param id
+	 *            the new id
 	 */
 	public void setId(int id) {
 		this.id = id;
@@ -68,7 +78,8 @@ public class MenuItem {
 	/**
 	 * Sets the name.
 	 *
-	 * @param name the new name
+	 * @param name
+	 *            the new name
 	 */
 	public void setName(String name) {
 		this.name = name;
@@ -86,7 +97,8 @@ public class MenuItem {
 	/**
 	 * Sets the price.
 	 *
-	 * @param price the new price
+	 * @param price
+	 *            the new price
 	 */
 	public void setPrice(BigDecimal price) {
 		this.price = price;
@@ -104,7 +116,8 @@ public class MenuItem {
 	/**
 	 * Sets the category id.
 	 *
-	 * @param categoryId the new category id
+	 * @param categoryId
+	 *            the new category id
 	 */
 	public void setCategoryId(int categoryId) {
 		this.categoryId = categoryId;
@@ -122,7 +135,8 @@ public class MenuItem {
 	/**
 	 * Sets the portion.
 	 *
-	 * @param portion the new portion
+	 * @param portion
+	 *            the new portion
 	 */
 	public void setPortion(String portion) {
 		this.portion = portion;
@@ -140,13 +154,35 @@ public class MenuItem {
 	/**
 	 * Sets the image name.
 	 *
-	 * @param imageName the new image name
+	 * @param imageName
+	 *            the new image name
 	 */
 	public void setImageName(String imageName) {
 		this.imageName = imageName;
 	}
 
-	/* (non-Javadoc)
+	/**
+	 * Checks if is status.
+	 *
+	 * @return true, if is status
+	 */
+	public boolean isStatus() {
+		return status;
+	}
+
+	/**
+	 * Sets the status.
+	 *
+	 * @param status
+	 *            the new status
+	 */
+	public void setStatus(boolean status) {
+		this.status = status;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
@@ -159,10 +195,13 @@ public class MenuItem {
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + ((portion == null) ? 0 : portion.hashCode());
 		result = prime * result + ((price == null) ? 0 : price.hashCode());
+		result = prime * result + (status ? 1231 : 1237);
 		return result;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
@@ -198,16 +237,20 @@ public class MenuItem {
 				return false;
 		} else if (!price.equals(other.price))
 			return false;
+		if (status != other.status)
+			return false;
 		return true;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
 		return "MenuItem [id=" + id + ", name=" + name + ", price=" + price + ", categoryId=" + categoryId
-				+ ", portion=" + portion + ", imageName=" + imageName + "]";
+				+ ", portion=" + portion + ", imageName=" + imageName + ", status=" + status + "]";
 	}
-	
+
 }

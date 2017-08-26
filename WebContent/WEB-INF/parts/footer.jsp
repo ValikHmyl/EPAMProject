@@ -13,13 +13,14 @@
       		</div>
       		<div class="col-xs-7">
       			<div class="col-sm-6"><span class="glyphicon glyphicon-map-marker"></span> ${info}</div>
-      			<div class="col-sm-6"><span class="glyphicon glyphicon-earphone"></span> +375 29 567-00-00<br><span class="glyphicon glyphicon-earphone"></span> +375 25 789-00-00<br><span class="glyphicon glyphicon-earphone"></span> +375 33 678-00-00 </div>
+      			<div class="col-sm-6" ><span class="glyphicon glyphicon-earphone"></span> +375 29 567-00-00<br><span class="glyphicon glyphicon-earphone"></span> +375 25 789-00-00<br><span class="glyphicon glyphicon-earphone"></span> +375 33 678-00-00 </div>
 			</div>
 	</div>
 </div>
 <script src="${pageContext.request.contextPath}/js/header.js"></script>
 <script src="${pageContext.request.contextPath}/js/order.js"></script>
-<script src="${pageContext.request.contextPath}/js/edit.js"></script>
+<script src="${pageContext.request.contextPath}/js/edit_profile.js"></script>
 <script src="${pageContext.request.contextPath}/js/profile.js"></script>
+<script src="${pageContext.request.contextPath}/js/admin.js"></script>
 </body>
 </html>

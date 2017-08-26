@@ -57,19 +57,10 @@
 				</tfoot>	
 			</table>
 			
-			<c:choose>
-				<c:when test="${user!=null }">
 				
 					<a href="${pageContext.request.contextPath}/jsp/order/order.jsp">
 						<button class="order btn btn-default">${order}</button>
 					</a>
-				</c:when>
-				<c:otherwise>
-					<a href="${pageContext.request.contextPath}/jsp/common/signIn.jsp">
-						<button class="order btn btn-default">${order}</button>
-					</a>
-				</c:otherwise>
-			</c:choose>
 		</c:when>
 		<c:otherwise>			
 			<div class="alert alert-warning"><a href="${pageContext.request.contextPath}/controller?command=menu&category=garnish" title="${menu }">${emptyCart}</a></div>

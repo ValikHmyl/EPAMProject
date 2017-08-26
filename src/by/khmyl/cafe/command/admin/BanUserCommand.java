@@ -7,9 +7,9 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
 import by.khmyl.cafe.command.AbstractCommand;
-import by.khmyl.cafe.command.util.PathConstant;
-import by.khmyl.cafe.command.util.Router;
-import by.khmyl.cafe.command.util.Router.RouteType;
+import by.khmyl.cafe.command.Router;
+import by.khmyl.cafe.command.Router.RouteType;
+import by.khmyl.cafe.constant.PathConstant;
 import by.khmyl.cafe.exception.ReceiverException;
 import by.khmyl.cafe.receiver.AdminReceiver;
 import by.khmyl.cafe.receiver.impl.AdminReceiverImpl;
@@ -17,6 +17,7 @@ import by.khmyl.cafe.receiver.impl.AdminReceiverImpl;
 public class BanUserCommand extends AbstractCommand {
 	private static final Logger LOGGER = LogManager.getLogger(BanUserCommand.class);
 	private static final String USER_ID = "userId";
+	private static final String USER_EMAIL = "userEmail";
 
 	private AdminReceiver receiver = new AdminReceiverImpl();
 
@@ -24,8 +25,9 @@ public class BanUserCommand extends AbstractCommand {
 	public Router execute(HttpServletRequest request) {
 		Router router = new Router();
 		int userId = Integer.parseInt(request.getParameter(USER_ID));
+		String userEmail = request.getParameter(USER_EMAIL);
 		try {
-			receiver.banUser(userId);
+			receiver.banUser(userId, userEmail);
 			router.setPath(PathConstant.ADMIN_ALL_USERS);
 			router.setRouteType(RouteType.REDIRECT);
 		} catch (ReceiverException e) {

@@ -48,7 +48,7 @@
 						<a href="${pageContext.request.contextPath}/index.jsp">${home }</a>
 					</li>
 					<li>
-						<a href="${pageContext.request.contextPath}/controller?command=menu&category=garnish">${menu }</a>
+						<a href="${pageContext.request.contextPath}/controller?command=menu&category=гарниры">${menu }</a>
 					</li>
 					<li>
 						<a href="">${about }</a>
@@ -61,7 +61,7 @@
 								<a href="${pageContext.request.contextPath}/jsp/admin/admin.jsp">${user.username}</a>
 							</li>
 							<li>
-								<a onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+								<a href="" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
 									${signOut } 
 									<span class="glyphicon glyphicon-log-out"></span>
 								</a>

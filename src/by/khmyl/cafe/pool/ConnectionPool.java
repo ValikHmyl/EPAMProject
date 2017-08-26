@@ -19,13 +19,12 @@ import java.util.concurrent.locks.ReentrantLock;
 /**
  * Provides a pool of connections to database. If connection to database is not
  * necessary any more, it goes back to pool.
- * <p>
  * All connections are synchronized.
  */
 public class ConnectionPool {
 	private static final Logger LOGGER = LogManager.getLogger(ConnectionPool.class);
-	private static ConnectionPool instance = null;
-	private static ReentrantLock lock = new ReentrantLock();
+	private static ConnectionPool instance;
+	private static ReentrantLock lock = new ReentrantLock(true);
 	private static AtomicBoolean flag = new AtomicBoolean();
 	private BlockingQueue<ProxyConnection> pool;
 

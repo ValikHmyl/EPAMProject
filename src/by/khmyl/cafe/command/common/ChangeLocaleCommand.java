@@ -6,7 +6,7 @@ import javax.servlet.http.HttpSession;
 import com.google.gson.JsonObject;
 
 import by.khmyl.cafe.command.AbstractCommand;
-import by.khmyl.cafe.command.util.Router;
+import by.khmyl.cafe.command.Router;
 
 /**
  * Command for changing language on pages.

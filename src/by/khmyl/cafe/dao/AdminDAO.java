@@ -7,4 +7,8 @@ public abstract class AdminDAO extends AbstractDAO {
 
 	public abstract void activateUser(int userId) throws DAOException;
 
+	public abstract void removeFromMenu(int menuItemId) throws DAOException;
+
+	public abstract void returnToMenu(int menuItemId) throws DAOException;
+
 }

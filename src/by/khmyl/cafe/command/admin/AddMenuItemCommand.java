@@ -13,9 +13,9 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
 import by.khmyl.cafe.command.AbstractCommand;
-import by.khmyl.cafe.command.util.PathConstant;
-import by.khmyl.cafe.command.util.Router;
-import by.khmyl.cafe.command.util.Router.RouteType;
+import by.khmyl.cafe.command.Router;
+import by.khmyl.cafe.command.Router.RouteType;
+import by.khmyl.cafe.constant.PathConstant;
 import by.khmyl.cafe.exception.ReceiverException;
 import by.khmyl.cafe.receiver.AdminReceiver;
 import by.khmyl.cafe.receiver.impl.AdminReceiverImpl;
@@ -38,6 +38,7 @@ public class AddMenuItemCommand extends AbstractCommand {
 		String menuName = request.getParameter(NAME);
 		String category = request.getParameter(CATEGORY);
 		BigDecimal price = new BigDecimal(request.getParameter(PRICE));
+		price.setScale(2,BigDecimal.ROUND_HALF_UP);	
 		String portion = request.getParameter(PORTION);
 
 		Collection<Part> parts;

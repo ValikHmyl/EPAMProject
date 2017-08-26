@@ -17,14 +17,14 @@ import by.khmyl.cafe.pool.ProxyConnection;
  */
 public class UserDAOImpl extends UserDAO {
 	private static final int MAX_ON_PAGE = 10;
-	private static final String SQL_SELECT_USER = "SELECT * FROM user WHERE username=?";
-	private static final String SQL_SELECT_EMAIL = "SELECT email FROM user WHERE email=?";
-	private static final String SQL_ADD_USER = "INSERT INTO user (username,password,email) VALUES(?,?,?)";
-	private static final String SQL_CHANGE_PASSWORD = "UPDATE user SET password=? WHERE id=?";
-	private static final String SQL_CHANGE_EMAIL = "UPDATE user SET email=? WHERE id=?";
-	private static final String SQL_CHANGE_AVATAR = "UPDATE user SET avatar_img_name=? WHERE id=?";
-	private static final String SQL_COUNT_USERS = "SELECT sum(counts) FROM (SELECT count(id) AS counts  FROM user GROUP BY status,role HAVING status LIKE ? AND role=false) AS result";
-	private static final String SQL_FIND_USERS = "SELECT * FROM user WHERE status LIKE ? AND role=false ORDER BY id DESC LIMIT ?, ?";
+	private static final String SQL_SELECT_USER = "SELECT `id`, `username`, `password`, `email`, `role`, `status`, `discount`, `avatar_img_name` FROM `cafe`.`user` WHERE `username`=?";
+	private static final String SQL_SELECT_EMAIL = "SELECT `email` FROM `cafe`.`user` WHERE `email`=?";
+	private static final String SQL_ADD_USER = "INSERT INTO `cafe`.`user` (`username`, `password`, `email`) VALUES(?,?,?)";
+	private static final String SQL_CHANGE_PASSWORD = "UPDATE `cafe`.`user` SET `password`=? WHERE `id`=?";
+	private static final String SQL_CHANGE_EMAIL = "UPDATE `cafe`.`user` SET `email`=? WHERE `id`=?";
+	private static final String SQL_CHANGE_AVATAR = "UPDATE `cafe`.`user` SET `avatar_img_name`=? WHERE `id`=?";
+	private static final String SQL_COUNT_USERS = "SELECT sum(`counts`) FROM (SELECT count(`id`) AS `counts`  FROM `cafe`.`user` GROUP BY `status`, `role` HAVING `status` LIKE ? AND `role`=false) AS `result`";
+	private static final String SQL_FIND_USERS = "SELECT `id`, `username`, `password`, `email`, `role`, `status`, `discount`, `avatar_img_name` FROM `user` WHERE `status` LIKE ? AND `role`=false ORDER BY `id` DESC LIMIT ?, ?";
 
 	/*
 	 * (non-Javadoc)

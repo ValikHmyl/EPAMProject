@@ -7,10 +7,9 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
 import by.khmyl.cafe.command.AbstractCommand;
-import by.khmyl.cafe.command.user.ChangePasswordCommand;
-import by.khmyl.cafe.command.util.PathConstant;
-import by.khmyl.cafe.command.util.Router;
-import by.khmyl.cafe.command.util.Router.RouteType;
+import by.khmyl.cafe.command.Router;
+import by.khmyl.cafe.command.Router.RouteType;
+import by.khmyl.cafe.constant.PathConstant;
 import by.khmyl.cafe.entity.User;
 import by.khmyl.cafe.exception.ReceiverException;
 import by.khmyl.cafe.receiver.AdminReceiver;
@@ -18,7 +17,7 @@ import by.khmyl.cafe.receiver.impl.AdminReceiverImpl;
 import by.khmyl.cafe.util.PaginationHelper;
 
 public class AdminOpenUsersCommand extends AbstractCommand {
-	private static final Logger LOGGER = LogManager.getLogger(ChangePasswordCommand.class);
+	private static final Logger LOGGER = LogManager.getLogger(AdminOpenUsersCommand.class);
 	private static final String PAGE_NUMBER = "pageNumber";
 	private static final int MAX_ON_PAGE = 10;
 	private static final String LIMIT = "limit";

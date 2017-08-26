@@ -3,9 +3,9 @@ package by.khmyl.cafe.command.common;
 import javax.servlet.http.HttpServletRequest;
 
 import by.khmyl.cafe.command.AbstractCommand;
-import by.khmyl.cafe.command.util.PathConstant;
-import by.khmyl.cafe.command.util.Router;
-import by.khmyl.cafe.command.util.Router.RouteType;
+import by.khmyl.cafe.command.Router;
+import by.khmyl.cafe.command.Router.RouteType;
+import by.khmyl.cafe.constant.PathConstant;
 
 /**
  * Command for Sign Out of system.

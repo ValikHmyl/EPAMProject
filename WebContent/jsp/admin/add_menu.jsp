@@ -20,51 +20,63 @@
 		<div class="content">
 			<div class="container row">
 				<jsp:include page="/WEB-INF/parts/admin_nav.jsp" />
+				<div class="col-xs-3 "> <a href="${pageContext.request.contextPath}/jsp/admin/add_menu.jsp" class="btn btn-success center-block">add</a></div><div class="col-xs-3"><a href="" class="btn btn-info center-block">menu</a></div>
 				<div class="well col-sm-7">
-					<div class="text-center center-block">
-						<form class="form-horizontal"
+				<h4 class="text-center">add menu</h4>
+						<form id="addMenuForm" class="form-horizontal text-center center-block"
 							action="${pageContext.request.contextPath}/controller"
-							method="POST" enctype="multipart/form-data">
+							method="POST" enctype="multipart/form-data"	>
+							<div id="errorMsg" style="display:none">check input</div>
 							<input type="hidden" name="command" value="add_menu" />
 							<div class="form-group">
 								<label for="name" class="col-xs-4 control-label">name</label>
 								<div class="col-sm-4">
-									<input class="form-control" type="text" name="name" required />
+									<input class="form-control" type="text" id="name" name="name" required />
 								</div>
 							</div>
 							<div class="form-group">
 
 								<label for="price" class="col-xs-4 control-label">price</label>
 								<div class="col-sm-4">
-									<input class="form-control" type="text" name="price" required />
+									<input class="form-control" type="text" id="price" name="price" required />
 								</div>
 							</div>
 							<div class="form-group">
 
 								<label for="category" class="col-xs-4 control-label">category</label>
 								<div class="col-sm-4">
-									<input class="form-control" type="text" name="category"
-										required />
+									<select class="form-control"  name="category">
+													<option>Гарниры</option>
+													<option>Напитки</option>
+													<option>1</option>
+													<option>10:30</option>
+													<option>10:30</option>
+													<option>10:30</option>
+													<option>10:30</option>
+													<option>10:30</option>
+													<option>10:30</option>
+									</select>
+										
 								</div>
 							</div>
 							<div class="form-group">
 
 								<label for="portion" class="col-xs-4 control-label">portion</label>
 								<div class="col-sm-4">
-									<input class="form-control" type="text" name="portion" required />
+									<input class="form-control" type="text" id="portion" name="portion" required />
 								</div>
 							</div>
 							<div class="form-group form-group-sm">
 
-								<label for="avatarImg" class="btn btn-warning text-center">choose
+								<label for="menuImg" class="btn btn-warning text-center">choose
 									img</label>
 								<div class="col-sm-12">
-									<input type="file" name="avatarImg" value="test"
-										placeholder="none" id="avatarImg"
+									<input type="file" name="menuImg" value="test"
+										id="menuImg"
 										accept=".jpeg, .jpg, .png, .gif" style="display: none">
 									<div class="text-center">
 
-										<button id="avatarSubmit" type="submit"
+										<button id="addMenuSubmit" type="submit"
 											class="btn btn-default" disabled>upl</button>
 									</div>
 									<div id="fileInfo">
@@ -75,7 +87,7 @@
 								</div>
 							</div>
 						</form>
-					</div>
+				
 
 
 				</div>

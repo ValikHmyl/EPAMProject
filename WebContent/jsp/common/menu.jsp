@@ -33,34 +33,35 @@
 	<div class="row container">
 		<div class="col-xs-4 col-sm-3">
 			<ul class="nav nav-pills nav-stacked " data-spy="affix" data-offset-top="200">
-  				<li id="garnish"><a href="${pageContext.request.contextPath}/controller?command=menu&category=гарниры">${garnish }</a></li>
-  				<li id="drink"><a href="${pageContext.request.contextPath}/controller?command=menu&category=напитки">${drink }</a></li>
-  				<li id="meat"><a href="${pageContext.request.contextPath}/controller?command=menu&category=блюда_из_мяса">${meat }</a></li>
-  				<li id="pizza"><a href="${pageContext.request.contextPath}/controller?command=menu&category=пицца">${pizza }</a></li>
-  				<li id="salad"><a href="${pageContext.request.contextPath}/controller?command=menu&category=салаты">${salad }</a></li>
-  				<li id="soup"><a href="${pageContext.request.contextPath}/controller?command=menu&category=супы">${soup }</a></li>
-  				<li id="burger"><a href="${pageContext.request.contextPath}/controller?command=menu&category=бургеры">${burger }</a></li>
-  				<li id="sandwich"><a href="${pageContext.request.contextPath}/controller?command=menu&category=сэндвичи">${sandwich }</a></li>
-  				<li id="dessert"><a href="${pageContext.request.contextPath}/controller?command=menu&category=десерт">${dessert }</a></li>
+  				<li><a href="${pageContext.request.contextPath}/controller?command=menu&category=гарниры">${garnish }</a></li>
+  				<li><a href="${pageContext.request.contextPath}/controller?command=menu&category=напитки">${drink }</a></li>
+  				<li><a href="${pageContext.request.contextPath}/controller?command=menu&category=блюда_из_мяса">${meat }</a></li>
+  				<li><a href="${pageContext.request.contextPath}/controller?command=menu&category=пицца">${pizza }</a></li>
+  				<li><a href="${pageContext.request.contextPath}/controller?command=menu&category=салаты">${salad }</a></li>
+  				<li><a href="${pageContext.request.contextPath}/controller?command=menu&category=супы">${soup }</a></li>
+  				<li><a href="${pageContext.request.contextPath}/controller?command=menu&category=бургеры">${burger }</a></li>
+  				<li><a href="${pageContext.request.contextPath}/controller?command=menu&category=сэндвичи">${sandwich }</a></li>
+  				<li><a href="${pageContext.request.contextPath}/controller?command=menu&category=десерт">${dessert }</a></li>
 			</ul>
 		</div>
 		<div class="col-xs-8 col-sm-9">
-			<c:forEach var="elem" items="${menu}">
+			<c:forEach var="item" items="${menu}">
+			<c:if test="${item.status }">
 				<div class="col-sm-6">
 				<div class="menu-item text-center">
-					<img alt="" src="${pageContext.request.contextPath}/img/menu/${elem.imageName}" height="230px">
-					<p>${elem.name }  </p>
-					<p>(${elem.portion })</p>
-					<p>$${elem.price }</p>
+					<img alt="" src="${pageContext.request.contextPath}/img/menu/${item.imageName}" height="230px">
+					<p>${item.name }  </p>
+					<p>(${item.portion })</p>
+					<p>$${item.price }</p>
 					<div>
-						<button class="minus" data-id="${elem.id }"><span class="glyphicon glyphicon-minus"></span></button>
-						<input data-toggle="tooltip" type="text" id="${elem.id }" value="1">
-						<button class="plus" data-id="${elem.id }"><span class="glyphicon glyphicon-plus"></span></button>
+						<button class="minus" data-id="${item.id }"><span class="glyphicon glyphicon-minus"></span></button>
+						<input data-toggle="tooltip" type="text" id="${item.id }" value="1">
+						<button class="plus" data-id="${item.id }"><span class="glyphicon glyphicon-plus"></span></button>
 					</div>
-					<button class="add btn btn-default" data-id="${elem.id }">add to cart</button>
-					
+					<button class="add btn btn-default" data-id="${item.id }">add to cart</button>
 				</div>
 				</div>
+				</c:if>
 			</c:forEach>
 		</div>
 	</div>

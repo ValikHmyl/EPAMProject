@@ -39,47 +39,47 @@
 		<div class="well well-sm menu row text-center">
 			<div class="col-sm-4">	
 				<div class="category">	
-					<a href="${pageContext.request.contextPath}/controller?command=menu&category=garnish"><img alt="garnish" src="img/category/garnish.jpg"><span>${garnish }</span></a>
+					<a href="${pageContext.request.contextPath}/controller?command=menu&category=гарниры"><img alt="garnish" src="img/category/garnish.jpg"><span>${garnish }</span></a>
 				</div>
 			</div>
 			<div class="col-sm-4">	
 				<div class="category">	
-					<a href="${pageContext.request.contextPath}/controller?command=menu&category=drink"><img alt="drink" src="img/category/drinks.jpg"><span>${drink }</span></a>
+					<a href="${pageContext.request.contextPath}/controller?command=menu&category=напитки"><img alt="drink" src="img/category/drinks.jpg"><span>${drink }</span></a>
 				</div>
 			</div>
 			<div class="col-sm-4">	
 				<div class="category">	
-					<a href="${pageContext.request.contextPath}/controller?command=menu&category=meat"><img alt="meat" src="img/category/meat.jpg"><span>${meat }</span></a>
+					<a href="${pageContext.request.contextPath}/controller?command=menu&category=блюда_из_мяса"><img alt="meat" src="img/category/meat.jpg"><span>${meat }</span></a>
 				</div>
 			</div>
 			<div class="col-sm-4">	
 				<div class="category">	
-					<a href="${pageContext.request.contextPath}/controller?command=menu&category=pizza"><img alt="pizza" src="img/category/pizza.jpg"><span>${pizza }</span></a>
+					<a href="${pageContext.request.contextPath}/controller?command=menu&category=пицца"><img alt="pizza" src="img/category/pizza.jpg"><span>${pizza }</span></a>
 				</div>
 			</div>
 			<div class="col-sm-4">	
 				<div class="category">	
-					<a href="${pageContext.request.contextPath}/controller?command=menu&category=salad"><img alt="salad" src="img/category/salad.jpg"><span>${salad }</span></a>
+					<a href="${pageContext.request.contextPath}/controller?command=menu&category=салаты"><img alt="salad" src="img/category/salad.jpg"><span>${salad }</span></a>
 				</div>
 			</div>
 			<div class="col-sm-4">	
 				<div class="category">	
-					<a href="${pageContext.request.contextPath}/controller?command=menu&category=soup"><img alt="soup" src="img/category/soup.jpg"><span>${soup }</span></a>
+					<a href="${pageContext.request.contextPath}/controller?command=menu&category=супы"><img alt="soup" src="img/category/soup.jpg"><span>${soup }</span></a>
 				</div>
 			</div>
 			<div class="col-sm-4">	
 				<div class="category">	
-					<a href="${pageContext.request.contextPath}/controller?command=menu&category=burger"><img alt="burger" src="img/category/burger.jpg"><span>${burger }</span></a>
+					<a href="${pageContext.request.contextPath}/controller?command=menu&category=бургеры"><img alt="burger" src="img/category/burger.jpg"><span>${burger }</span></a>
 				</div>
 			</div>
 			<div class="col-sm-4">	
 				<div class="category">	
-					<a href="${pageContext.request.contextPath}/controller?command=menu&category=sandwich"><img alt="sandwich" src="img/category/sandwich.jpg"><span>${sandwich }</span></a>
+					<a href="${pageContext.request.contextPath}/controller?command=menu&category=сэндвичи"><img alt="sandwich" src="img/category/sandwich.jpg"><span>${sandwich }</span></a>
 				</div>
 			</div>
 			<div class="col-sm-4">	
 				<div class="category">	
-					<a href="${pageContext.request.contextPath}/controller?command=menu&category=dessert"><img alt="dessert" src="img/category/dessert.jpg"><span>${dessert }</span></a>
+					<a href="${pageContext.request.contextPath}/controller?command=menu&category=десерт"><img alt="dessert" src="img/category/dessert.jpg"><span>${dessert }</span></a>
 				</div>
 			</div>
 					

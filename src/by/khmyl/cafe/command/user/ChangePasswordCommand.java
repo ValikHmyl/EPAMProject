@@ -10,7 +10,7 @@ import org.apache.log4j.Logger;
 import com.google.gson.JsonObject;
 
 import by.khmyl.cafe.command.AbstractCommand;
-import by.khmyl.cafe.command.util.Router;
+import by.khmyl.cafe.command.Router;
 import by.khmyl.cafe.entity.User;
 import by.khmyl.cafe.exception.ReceiverException;
 import by.khmyl.cafe.receiver.UserReceiver;

@@ -69,13 +69,14 @@
 			</div>
 			<button type="button" class="btn"  id="changeAvatar">change_avatar</button>
 			<div class="well text-center center-block" id="avatarForm" style="display: none">
+			<h4>Change avatar</h4>
 			<form action="${pageContext.request.contextPath}/controller" method="post" enctype="multipart/form-data">
 			<input type="hidden" name="command" value="change_avatar" /> 
 			<div class="form-horizontal">
 			<div class="form-group form-group-sm">
 						<label for="avatarImg" class="btn btn-warning text-center">choose img</label>
 						<div class="col-sm-12">
-					<input type="file" name="avatarImg" value="test" placeholder="none" id="avatarImg" accept=".jpeg, .jpg, .png, .gif" style="display:none">
+					<input type="file" name="avatarImg" value="test"  id="avatarImg" accept=".jpeg, .jpg, .png, .gif" style="display:none">
 				<div class="text-center">
 				
 			<button id="avatarSubmit" type="submit" class="btn btn-default" disabled>upl</button>

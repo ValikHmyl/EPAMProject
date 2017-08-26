@@ -8,6 +8,6 @@
 				<li><a href="${pageContext.request.contextPath}/jsp/admin/admin.jsp">general stat</a></li>
   				<li><a href="${pageContext.request.contextPath}/controller?command=admin_open_orders&filter=all&pageNumber=1">orders</a></li>
   				<li><a href="${pageContext.request.contextPath}/controller?command=admin_open_users&filter=all&pageNumber=1">users</a></li>
-  				<li><a href="${pageContext.request.contextPath}/jsp/admin/edit_menu.jsp">edit menu</a></li>
+  				<li><a href="${pageContext.request.contextPath}/controller?command=admin_open_menu&filter=all&pageNumber=1">menu</a></li>
   			</ul>
 		</div>

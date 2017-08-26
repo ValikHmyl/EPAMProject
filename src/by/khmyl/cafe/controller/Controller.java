@@ -1,8 +1,6 @@
 package by.khmyl.cafe.controller;
 
 import java.io.IOException;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -13,8 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import by.khmyl.cafe.command.AbstractCommand;
-import by.khmyl.cafe.command.util.CommandProvider;
-import by.khmyl.cafe.command.util.Router;
+import by.khmyl.cafe.command.CommandFactory;
+import by.khmyl.cafe.command.Router;
 
 /**
  * Class for processing requests from a client. It serves as the main Servlet in
@@ -40,8 +38,7 @@ public class Controller extends HttpServlet {
 	private void processRequest(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		CommandProvider provider = new CommandProvider();
-		AbstractCommand command = provider.defineCommand(request);
+		AbstractCommand command = CommandFactory.defineCommand(request);
 		Router router = command.execute(request);
 		switch (router.getRouteType()) {
 		case FORWARD: {

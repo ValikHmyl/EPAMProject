@@ -24,7 +24,7 @@ $("#confirmCancel").click(
 			var orderId = $(this).data("id");
 			$.ajax({
 				type : "POST",
-				url : "ajax",
+				url : "/FinalProject/ajax",
 				data : {
 					"command" : "cancel_order",
 					"orderId" : orderId

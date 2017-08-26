@@ -25,19 +25,19 @@ import by.khmyl.cafe.pool.ProxyConnection;
 public class OrderDAOImpl extends OrderDAO {
 	private static final int MAX_ON_PAGE = 10;
 	private static final String ACTIVE = "active";
-	private static final String SQL_CREATE_ORDER = "INSERT INTO cafe.order(user_id,confirm_date,order_date,status) VALUES (?,?,?,?)";
-	private static final String SQL_FIND_ORDER_ID = "SELECT id  FROM cafe.order WHERE user_id=? AND order_date=? ORDER BY id DESC";
-	private static final String SQL_FIND_ORDER = "SELECT *  FROM cafe.order WHERE id=?";
-	private static final String SQL_ADD_PRICE = "UPDATE cafe.order SET total_price=? WHERE id=?";
-	private static final String SQL_ADD_IN_CART = "INSERT INTO cafe.cart (order_id,menu_id,amount) VALUES (?,?,?)";
-	private static final String SQL_FIND_CART = "SELECT * FROM cafe.cart WHERE order_id=?";
-	private static final String SQL_DELETE_ORDER = "DELETE FROM cafe.order WHERE id=?";
-	private static final String SQL_DELETE_CART = "DELETE FROM cafe.cart WHERE order_id=?";
-	private static final String SQL_COUNT_USER_ORDERS = "SELECT sum(counts) FROM (SELECT count(id) AS counts  FROM cafe.order GROUP BY status,user_id HAVING user_id=? AND status LIKE ?) AS result;";
-	private static final String SQL_FIND_USER_ORDERS = "SELECT * FROM cafe.order WHERE user_id=? AND status LIKE ? ORDER BY id DESC LIMIT ?, ?";
-	private static final String SQL_FIND_ORDERS = "SELECT * FROM cafe.order WHERE status LIKE ? ORDER BY id DESC LIMIT ?, ?";
-	private static final String SQL_COUNT_ORDERS = "SELECT sum(counts) FROM (SELECT count(id) AS counts  FROM cafe.order GROUP BY status HAVING status LIKE ?) AS result;";
-	private static final String SQL_EDIT_ORDER = "UPDATE cafe.order SET confirm_date=? WHERE id=?";
+	private static final String SQL_CREATE_ORDER = "INSERT INTO `cafe`.`order` (`user_id`, `confirm_date`, `order_date`, `status`) VALUES (?,?,?,?)";
+	private static final String SQL_FIND_ORDER_ID = "SELECT `id`  FROM `cafe`.`order` WHERE `user_id`=? AND `order_date`=? ORDER BY `id` DESC";
+	private static final String SQL_FIND_ORDER = "SELECT `id`, `user_id`, `confirm_date`, `order_date`, `status`, `total_price`  FROM `cafe`.`order` WHERE `id`=?";
+	private static final String SQL_ADD_PRICE = "UPDATE `cafe`.`order` SET `total_price`=? WHERE `id`=?";
+	private static final String SQL_ADD_IN_CART = "INSERT INTO `cafe`.`cart` (`order_id`, `menu_id`, `amount`) VALUES (?,?,?)";
+	private static final String SQL_FIND_CART = "SELECT `order_id`, `menu_id`, `amount` FROM `cafe`.`cart` WHERE `order_id`=?";
+	private static final String SQL_DELETE_ORDER = "DELETE FROM `cafe`.`order` WHERE `id`=?";
+	private static final String SQL_DELETE_CART = "DELETE FROM `cafe`.`cart` WHERE `order_id`=?";
+	private static final String SQL_COUNT_USER_ORDERS = "SELECT sum(`counts`) FROM (SELECT count(`id`) AS `counts`  FROM `cafe`.`order` GROUP BY `status`, `user_id` HAVING `user_id`=? AND `status` LIKE ?) AS `result`";
+	private static final String SQL_FIND_USER_ORDERS = "SELECT `id`, `user_id`, `confirm_date`, `order_date`, `status`, `total_price` FROM `cafe`.`order` WHERE `user_id`=? AND `status` LIKE ? ORDER BY `id` DESC LIMIT ?, ?";
+	private static final String SQL_FIND_ORDERS = "SELECT `id`, `user_id`, `confirm_date`, `order_date`, `status`, `total_price` FROM `cafe`.`order` WHERE `status` LIKE ? ORDER BY `id` DESC LIMIT ?, ?";
+	private static final String SQL_COUNT_ORDERS = "SELECT sum(`counts`) FROM (SELECT count(`id`) AS `counts`  FROM `cafe`.`order` GROUP BY `status` HAVING `status` LIKE ?) AS `result`";
+	private static final String SQL_EDIT_ORDER = "UPDATE `cafe`.`order` SET `confirm_date`=? WHERE `id`=?";
 
 	/*
 	 * (non-Javadoc)
@@ -81,7 +81,7 @@ public class OrderDAOImpl extends OrderDAO {
 							.add(item.getPrice().multiply(user.getDiscount().multiply(new BigDecimal(cart.get(item)))));
 				}
 				priceStatement = cn.prepareStatement(SQL_ADD_PRICE);
-				priceStatement.setBigDecimal(1, totalPrice);
+				priceStatement.setBigDecimal(1, totalPrice.setScale(2, BigDecimal.ROUND_HALF_UP));
 				priceStatement.setInt(2, orderId);
 				priceStatement.executeUpdate();
 			}
@@ -144,7 +144,7 @@ public class OrderDAOImpl extends OrderDAO {
 				while (cartSet.next()) {
 					cart.put(menuDAO.findMenuItem(cartSet.getInt(2)), cartSet.getInt(3));
 				}
-				currentOrder = extractData(orderSet);
+				currentOrder = extractData(orderSet, cn);
 				currentOrder.setCart(cart);
 				orders.add(currentOrder);
 			}
@@ -177,7 +177,7 @@ public class OrderDAOImpl extends OrderDAO {
 			ps.setInt(1, orderId);
 			rs = ps.executeQuery();
 			if (rs.next()) {
-				order = extractData(rs);
+				order = extractData(rs, cn);
 			}
 		} catch (SQLException e) {
 			throw new DAOException("SQL add user exception - " + e.getMessage(), e);
@@ -193,7 +193,6 @@ public class OrderDAOImpl extends OrderDAO {
 		PreparedStatement orderStatement = null;
 		ResultSet orderSet = null;
 		PreparedStatement cartStatement = null;
-		ResultSet cartSet = null;
 		ProxyConnection cn = null;
 		ArrayList<Order> orders = new ArrayList<>();
 		try {
@@ -204,19 +203,10 @@ public class OrderDAOImpl extends OrderDAO {
 			orderStatement.setInt(2, startIndex);
 			orderStatement.setInt(3, MAX_ON_PAGE);
 			orderSet = orderStatement.executeQuery();
-			MenuDAO menuDAO = new MenuDAOImpl();
 			while (orderSet.next()) {
 				Order currentOrder = new Order();
-				HashMap<MenuItem, Integer> cart = new HashMap<>();
-				int orderId = orderSet.getInt(1);
-				cartStatement = cn.prepareStatement(SQL_FIND_CART);
-				cartStatement.setInt(1, orderId);
-				cartSet = cartStatement.executeQuery();
-				while (cartSet.next()) {
-					cart.put(menuDAO.findMenuItem(cartSet.getInt(2)), cartSet.getInt(3));
-				}
-				currentOrder = extractData(orderSet);
-				currentOrder.setCart(cart);
+
+				currentOrder = extractData(orderSet, cn);
 				orders.add(currentOrder);
 			}
 
@@ -346,16 +336,25 @@ public class OrderDAOImpl extends OrderDAO {
 
 	}
 
-	private Order extractData(ResultSet rs) throws SQLException {
+	private Order extractData(ResultSet rs, ProxyConnection cn) throws SQLException, DAOException {
 		Order order = new Order();
-		order.setId(rs.getInt(1));
+		MenuDAO menuDAO = new MenuDAOImpl();
+		HashMap<MenuItem, Integer> cart = new HashMap<>();
+		int orderId = rs.getInt(1);
+		order.setId(orderId);
 		order.setUserId(rs.getInt(2));
 		SimpleDateFormat dateFormate = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 		order.setConfirmDate(dateFormate.format(rs.getTimestamp(3)));
 		order.setOrderDate(dateFormate.format(rs.getTimestamp(4)));
 		order.setStatus(rs.getString(5).toUpperCase());
 		order.setTotalPrice(rs.getBigDecimal(6));
-
+		PreparedStatement cartStatement = cn.prepareStatement(SQL_FIND_CART);
+		cartStatement.setInt(1, orderId);
+		ResultSet cartSet = cartStatement.executeQuery();
+		while (cartSet.next()) {
+			cart.put(menuDAO.findMenuItem(cartSet.getInt(2)), cartSet.getInt(3));
+		}
+		order.setCart(cart);
 		return order;
 
 	}

@@ -2,9 +2,13 @@ package by.khmyl.cafe.command;
 
 import by.khmyl.cafe.command.admin.ActivateUserCommand;
 import by.khmyl.cafe.command.admin.AddMenuItemCommand;
+import by.khmyl.cafe.command.admin.AdminOpenMenuCommand;
 import by.khmyl.cafe.command.admin.AdminOpenOrdersCommand;
 import by.khmyl.cafe.command.admin.AdminOpenUsersCommand;
 import by.khmyl.cafe.command.admin.BanUserCommand;
+import by.khmyl.cafe.command.admin.RemoveFromMenuCommand;
+import by.khmyl.cafe.command.admin.ReturnToMenuCommand;
+import by.khmyl.cafe.command.admin.SearchOrderCommand;
 import by.khmyl.cafe.command.common.ChangeLocaleCommand;
 import by.khmyl.cafe.command.common.ErrorCommand;
 import by.khmyl.cafe.command.common.MenuCommand;
@@ -39,9 +43,13 @@ public enum CommandType {
 	EDIT_ORDER(new EditOrderCommand()),
 	ADMIN_OPEN_USERS(new AdminOpenUsersCommand()),
 	ADMIN_OPEN_ORDERS(new AdminOpenOrdersCommand()),
+	ADMIN_OPEN_MENU(new AdminOpenMenuCommand()),
 	BAN_USER(new BanUserCommand()),
 	ACTIVATE_USER(new ActivateUserCommand()),
-	ADD_MENU(new AddMenuItemCommand());
+	ADD_MENU(new AddMenuItemCommand()),
+	REMOVE_FROM_MENU(new RemoveFromMenuCommand()),
+	RETURN_TO_MENU(new ReturnToMenuCommand()),
+	SEARCH_ORDER(new SearchOrderCommand());
 	private AbstractCommand command;
 
 	CommandType(AbstractCommand command) {
