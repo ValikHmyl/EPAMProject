@@ -4,11 +4,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.TagSupport;
+
+import by.khmyl.cafe.constant.Constant;
+
 import java.io.IOException;
 
 @SuppressWarnings("serial")
 public class PaginationTag extends TagSupport {
-	private static final String PAGE_NUMBER = "pageNumber";
 
 	private String command;
 
@@ -43,7 +45,7 @@ public class PaginationTag extends TagSupport {
 		HttpServletRequest request = (HttpServletRequest) pageContext.getRequest();
 		Paginator paginator = new Paginator(limit, total, command, filter);
 
-		String pageNumber = request.getParameter(PAGE_NUMBER);
+		String pageNumber = request.getParameter(Constant.PAGE_NUMBER);
 
 		try {
 			if (pageNumber != null) {

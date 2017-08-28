@@ -3,16 +3,25 @@ package by.khmyl.cafe.dao.impl;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+import org.apache.log4j.Level;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+
+import by.khmyl.cafe.constant.Constant;
 import by.khmyl.cafe.dao.AdminDAO;
+import by.khmyl.cafe.entity.User;
 import by.khmyl.cafe.exception.DAOException;
 import by.khmyl.cafe.pool.ConnectionPool;
 import by.khmyl.cafe.pool.ProxyConnection;
 
 public class AdminDAOImpl extends AdminDAO {
+	private static final Logger LOGGER = LogManager.getLogger(AdminDAOImpl.class);
 	private static final String SQL_BAN_USER = "UPDATE `cafe`.`user` SET `status`=false WHERE `id`=?";
 	private static final String SQL_ACTIVATE_USER = "UPDATE `cafe`.`user` SET `status`=true WHERE `id`=?";
 	private static final String SQL_REMOVE_FROM_MENU = "UPDATE `cafe`.`menu` SET `status`=false WHERE `id`=?";
 	private static final String SQL_RETURN_TO_MENU = "UPDATE `cafe`.`menu` SET `status`=true WHERE `id`=?";
+	private static final String SQL_CHANGE_ORDER_STATUS = "UPDATE `cafe`.`order` SET `status`=? WHERE `id`=?";
+	private static final String SQL_CHANGE_USER_DISCOUNT = "UPDATE `cafe`.`user` SET `discount`=? WHERE `id`=?";
 
 	@Override
 	public void banUser(int userId) throws DAOException {
@@ -80,7 +89,46 @@ public class AdminDAOImpl extends AdminDAO {
 			close(cn);
 			close(ps);
 		}
-		
+
+	}
+
+	@Override
+	public void confirmPayment(int orderId,User user) throws DAOException {
+		ProxyConnection cn = null;
+		PreparedStatement statusStatement = null;
+		PreparedStatement discountStatement = null;
+
+		try {
+			cn = ConnectionPool.getInstance().takeConnection();
+			cn.setAutoCommit(false);
+			statusStatement = cn.prepareStatement(SQL_CHANGE_ORDER_STATUS);
+			statusStatement.setString(1, Constant.TAKEN);
+			statusStatement.setInt(2, orderId);
+			statusStatement.executeUpdate();
+			discountStatement = cn.prepareStatement(SQL_CHANGE_USER_DISCOUNT);
+			discountStatement.setBigDecimal(1, user.getDiscount());
+			discountStatement.setInt(2, user.getId());
+			discountStatement.executeUpdate();
+			cn.commit();
+		} catch (SQLException e) {
+			try {
+				cn.rollback();
+			} catch (SQLException e1) {
+				LOGGER.log(Level.ERROR, "Rollback  error", e);
+			}
+			throw new DAOException("SQL change order's status exception - " + e.getMessage(), e);
+		} finally {
+			close(statusStatement);
+			close(discountStatement);
+			try {
+				cn.setAutoCommit(true);
+			} catch (SQLException e) {
+				LOGGER.log(Level.ERROR, "Can't set autocommit - " + e.getMessage(), e);
+			}
+			close(cn);
+
+		}
+
 	}
 
 }

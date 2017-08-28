@@ -42,13 +42,13 @@ public class ValidatorTest {
 
 	@Test
 	public void validatePastDatetimeTest() {
-		assertFalse(Validator.validateDatetime(pastDatetime));
+		assertFalse(Validator.validateDatetime(pastDatetime,1));
 
 	}
 
 	@Test
 	public void validateFutureDatetimeTest() {
-		assertTrue(Validator.validateDatetime(futureDatetime));
+		assertTrue(Validator.validateDatetime(futureDatetime,1));
 
 	}
 }

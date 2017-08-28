@@ -15,9 +15,6 @@ $(".locale").click(
 												location.reload();
 											}
 										},
-						       error : function(jqXHR,textStatus,errorThrown) {
-											location = "/FinalProject/jsp/error/500.jsp";
-										}
 									});
 					return false;
 				});

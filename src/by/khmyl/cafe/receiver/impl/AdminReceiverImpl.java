@@ -3,10 +3,13 @@ package by.khmyl.cafe.receiver.impl;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 
 import javax.servlet.http.Part;
 
+import by.khmyl.cafe.constant.Constant;
 import by.khmyl.cafe.dao.AdminDAO;
 import by.khmyl.cafe.dao.MenuDAO;
 import by.khmyl.cafe.dao.OrderDAO;
@@ -24,6 +27,7 @@ import by.khmyl.cafe.receiver.AdminReceiver;
 import by.khmyl.cafe.util.MailSender;
 import by.khmyl.cafe.util.PaginationHelper;
 import by.khmyl.cafe.util.UploadHelper;
+import by.khmyl.cafe.util.Validator;
 
 public class AdminReceiverImpl extends AdminReceiver {
 	private static final String EMAIL_SUBJECT_BAN = "Ban in the McCafe system";
@@ -35,7 +39,7 @@ public class AdminReceiverImpl extends AdminReceiver {
 	public PaginationHelper<User> openUsers(int startIndex, String filter) throws ReceiverException {
 		UserDAO dao = new UserDAOImpl();
 		PaginationHelper<User> users = new PaginationHelper<>();
-		filter = filter.replace("all", "%");
+		filter = filter.replace(Constant.FILTER_ALL, "%");
 		try {
 			users.setItems(dao.findUsers(startIndex, filter));
 			users.setAmount(dao.countUsers(filter));
@@ -74,9 +78,20 @@ public class AdminReceiverImpl extends AdminReceiver {
 	public PaginationHelper<Order> openOrders(int startIndex, String filter) throws ReceiverException {
 		OrderDAO dao = new OrderDAOImpl();
 		PaginationHelper<Order> orders = new PaginationHelper<>();
-		filter = filter.replace("all", "%");
+
+		filter = filter.replace(Constant.FILTER_ALL, "%");
 		try {
-			orders.setItems(dao.findOrders(startIndex, filter));
+			int amount = dao.countOrders("%");
+			ArrayList<Order> orderList = dao.findOrders(0, amount, Constant.ACTIVE);
+			for (Order order : orderList) {
+				if (!Validator.validateDatetime(order.getConfirmDate(), -1)) {
+					dao.changeStatus(order.getId(), Constant.OVERDUE);
+					UserDAO userDAO = new UserDAOImpl();
+					userDAO.changeDiscount(order.getUserId(), Constant.RESET_DISCOUNT);
+				}
+			}
+
+			orders.setItems(dao.findOrders(startIndex, Constant.MAX_ON_PAGE, filter));
 			orders.setAmount(dao.countOrders(filter));
 		} catch (DAOException e) {
 			throw new ReceiverException("Finding orders exception: " + e.getMessage(), e);
@@ -113,9 +128,9 @@ public class AdminReceiverImpl extends AdminReceiver {
 	public PaginationHelper<MenuItem> openMenu(int startIndex, String filter) throws ReceiverException {
 		MenuDAO dao = new MenuDAOImpl();
 		PaginationHelper<MenuItem> menu = new PaginationHelper<>();
-		filter = filter.replace("all", "%");
+		filter = filter.replace(Constant.FILTER_ALL, "%");
 		try {
-			menu.setItems(dao.findFilteredMenu(startIndex, filter));
+			menu.setItems(dao.findFilteredMenu(startIndex, Constant.MAX_ON_PAGE, filter));
 			menu.setAmount(dao.countMenuItems(filter));
 		} catch (DAOException e) {
 			throw new ReceiverException("Finding menu exception: " + e.getMessage(), e);
@@ -145,15 +160,54 @@ public class AdminReceiverImpl extends AdminReceiver {
 	}
 
 	@Override
-	public Order searchOrder(int orderId) throws ReceiverException {
-		OrderDAO dao = new OrderDAOImpl();
-		Order order = null;
+	public void confirmOrder(int orderId, int userId) throws ReceiverException {
+		AdminDAO adminDAO = new AdminDAOImpl();
+		UserDAO userDAO = new UserDAOImpl();
 		try {
-			order = dao.findOrder(orderId);
+			User user = userDAO.findUser(userId);
+			BigDecimal currentDiscount = user.getDiscount();
+			if (currentDiscount.compareTo(Constant.MAX_DISCOUNT) == 1) {
+				user.setDiscount(currentDiscount.subtract(Constant.INCREASE_DISCOUNT));
+			}
+			adminDAO.confirmPayment(orderId, user);
 		} catch (DAOException e) {
-			throw new ReceiverException("Finding order exception: " + e.getMessage(), e);
+			throw new ReceiverException("Confirming payment exception: " + e.getMessage(), e);
 		}
-		return order;
+
+	}
+
+	@Override
+	public HashMap<String, Long> openProfile() throws ReceiverException {
+		HashMap<String, Long> generalStatistic = new HashMap<>();
+		OrderDAO orderDAO = new OrderDAOImpl();
+		UserDAO userDAO = new UserDAOImpl();
+		MenuDAO menuDAO = new MenuDAOImpl();
+		try {
+			ArrayList<Order> orders = orderDAO.findOrders(0, orderDAO.countOrders("%"), "%");
+			generalStatistic.put(Constant.TOTAL_ORDERS, (long) orders.size());
+			generalStatistic.put(Constant.ACTIVE,
+					orders.stream().filter(order -> Constant.ACTIVE.equalsIgnoreCase(order.getStatus())).count());
+			generalStatistic.put(Constant.OVERDUE,
+					orders.stream().filter(order -> Constant.OVERDUE.equalsIgnoreCase(order.getStatus())).count());
+			generalStatistic.put(Constant.TAKEN,
+					orders.stream().filter(order -> Constant.TAKEN.equalsIgnoreCase(order.getStatus())).count());
+
+			ArrayList<User> users = userDAO.findUsers(0, "%");
+			generalStatistic.put(Constant.TOTAL_USERS, (long) users.size());
+			long banned = users.stream().filter(user -> !user.getStatus()).count();
+			generalStatistic.put(Constant.BANNED, banned);
+			generalStatistic.put(Constant.ACTIVE_USER, users.size() - banned);
+
+			ArrayList<MenuItem> menu = menuDAO.findFilteredMenu(0, menuDAO.countMenuItems("%"), "%");
+			generalStatistic.put(Constant.TOTAL_AMOUNT, (long) menu.size());
+			long oldMenu = menu.stream().filter(item -> !item.getStatus()).count();
+			generalStatistic.put(Constant.OLD_MENU, oldMenu);
+			generalStatistic.put(Constant.ACTIVE_MENU, menu.size() - oldMenu);
+		} catch (DAOException e) {
+			throw new ReceiverException("Opening profile exception: " + e.getMessage(), e);
+
+		}
+		return generalStatistic;
 	}
 
 }

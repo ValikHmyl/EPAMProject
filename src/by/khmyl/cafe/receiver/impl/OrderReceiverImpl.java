@@ -20,8 +20,11 @@ import by.khmyl.cafe.util.Validator;
  */
 public class OrderReceiverImpl extends OrderReceiver {
 
-	/* (non-Javadoc)
-	 * @see by.khmyl.cafe.receiver.OrderReceiver#addToCart(int, int, java.util.HashMap)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see by.khmyl.cafe.receiver.OrderReceiver#addToCart(int, int,
+	 * java.util.HashMap)
 	 */
 	@Override
 	public MenuItem addToCart(int itemId, int amount, HashMap<MenuItem, Integer> cart) throws ReceiverException {
@@ -41,8 +44,11 @@ public class OrderReceiverImpl extends OrderReceiver {
 		return menuItem;
 	}
 
-	/* (non-Javadoc)
-	 * @see by.khmyl.cafe.receiver.OrderReceiver#deleteFromCart(int, java.util.HashMap)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see by.khmyl.cafe.receiver.OrderReceiver#deleteFromCart(int,
+	 * java.util.HashMap)
 	 */
 	@Override
 	public MenuItem deleteFromCart(int itemId, HashMap<MenuItem, Integer> cart) throws ReceiverException {
@@ -58,12 +64,16 @@ public class OrderReceiverImpl extends OrderReceiver {
 
 	}
 
-	/* (non-Javadoc)
-	 * @see by.khmyl.cafe.receiver.OrderReceiver#makeAnOrder(by.khmyl.cafe.entity.User, java.util.HashMap, java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * by.khmyl.cafe.receiver.OrderReceiver#makeAnOrder(by.khmyl.cafe.entity.
+	 * User, java.util.HashMap, java.lang.String)
 	 */
 	@Override
 	public boolean makeAnOrder(User user, HashMap<MenuItem, Integer> cart, String datetime) throws ReceiverException {
-		if (!Validator.validateDatetime(datetime)) {
+		if (!Validator.validateDatetime(datetime,1)) {
 			return false;
 		}
 		OrderDAO dao = new OrderDAOImpl();
@@ -75,8 +85,11 @@ public class OrderReceiverImpl extends OrderReceiver {
 		return true;
 	}
 
-	/* (non-Javadoc)
-	 * @see by.khmyl.cafe.receiver.OrderReceiver#cancelOrder(int, java.lang.StringBuilder)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see by.khmyl.cafe.receiver.OrderReceiver#cancelOrder(int,
+	 * java.lang.StringBuilder)
 	 */
 	@Override
 	public boolean cancelOrder(int orderId, StringBuilder message) throws ReceiverException {
@@ -84,10 +97,11 @@ public class OrderReceiverImpl extends OrderReceiver {
 		Order order = null;
 		try {
 			order = dao.findOrder(orderId);
-			if (Validator.validateDatetime(order.getConfirmDate())) {
+			if (Validator.validateDatetime(order.getConfirmDate(),1)) {
 				dao.cancelOrder(orderId);
 			} else {
-				message.append("You can't cancel this order already! Order can't be when there is less then an hour before choosen datetime");
+				message.append(
+						"You can't cancel this order already! Order can't be when there is less then an hour before choosen datetime");
 				return false;
 			}
 		} catch (DAOException e) {
@@ -96,5 +110,32 @@ public class OrderReceiverImpl extends OrderReceiver {
 		}
 
 		return true;
+	}
+
+	@Override
+	public boolean editOrder(int orderId, String newDatetime) throws ReceiverException {
+		if (!Validator.validateDatetime(newDatetime,1)) {
+			return false;
+		}
+		OrderDAO dao = new OrderDAOImpl();
+		try {
+			dao.editOrder(orderId, newDatetime);
+		} catch (DAOException e) {
+			throw new ReceiverException("Editing order exception " + e.getMessage(), e);
+		}
+		return true;
+
+	}
+
+	@Override
+	public Order searchOrder(int orderId) throws ReceiverException {
+		OrderDAO dao = new OrderDAOImpl();
+		Order order = null;
+		try {
+			order = dao.findOrder(orderId);
+		} catch (DAOException e) {
+			throw new ReceiverException("Finding order exception: " + e.getMessage(), e);
+		}
+		return order;
 	}
 }

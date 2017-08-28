@@ -10,6 +10,8 @@ import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
+import by.khmyl.cafe.constant.Constant;
+
 /**
  * Class for validating parameters from request 
  */
@@ -18,7 +20,6 @@ public class Validator {
 	private static final String USERNAME_REGEX = "[A-zÀ-ÿ](\\w|[À-ÿ]){3,}";
 	private static final String PASSWORD_REGEX = "^(?=.*[a-zà-ÿ])(?=.*[0-9])(?=.*[A-ZÀ-ß]).{6,}$";
 	private static final String EMAIL_REGEX = "\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*(\\.\\w{2,3})+";
-	private static final long ONE_HOUR = 3_600_000;
 
 	private Validator() {
 	}
@@ -68,9 +69,9 @@ public class Validator {
 	 * @param datetime the datetime
 	 * @return {@code true} if correct date format and not past date, {@code false} otherwise.
 	 */
-	public static boolean validateDatetime(String datetime) {
+	public static boolean validateDatetime(String datetime, int sign) {
 		Date currentDate = new Date();
-		currentDate = new Date(currentDate.getTime() + ONE_HOUR);
+		currentDate = new Date(currentDate.getTime() + sign*Constant.ONE_HOUR);
 		try {
 			SimpleDateFormat formatedDate = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 			Date orderDate = formatedDate.parse(datetime);

@@ -17,11 +17,9 @@ public class PathConstant {
 	public static final String ADMIN_USERS = "/jsp/admin/users.jsp";
 	public static final String ADMIN_ORDERS = "/jsp/admin/orders.jsp";
 	public static final String ADMIN_ALL_ORDERS = "/controller?command=admin_open_orders&filter=all&pageNumber=1";
-	public static final String ADMIN_ALL_USERS = "/controller?command=admin_open_users&filter=all&pageNumber=1";
 	public static final String ADMIN_MENU = "/jsp/admin/menu.jsp";
-	public static final String ADMIN_ALL_MENU = "/controller?command=admin_open_menu&filter=all&pageNumber=1";
 	public static final String CONFIRM_PAYMENT = "/jsp/admin/confirm_payment.jsp";
-	
+
 
 	private PathConstant() {
 	}

@@ -7,13 +7,16 @@ $(document).ready(
 					total = total + parseFloat($(this).html())
 				});
 				$("#total").html(total.toFixed(2));
-			};
+			}
+			;
 			function discount() {
-				var total=parseFloat($("#total").html());
-				var saving=total*parseFloat($("#discount").html()/100);
-				var totalD=total-saving;
+				var total = parseFloat($("#total").html());
+				var discount = parseFloat($("#discount").html());
+				var saving = total * parseFloat(discount / 100);
+				var totalDiscount = total - saving;
+				$("#discount").html(discount.toFixed(1));
 				$("#saving").html(saving.toFixed(2));
-				$("#totalD").html(totalD.toFixed(2));
+				$("#totalDiscount").html(totalDiscount.toFixed(2));
 			}
 			function checkAmount() {
 				var currentAmount = $(".amount").html();
@@ -65,9 +68,6 @@ $(document).ready(
 													+ parseInt(currentAmount));
 									checkAmount();
 								}
-							},
-							error : function(jqXHR, textStatus, errorThrown) {
-								location = "jsp/error/500.jsp";
 							},
 							complete : function(jqXHR, textStatus) {
 								$("#" + itemId).val("1");
@@ -129,9 +129,6 @@ $(document).ready(
 					$(itemId).val(currentAmount.toString());
 				}
 			});
-
-			
-
 
 			totalPrice();
 			checkAmount();

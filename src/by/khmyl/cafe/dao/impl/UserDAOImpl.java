@@ -1,10 +1,12 @@
 package by.khmyl.cafe.dao.impl;
 
+import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import by.khmyl.cafe.constant.Constant;
 import by.khmyl.cafe.dao.UserDAO;
 import by.khmyl.cafe.entity.User;
 import by.khmyl.cafe.exception.DAOException;
@@ -16,15 +18,16 @@ import by.khmyl.cafe.pool.ProxyConnection;
  * realizes a set of requests to database for user.
  */
 public class UserDAOImpl extends UserDAO {
-	private static final int MAX_ON_PAGE = 10;
-	private static final String SQL_SELECT_USER = "SELECT `id`, `username`, `password`, `email`, `role`, `status`, `discount`, `avatar_img_name` FROM `cafe`.`user` WHERE `username`=?";
-	private static final String SQL_SELECT_EMAIL = "SELECT `email` FROM `cafe`.`user` WHERE `email`=?";
+	private static final String SQL_FIND_USER_BY_NAME = "SELECT `id`, `username`, `password`, `email`, `role`, `status`, `discount`, `avatar_img_name` FROM `cafe`.`user` WHERE `username`=?";
+	private static final String SQL_FIND_USER = "SELECT `id`, `username`, `password`, `email`, `role`, `status`, `discount`, `avatar_img_name` FROM `cafe`.`user` WHERE `id`=?";
+	private static final String SQL_FIND_EMAIL = "SELECT `email` FROM `cafe`.`user` WHERE `email`=?";
 	private static final String SQL_ADD_USER = "INSERT INTO `cafe`.`user` (`username`, `password`, `email`) VALUES(?,?,?)";
 	private static final String SQL_CHANGE_PASSWORD = "UPDATE `cafe`.`user` SET `password`=? WHERE `id`=?";
 	private static final String SQL_CHANGE_EMAIL = "UPDATE `cafe`.`user` SET `email`=? WHERE `id`=?";
 	private static final String SQL_CHANGE_AVATAR = "UPDATE `cafe`.`user` SET `avatar_img_name`=? WHERE `id`=?";
 	private static final String SQL_COUNT_USERS = "SELECT sum(`counts`) FROM (SELECT count(`id`) AS `counts`  FROM `cafe`.`user` GROUP BY `status`, `role` HAVING `status` LIKE ? AND `role`=false) AS `result`";
-	private static final String SQL_FIND_USERS = "SELECT `id`, `username`, `password`, `email`, `role`, `status`, `discount`, `avatar_img_name` FROM `user` WHERE `status` LIKE ? AND `role`=false ORDER BY `id` DESC LIMIT ?, ?";
+	private static final String SQL_FIND_USERS = "SELECT `id`, `username`, `password`, `email`, `role`, `status`, `discount`, `avatar_img_name` FROM `user` WHERE `status` LIKE ? AND `role`=false ORDER BY `id` LIMIT ?, ?";
+	private static final String SQL_CHANGE_DISCOUNT = "UPDATE `cafe`.`user` SET `discount`=? WHERE `id`=?";
 
 	/*
 	 * (non-Javadoc)
@@ -32,15 +35,38 @@ public class UserDAOImpl extends UserDAO {
 	 * @see by.khmyl.cafe.dao.UserDAO#findUser(java.lang.String)
 	 */
 	@Override
-	public User findUser(String username) throws DAOException {
+	public User findUserByName(String username) throws DAOException {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		ProxyConnection cn = null;
 		User user = null;
 		try {
 			cn = ConnectionPool.getInstance().takeConnection();
-			ps = cn.prepareStatement(SQL_SELECT_USER);
+			ps = cn.prepareStatement(SQL_FIND_USER_BY_NAME);
 			ps.setString(1, username);
+			rs = ps.executeQuery();
+			if (rs.next()) {
+				user = extractData(rs);
+			}
+		} catch (SQLException e) {
+			throw new DAOException("SQL finding user exception - " + e.getMessage(), e);
+		} finally {
+			close(cn);
+			close(ps);
+		}
+		return user;
+	}
+
+	@Override
+	public User findUser(int userId) throws DAOException {
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		ProxyConnection cn = null;
+		User user = null;
+		try {
+			cn = ConnectionPool.getInstance().takeConnection();
+			ps = cn.prepareStatement(SQL_FIND_USER);
+			ps.setInt(1, userId);
 			rs = ps.executeQuery();
 			if (rs.next()) {
 				user = extractData(rs);
@@ -92,7 +118,7 @@ public class UserDAOImpl extends UserDAO {
 		boolean isFree = true;
 		try {
 			cn = ConnectionPool.getInstance().takeConnection();
-			ps = cn.prepareStatement(SQL_SELECT_EMAIL);
+			ps = cn.prepareStatement(SQL_FIND_EMAIL);
 			ps.setString(1, email);
 			rs = ps.executeQuery();
 			if (rs.next()) {
@@ -187,7 +213,7 @@ public class UserDAOImpl extends UserDAO {
 			ps = cn.prepareStatement(SQL_FIND_USERS);
 			ps.setString(1, filter);
 			ps.setInt(2, startIndex);
-			ps.setInt(3, MAX_ON_PAGE);
+			ps.setInt(3, Constant.MAX_ON_PAGE);
 			rs = ps.executeQuery();
 			while (rs.next()) {
 				users.add(extractData(rs));
@@ -224,6 +250,25 @@ public class UserDAOImpl extends UserDAO {
 		}
 
 		return amount;
+	}
+
+	@Override
+	public void changeDiscount(int userId, BigDecimal discount) throws DAOException {
+		PreparedStatement ps = null;
+		ProxyConnection cn = null;
+		try {
+			cn = ConnectionPool.getInstance().takeConnection();
+			ps = cn.prepareStatement(SQL_CHANGE_DISCOUNT);
+			ps.setBigDecimal(1, discount);
+			ps.setInt(2, userId);
+			ps.executeUpdate();
+		} catch (SQLException e) {
+			throw new DAOException("SQL changing discount exception - " + e.getMessage(), e);
+		} finally {
+			close(cn);
+			close(ps);
+		}
+
 	}
 
 	private User extractData(ResultSet rs) throws SQLException {

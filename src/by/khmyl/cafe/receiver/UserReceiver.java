@@ -1,6 +1,7 @@
 package by.khmyl.cafe.receiver;
 
 import java.util.Collection;
+import java.util.HashMap;
 
 import javax.servlet.http.Part;
 
@@ -72,8 +73,9 @@ public abstract class UserReceiver {
 	 * @throws ReceiverException
 	 *             if occurred an error, while processing client's requests
 	 */
-	public abstract PaginationHelper<Order> openOrders(int userId, int startIndex,String filter) throws ReceiverException;
+	public abstract PaginationHelper<Order> openOrders(int userId, int startIndex, String filter)
+			throws ReceiverException;
 
-	public abstract boolean editOrder(int orderId, String newDatetime) throws ReceiverException;
+	public abstract HashMap<String, Long> openProfile(int userId) throws ReceiverException;
 
 }

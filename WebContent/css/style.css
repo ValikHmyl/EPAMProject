@@ -28,7 +28,7 @@ td {
 	padding: 0 5px;
 }
 
-.nav-pills li{
+.nav-pills li {
 	background-color: #e7e7e7;
 }
 
@@ -111,33 +111,50 @@ td {
 	background-color: #4c4c4c;
 }
 
-.table-condensed, .table-condensed th, .table-condensed td {
+.table-condensed, .table-condensed th, .table-condensed td
+	{
 	border: 2px solid #d6bf9a;
 }
-.more{
-	background-color:#fff;
+
+.more {
+	background-color: #fff;
 }
+
+.cartDetails, .editForm {
+	border: 1px solid #d6bf9a;
+	padding: 5px 10px;
+	margin: 3px 0;
+}
+
+.list {
+	border: 2px solid #d6bf9a;
+	margin: 5px 0;
+	padding: 5px 3px;
+}
+
 .footer {
-	
 	padding: 8px 0;
 	background: linear-gradient(to bottom, #999999 0, #e7e7e7 100%);
 }
 
-html,
-body {
-  height: 100%;
+html, body {
+	height: 100%;
 }
+
 .wrapper {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
+	display: flex;
+	flex-direction: column;
+	height: 100%;
 }
+
 .content {
-  flex: 1 0 auto;
+	flex: 1 0 auto;
 }
+
 .footer {
-  flex: 0 0 auto;
+	flex: 0 0 auto;
 }
+
 .affix {
 	top: 50%;
 	transform: translate(0, -50%);
@@ -150,7 +167,6 @@ body {
 .order-confirm {
 	width: 700px;
 }
-
 
 @media ( max-width : 768px) {
 	.cart {

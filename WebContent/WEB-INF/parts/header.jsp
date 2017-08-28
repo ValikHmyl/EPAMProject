@@ -51,14 +51,14 @@
 						<a href="${pageContext.request.contextPath}/controller?command=menu&category=гарниры">${menu }</a>
 					</li>
 					<li>
-						<a href="">${about }</a>
+						<a href="${pageContext.request.contextPath}/jsp/common/about_us.jsp">${about }</a>
 					</li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
 					<c:choose>
 						<c:when test="${user.role}"> 
 							<li>
-								<a href="${pageContext.request.contextPath}/jsp/admin/admin.jsp">${user.username}</a>
+								<a href="${pageContext.request.contextPath}/controller?command=admin_open_profile">${user.username}</a>
 							</li>
 							<li>
 								<a href="" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
@@ -72,7 +72,7 @@
 						</c:when>
 						<c:when test="${user != null}">
 							<li>
-								<a href="${pageContext.request.contextPath}/jsp/user/profile.jsp">
+								<a href="${pageContext.request.contextPath}/controller?command=user_open_profile&userId=${user.id}">
 									<img alt="user_icon" class="img-circle" src="${pageContext.request.contextPath}/img/avatars/${user.avatarImg}" width="20px" height="20px">
 									${user.username }
 								</a>

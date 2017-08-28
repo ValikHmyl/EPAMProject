@@ -10,26 +10,28 @@ import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.annotation.WebInitParam;
 
+import by.khmyl.cafe.constant.Constant;
+
 @WebFilter(urlPatterns = { "/*" }, initParams = { @WebInitParam(name = "encoding", value = "UTF-8") })
 public class CharacterEncodingFilter implements Filter {
 
-	private String code;
+	private String encoding;
 
 	public void init(FilterConfig fConfig) throws ServletException {
-		code = fConfig.getInitParameter("encoding");
+		encoding = fConfig.getInitParameter(Constant.ENCODING);
 	}
 
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
 		String codeRequest = request.getCharacterEncoding();
-		if (code != null && !code.equalsIgnoreCase(codeRequest)) {
-			request.setCharacterEncoding(code);
-			response.setCharacterEncoding(code);
+		if (encoding != null && !encoding.equalsIgnoreCase(codeRequest)) {
+			request.setCharacterEncoding(encoding);
+			response.setCharacterEncoding(encoding);
 		}
 		chain.doFilter(request, response);
 	}
 
 	public void destroy() {
-		code = null;
+		encoding = null;
 	}
 }

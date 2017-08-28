@@ -5,6 +5,8 @@ import java.util.Random;
 
 import javax.servlet.http.Part;
 
+import by.khmyl.cafe.constant.Constant;
+
 public class UploadHelper {
 
 	private String savePath;
@@ -18,9 +20,9 @@ public class UploadHelper {
 	}
 
 	public String extractFileName(Part part) {
-		String contentDisp = part.getHeader("content-disposition");
+		String contentDisp = part.getHeader(Constant.CONTENT_DISPOSITION);
 		for (String content : contentDisp.split(";")) {
-			if (content.trim().startsWith("filename")) {
+			if (content.trim().startsWith(Constant.FILENAME)) {
 				return content.substring(content.indexOf("=") + 2, content.length() - 1);
 			}
 		}

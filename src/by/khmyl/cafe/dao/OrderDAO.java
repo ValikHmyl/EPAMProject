@@ -38,7 +38,7 @@ public abstract class OrderDAO extends AbstractDAO {
 	 */
 	public abstract void addOrder(User user, HashMap<MenuItem, Integer> cart, String datetime) throws DAOException;
 
-	public abstract ArrayList<Order> findOrders(int startIndex, String filter) throws DAOException;
+	public abstract ArrayList<Order> findOrders(int startIndex, int lastIndex, String filter) throws DAOException;
 
 	/**
 	 * Find all user's orders.
@@ -51,7 +51,8 @@ public abstract class OrderDAO extends AbstractDAO {
 	 * @throws DAOException
 	 *             In case if occurred an error with SQL query or connection.
 	 */
-	public abstract ArrayList<Order> findUserOrders(int userId, int startIndex, String filter) throws DAOException;
+	public abstract ArrayList<Order> findUserOrders(int userId, int startIndex, int lastIndex, String filter)
+			throws DAOException;
 
 	/**
 	 * Count user's orders .
@@ -77,5 +78,7 @@ public abstract class OrderDAO extends AbstractDAO {
 	public abstract void cancelOrder(int orderId) throws DAOException;
 
 	public abstract void editOrder(int orderId, String newDatetime) throws DAOException;
+
+	public abstract void changeStatus(int orderId, String status) throws DAOException;
 
 }

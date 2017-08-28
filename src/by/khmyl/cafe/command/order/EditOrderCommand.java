@@ -1,4 +1,4 @@
-package by.khmyl.cafe.command.user;
+package by.khmyl.cafe.command.order;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -7,49 +7,49 @@ import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
-
 import by.khmyl.cafe.command.AbstractCommand;
 import by.khmyl.cafe.command.Router;
 import by.khmyl.cafe.command.Router.RouteType;
+import by.khmyl.cafe.constant.Constant;
 import by.khmyl.cafe.constant.PathConstant;
 import by.khmyl.cafe.entity.User;
 import by.khmyl.cafe.exception.ReceiverException;
-import by.khmyl.cafe.receiver.UserReceiver;
-import by.khmyl.cafe.receiver.impl.UserReceiverImpl;
+import by.khmyl.cafe.receiver.OrderReceiver;
+import by.khmyl.cafe.receiver.impl.OrderReceiverImpl;
 
 public class EditOrderCommand extends AbstractCommand {
 	private static final Logger LOGGER = LogManager.getLogger(EditOrderCommand.class);
-	private static final String ORDER_ID = "orderId";
-	private static final String DATE = "date";
-	private static final String TIME = "time";
-	private static final String ERROR_MSG = "errorMsg";
-	private static final String USER = "user";
 
-	private UserReceiver receiver = new UserReceiverImpl();
+	private OrderReceiver receiver = new OrderReceiverImpl();
 
 	@Override
 	public Router execute(HttpServletRequest request) {
-		Router router = new Router(PathConstant.USER_ALL_ORDERS, RouteType.REDIRECT);
-		String date = request.getParameter(DATE);
-		String time = request.getParameter(TIME);
+		Router router = new Router();
+		String date = request.getParameter(Constant.DATE);
+		String time = request.getParameter(Constant.TIME);
 		String newDatetime = date + " " + time;
 		HttpSession session = request.getSession(true);
-		User user = (User) session.getAttribute(USER);
+		User user = (User) session.getAttribute(Constant.USER);
 		if (user != null) {
-			int orderId = Integer.parseInt(request.getParameter(ORDER_ID));
+			int orderId = Integer.parseInt(request.getParameter(Constant.ORDER_ID));
 			try {
-				if (receiver.editOrder(orderId, newDatetime)) {
-				} else {
-					request.setAttribute(ERROR_MSG, true);
-					request.setAttribute(ORDER_ID, orderId);
+				if (!receiver.editOrder(orderId, newDatetime)) {
+					request.setAttribute(Constant.ERROR_MESSAGE, true);
+					request.setAttribute(Constant.ORDER_ID, orderId);
 					router.setRouteType(RouteType.FORWARD);
+				} else {
+					router.setRouteType(RouteType.REDIRECT);
 				}
+				router.setPath(PathConstant.USER_ALL_ORDERS);
 			} catch (ReceiverException e) {
 				LOGGER.log(Level.ERROR, e);
+				router.setRouteType(RouteType.REDIRECT);
 				router.setPath(PathConstant.ERROR_500);
 			}
 		} else {
 			router.setPath(PathConstant.SIGN_IN);
+			router.setRouteType(RouteType.REDIRECT);
+
 		}
 
 		return router;

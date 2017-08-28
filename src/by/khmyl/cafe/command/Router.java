@@ -1,10 +1,10 @@
 package by.khmyl.cafe.command;
 
 /**
- * Class for keeping information about page path and route type.    
+ * Class for keeping information about page path and route type.
  */
 public class Router {
-	
+
 	/**
 	 * Types of redirecting on another page.
 	 */
@@ -15,7 +15,7 @@ public class Router {
 	private String path;
 	private RouteType routeType;
 	private String json;
- 
+
 	/**
 	 * Instantiates a new router.
 	 */
@@ -25,18 +25,10 @@ public class Router {
 	/**
 	 * Instantiates a new router.
 	 *
-	 * @param routeType the type of redirecting on another page.
-	 */
-	public Router(RouteType routeType) {
-		this.routeType = routeType;
-	}
-
-	
-	/**
-	 * Instantiates a new router.
-	 *
-	 * @param path the path
-	 * @param routeType the route type
+	 * @param path
+	 *            the path
+	 * @param routeType
+	 *            the route type
 	 */
 	public Router(String path, RouteType routeType) {
 		this.path = path;
@@ -55,7 +47,8 @@ public class Router {
 	/**
 	 * Sets the path.
 	 *
-	 * @param path the new path
+	 * @param path
+	 *            the new path
 	 */
 	public void setPath(String path) {
 		this.path = path;
@@ -73,7 +66,8 @@ public class Router {
 	/**
 	 * Sets the route type.
 	 *
-	 * @param routeType the new route type
+	 * @param routeType
+	 *            the new route type
 	 */
 	public void setRouteType(RouteType routeType) {
 		this.routeType = routeType;
@@ -91,9 +85,15 @@ public class Router {
 	/**
 	 * Sets the json for ajax.
 	 *
-	 * @param json the new json
+	 * @param json
+	 *            the new json
 	 */
 	public void setJson(String json) {
 		this.json = json;
 	}
+
+	public void generatePath(String cmd, String filter, String pageNumber) {
+		path = "/controller?command=" + cmd + "&filter=" + filter + "&pageNumber=" + pageNumber;
+	}
+
 }

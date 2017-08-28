@@ -39,13 +39,13 @@
 					</tr>
 				</thead>
 				<tbody>
-					<c:forEach var="elem" items="${cart.keySet()}">	
-						<tr	id="${elem.id }">
-							<td class="item-img"><img class="img-responsive" width="130" height="130" alt="" src="${pageContext.request.contextPath}/img/menu/${elem.imageName}"></td>
-							<td>${elem.name }</td>
-							<td>$${elem.price} x ${cart[elem]}</td>
-							<td>$<span class="price">${elem.price*cart[elem]}</span></td>
-							<td><span class="glyphicon glyphicon-remove delete" data-id="${elem.id}" data-amount="${cart[elem]}" title="${delete }"></span></td>
+					<c:forEach var="item" items="${cart.keySet()}">	
+						<tr	id="${item.id }">
+							<td class="item-img"><img class="img-responsive" width="130" height="130" alt="" src="${pageContext.request.contextPath}/img/menu/${item.imageName}"></td>
+							<td>${item.name }</td>
+							<td>$${item.price} x ${cart[item]}</td>
+							<td>$<span class="price">${item.price*cart[item]}</span></td>
+							<td><span class="glyphicon glyphicon-remove delete" data-id="${item.id}" data-amount="${cart[item]}" title="${delete }"></span></td>
 						</tr>
 					</c:forEach>
 				</tbody>
@@ -63,7 +63,7 @@
 					</a>
 		</c:when>
 		<c:otherwise>			
-			<div class="alert alert-warning"><a href="${pageContext.request.contextPath}/controller?command=menu&category=garnish" title="${menu }">${emptyCart}</a></div>
+			<div class="alert alert-warning"><a href="${pageContext.request.contextPath}/controller?command=menu&category=гарниры" title="${menu }">${emptyCart}</a></div>
 		</c:otherwise>
 	</c:choose>
 	</div>

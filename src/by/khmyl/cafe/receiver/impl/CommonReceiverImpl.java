@@ -2,6 +2,7 @@ package by.khmyl.cafe.receiver.impl;
 
 import java.util.ArrayList;
 
+import by.khmyl.cafe.constant.Constant;
 import by.khmyl.cafe.dao.MenuDAO;
 import by.khmyl.cafe.dao.UserDAO;
 import by.khmyl.cafe.dao.impl.MenuDAOImpl;
@@ -20,14 +21,6 @@ import by.khmyl.cafe.util.Validator;
  * further processing.
  */
 public class CommonReceiverImpl extends CommonReceiver {
-	private static final String WRONG_DATA = "wrongData";
-	private static final String BANNED = "banned";
-	private static final String USERNAME_ERROR = "usernameError";
-	private static final String PASWWORD_ERROR = "passwordError";
-	private static final String PASWWORD_EQUALS = "passwordEqualsError";
-	private static final String EMAIL_ERROR = "emailError";
-	private static final String EMAIL_EXIST = "emailExist";
-	private static final String USERNAME_EXSIST = "usernameExist";
 	private static final String EMAIL_SUBJECT = "Sign Up in McCafe";
 	private static final String EMAIL_CONTENT = "<h2>Welcome in McCafe system!</h2> <p>Your successfully sign up in system of McCafe.</p>";
 
@@ -43,21 +36,21 @@ public class CommonReceiverImpl extends CommonReceiver {
 		if (Validator.validateUsername(username) && Validator.validatePassword(password)) {
 			UserDAO dao = new UserDAOImpl();
 			try {
-				user = dao.findUser(username);
+				user = dao.findUserByName(username);
 			} catch (DAOException e) {
 				throw new ReceiverException("Finding user exception: " + e.getMessage(), e);
 			}
 			if (user == null) {
-				errorMessages.add(WRONG_DATA);
+				errorMessages.add(Constant.WRONG_DATA);
 			} else {
 				if (!EncryptManager.deñrypt(user.getPassword()).equals(password)) {
-					errorMessages.add(WRONG_DATA);
+					errorMessages.add(Constant.WRONG_DATA);
 				} else if (!user.getStatus()) {
-					errorMessages.add(BANNED);
+					errorMessages.add(Constant.BANNED);
 				}
 			}
 		} else {
-			errorMessages.add(WRONG_DATA);
+			errorMessages.add(Constant.WRONG_DATA);
 		}
 
 		return user;
@@ -76,29 +69,29 @@ public class CommonReceiverImpl extends CommonReceiver {
 		boolean isValid = true;
 		if (!Validator.validateUsername(username)) {
 			isValid = false;
-			errorMessages.add(USERNAME_ERROR);
+			errorMessages.add(Constant.USERNAME_ERROR);
 		}
 		if (!Validator.validatePassword(password)) {
 			isValid = false;
-			errorMessages.add(PASWWORD_ERROR);
+			errorMessages.add(Constant.PASSWORD_ERROR);
 		}
 		if (!password.equals(repeatPassword)) {
 			isValid = false;
-			errorMessages.add(PASWWORD_EQUALS);
+			errorMessages.add(Constant.PASSWORD_EQUALS);
 		}
 		if (!Validator.validateEmail(email)) {
 			isValid = false;
-			errorMessages.add(EMAIL_ERROR);
+			errorMessages.add(Constant.EMAIL_ERROR);
 		}
 		UserDAO dao = new UserDAOImpl();
 		try {
-			if (dao.findUser(username) != null) {
+			if (dao.findUserByName(username) != null) {
 				isValid = false;
-				errorMessages.add(USERNAME_EXSIST);
+				errorMessages.add(Constant.USERNAME_EXIST);
 			}
 			if (!dao.checkEmail(email)) {
 				isValid = false;
-				errorMessages.add(EMAIL_EXIST);
+				errorMessages.add(Constant.EMAIL_EXIST);
 			}
 			if (isValid) {
 				password = EncryptManager.enñrypt(password);

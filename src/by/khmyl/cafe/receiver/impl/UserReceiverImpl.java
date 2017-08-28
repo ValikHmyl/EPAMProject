@@ -2,9 +2,13 @@ package by.khmyl.cafe.receiver.impl;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+
 import javax.servlet.http.Part;
 
+import by.khmyl.cafe.constant.Constant;
 import by.khmyl.cafe.dao.OrderDAO;
 import by.khmyl.cafe.dao.UserDAO;
 import by.khmyl.cafe.dao.impl.OrderDAOImpl;
@@ -24,7 +28,6 @@ import by.khmyl.cafe.util.Validator;
  * further processing.
  */
 public class UserReceiverImpl extends UserReceiver {
-	private static final String DEFAULT_AVATAR = "default_avatar.png";
 
 	/*
 	 * (non-Javadoc)
@@ -98,7 +101,7 @@ public class UserReceiverImpl extends UserReceiver {
 				if (imageName != null) {
 					imageName = helper.checkImageName(imageName);
 					File currentAvatar = new File(savePath + File.separator + user.getAvatarImg());
-					File defaultAvatar = new File(savePath + File.separator + DEFAULT_AVATAR);
+					File defaultAvatar = new File(savePath + File.separator + Constant.DEFAULT_AVATAR);
 					if (!currentAvatar.equals(defaultAvatar)) {
 						currentAvatar.delete();
 					}
@@ -122,9 +125,9 @@ public class UserReceiverImpl extends UserReceiver {
 	public PaginationHelper<Order> openOrders(int userId, int startIndex, String filter) throws ReceiverException {
 		OrderDAO dao = new OrderDAOImpl();
 		PaginationHelper<Order> orders = new PaginationHelper<>();
-		filter=filter.replace("all", "%");
+		filter = filter.replace("all", "%");
 		try {
-			orders.setItems(dao.findUserOrders(userId, startIndex, filter));
+			orders.setItems(dao.findUserOrders(userId, startIndex, Constant.MAX_ON_PAGE, filter));
 			orders.setAmount(dao.countUserOrders(userId, filter));
 		} catch (DAOException e) {
 			throw new ReceiverException("Finding  orders exception: " + e.getMessage(), e);
@@ -133,17 +136,23 @@ public class UserReceiverImpl extends UserReceiver {
 	}
 
 	@Override
-	public boolean editOrder(int orderId, String newDatetime) throws ReceiverException {
-		if (!Validator.validateDatetime(newDatetime)) {
-			return false;
-		}
+	public HashMap<String, Long> openProfile(int userId) throws ReceiverException {
 		OrderDAO dao = new OrderDAOImpl();
+		HashMap<String, Long> orderStatistic = new HashMap<>();
 		try {
-			dao.editOrder(orderId, newDatetime);
-		} catch (DAOException e) {
-			throw new ReceiverException("Editing order exception " + e.getMessage(), e);
-		}
-		return true;
+			ArrayList<Order> orders = dao.findUserOrders(userId, 0, dao.countUserOrders(userId, "%"), "%");
+			orderStatistic.put(Constant.ACTIVE,
+					orders.stream().filter(x -> Constant.ACTIVE.equalsIgnoreCase(x.getStatus())).count());
+			orderStatistic.put(Constant.OVERDUE,
+					orders.stream().filter(x -> Constant.OVERDUE.equalsIgnoreCase(x.getStatus())).count());
+			orderStatistic.put(Constant.TAKEN,
+					orders.stream().filter(x -> Constant.TAKEN.equalsIgnoreCase(x.getStatus())).count());
+			orderStatistic.put(Constant.TOTAL_AMOUNT, (long) orders.size());
 
+		} catch (DAOException e) {
+			throw new ReceiverException("Opening  profile exception: " + e.getMessage(), e);
+		}
+		return orderStatistic;
 	}
+
 }

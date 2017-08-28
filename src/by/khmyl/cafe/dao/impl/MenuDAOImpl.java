@@ -5,7 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-
 import by.khmyl.cafe.dao.MenuDAO;
 import by.khmyl.cafe.entity.MenuItem;
 import by.khmyl.cafe.exception.DAOException;
@@ -17,8 +16,7 @@ import by.khmyl.cafe.pool.ProxyConnection;
  * realizes a set of requests to database for menu.
  */
 public class MenuDAOImpl extends MenuDAO {
-	private static final int MAX_ON_PAGE = 10;
-	private static final String SQL_SELECT_MENU_BY_CATEGORY = "SELECT `menu`.`id`, `menu`.`name`, `menu`.`price`, `menu`.`category_id`, `menu`.`portion`, `menu`.`img_name`, `menu`.`status` FROM `cafe`.`menu` JOIN `cafe`.`category` ON `menu`.`category_id`=`category`.`id` WHERE `category`.`name` LIKE ?";
+	private static final String SQL_SELECT_MENU_BY_CATEGORY = "SELECT `menu`.`id`, `menu`.`name`, `menu`.`price`, `menu`.`category_id`, `menu`.`portion`, `menu`.`img_name`, `menu`.`status` FROM `cafe`.`menu` JOIN `cafe`.`category` ON `menu`.`category_id`=`category`.`id` WHERE `category`.`name` LIKE ? AND `menu`.`status`=true";
 	private static final String SQL_SELECT_MENU_ITEM = "SELECT `id`, `name`, `price`, `category_id`, `portion`, `img_name`, `menu`.`status` FROM `cafe`.`menu` WHERE `menu`.`id`=?";
 	private static final String SQL_ADD_MENU_ITEM = "INSERT INTO `cafe`.`menu` (`name`, `price`, `category_id`, `portion`, `img_name`) VALUES (?, ?, (SELECT `id` FROM `cafe`.`category` WHERE `name` LIKE ?) , ?, ?)";
 	private static final String SQL_COUNT_FILTERED_MENU_ITEMS = "SELECT sum(`counts`) FROM (SELECT count(`id`) AS `counts`  FROM `cafe`.`menu` GROUP BY `category_id`  HAVING `category_id`=(SELECT `id` FROM `cafe`.`category` WHERE `name` LIKE ?)) AS `result`";
@@ -105,7 +103,7 @@ public class MenuDAOImpl extends MenuDAO {
 	}
 
 	@Override
-	public ArrayList<MenuItem> findFilteredMenu(int startIndex, String filter) throws DAOException {
+	public ArrayList<MenuItem> findFilteredMenu(int startIndex,int lastIndex, String filter) throws DAOException {
 		ArrayList<MenuItem> menuList = new ArrayList<>();
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -115,12 +113,12 @@ public class MenuDAOImpl extends MenuDAO {
 			if (filter.equals("%")) {
 				ps = cn.prepareStatement(SQL_FIND_ALL_MENU);
 				ps.setInt(1, startIndex);
-				ps.setInt(2, MAX_ON_PAGE);
+				ps.setInt(2, lastIndex);
 			} else {
 				ps = cn.prepareStatement(SQL_FIND_FILTERED_MENU);
 				ps.setString(1, filter);
 				ps.setInt(2, startIndex);
-				ps.setInt(3, MAX_ON_PAGE);
+				ps.setInt(3, lastIndex);
 			}
 
 			rs = ps.executeQuery();

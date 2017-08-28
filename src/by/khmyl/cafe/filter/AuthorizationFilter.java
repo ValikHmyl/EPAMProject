@@ -14,13 +14,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import by.khmyl.cafe.constant.Constant;
 import by.khmyl.cafe.constant.PathConstant;
 
 @WebFilter(dispatcherTypes = { DispatcherType.FORWARD, DispatcherType.REQUEST }, urlPatterns = { "/jsp/admin/*",
 		"/jsp/order/*", "/jsp/user/*" })
 public class AuthorizationFilter implements Filter {
 
-	private static final String USER = "user";
 
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
@@ -28,7 +28,7 @@ public class AuthorizationFilter implements Filter {
 
 		HttpSession session = ((HttpServletRequest) request).getSession(true);
 
-		if (session.getAttribute(USER) == null) {
+		if (session.getAttribute(Constant.USER) == null) {
 			((HttpServletResponse) response)
 					.sendRedirect(((HttpServletRequest) request).getContextPath() + PathConstant.SIGN_IN);
 		} else {

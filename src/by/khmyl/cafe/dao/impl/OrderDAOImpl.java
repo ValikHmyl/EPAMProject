@@ -9,6 +9,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
+import org.apache.log4j.Level;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+
+import by.khmyl.cafe.constant.Constant;
 import by.khmyl.cafe.dao.MenuDAO;
 import by.khmyl.cafe.dao.OrderDAO;
 import by.khmyl.cafe.entity.MenuItem;
@@ -23,8 +28,8 @@ import by.khmyl.cafe.pool.ProxyConnection;
  * realizes a set of requests to database for order.
  */
 public class OrderDAOImpl extends OrderDAO {
-	private static final int MAX_ON_PAGE = 10;
-	private static final String ACTIVE = "active";
+	private static final Logger LOGGER = LogManager.getLogger(OrderDAOImpl.class);
+
 	private static final String SQL_CREATE_ORDER = "INSERT INTO `cafe`.`order` (`user_id`, `confirm_date`, `order_date`, `status`) VALUES (?,?,?,?)";
 	private static final String SQL_FIND_ORDER_ID = "SELECT `id`  FROM `cafe`.`order` WHERE `user_id`=? AND `order_date`=? ORDER BY `id` DESC";
 	private static final String SQL_FIND_ORDER = "SELECT `id`, `user_id`, `confirm_date`, `order_date`, `status`, `total_price`  FROM `cafe`.`order` WHERE `id`=?";
@@ -38,6 +43,7 @@ public class OrderDAOImpl extends OrderDAO {
 	private static final String SQL_FIND_ORDERS = "SELECT `id`, `user_id`, `confirm_date`, `order_date`, `status`, `total_price` FROM `cafe`.`order` WHERE `status` LIKE ? ORDER BY `id` DESC LIMIT ?, ?";
 	private static final String SQL_COUNT_ORDERS = "SELECT sum(`counts`) FROM (SELECT count(`id`) AS `counts`  FROM `cafe`.`order` GROUP BY `status` HAVING `status` LIKE ?) AS `result`";
 	private static final String SQL_EDIT_ORDER = "UPDATE `cafe`.`order` SET `confirm_date`=? WHERE `id`=?";
+	private static final String SQL_CHANGE_STATUS = "UPDATE `cafe`.`order` SET `status`=? WHERE `id`=?";
 
 	/*
 	 * (non-Javadoc)
@@ -45,69 +51,6 @@ public class OrderDAOImpl extends OrderDAO {
 	 * @see by.khmyl.cafe.dao.OrderDAO#addOrder(by.khmyl.cafe.entity.User,
 	 * java.util.HashMap, java.lang.String)
 	 */
-	@Override
-	public void addOrder(User user, HashMap<MenuItem, Integer> cart, String datetime) throws DAOException {
-		PreparedStatement createOrderStatement = null;
-		PreparedStatement findOrderStatement = null;
-		PreparedStatement cartStatement = null;
-		PreparedStatement priceStatement = null;
-		ResultSet rs = null;
-		ProxyConnection cn = null;
-		try {
-			cn = ConnectionPool.getInstance().takeConnection();
-			cn.setAutoCommit(false);
-			createOrderStatement = cn.prepareStatement(SQL_CREATE_ORDER);
-			createOrderStatement.setInt(1, user.getId());
-			createOrderStatement.setString(2, datetime);
-			String currentDate = new SimpleDateFormat("yyyy-MM-dd HH:mm").format(new Date());
-			createOrderStatement.setString(3, currentDate);
-			createOrderStatement.setString(4, ACTIVE);
-			createOrderStatement.executeUpdate();
-			findOrderStatement = cn.prepareStatement(SQL_FIND_ORDER_ID);
-			findOrderStatement.setInt(1, user.getId());
-			findOrderStatement.setString(2, currentDate);
-			rs = findOrderStatement.executeQuery();
-			int orderId;
-			if (rs.next()) {
-				orderId = rs.getInt(1);
-				BigDecimal totalPrice = new BigDecimal(0);
-				for (MenuItem item : cart.keySet()) {
-					cartStatement = cn.prepareStatement(SQL_ADD_IN_CART);
-					cartStatement.setInt(1, orderId);
-					cartStatement.setInt(2, item.getId());
-					cartStatement.setInt(3, cart.get(item));
-					cartStatement.executeUpdate();
-					totalPrice = totalPrice
-							.add(item.getPrice().multiply(user.getDiscount().multiply(new BigDecimal(cart.get(item)))));
-				}
-				priceStatement = cn.prepareStatement(SQL_ADD_PRICE);
-				priceStatement.setBigDecimal(1, totalPrice.setScale(2, BigDecimal.ROUND_HALF_UP));
-				priceStatement.setInt(2, orderId);
-				priceStatement.executeUpdate();
-			}
-			cn.commit();
-		} catch (SQLException e) {
-			try {
-				cn.rollback();
-			} catch (SQLException e1) {
-				throw new DAOException("Rollback  error", e);
-			}
-			throw new DAOException("SQL creating order exception - " + e.getMessage(), e);
-		} finally {
-			try {
-				cn.setAutoCommit(true);
-			} catch (SQLException e) {
-				throw new DAOException("Can't set autocommit - " + e.getMessage(), e);
-			}
-			close(cn);
-
-			close(createOrderStatement);
-			close(findOrderStatement);
-			close(cartStatement);
-			close(priceStatement);
-		}
-
-	}
 
 	/*
 	 * (non-Javadoc)
@@ -115,7 +58,8 @@ public class OrderDAOImpl extends OrderDAO {
 	 * @see by.khmyl.cafe.dao.OrderDAO#findUserOrders(int)
 	 */
 	@Override
-	public ArrayList<Order> findUserOrders(int userId, int startIndex, String filter) throws DAOException {
+	public ArrayList<Order> findUserOrders(int userId, int startIndex, int lastIndex, String filter)
+			throws DAOException {
 		PreparedStatement orderStatement = null;
 		ResultSet orderSet = null;
 		PreparedStatement cartStatement = null;
@@ -130,7 +74,7 @@ public class OrderDAOImpl extends OrderDAO {
 			orderStatement.setInt(1, userId);
 			orderStatement.setString(2, filter);
 			orderStatement.setInt(3, startIndex);
-			orderStatement.setInt(4, MAX_ON_PAGE);
+			orderStatement.setInt(4, lastIndex);
 
 			orderSet = orderStatement.executeQuery();
 			MenuDAO menuDAO = new MenuDAOImpl();
@@ -189,7 +133,7 @@ public class OrderDAOImpl extends OrderDAO {
 	}
 
 	@Override
-	public ArrayList<Order> findOrders(int startIndex, String filter) throws DAOException {
+	public ArrayList<Order> findOrders(int startIndex, int lastIndex, String filter) throws DAOException {
 		PreparedStatement orderStatement = null;
 		ResultSet orderSet = null;
 		PreparedStatement cartStatement = null;
@@ -201,7 +145,7 @@ public class OrderDAOImpl extends OrderDAO {
 			orderStatement = cn.prepareStatement(SQL_FIND_ORDERS);
 			orderStatement.setString(1, filter);
 			orderStatement.setInt(2, startIndex);
-			orderStatement.setInt(3, MAX_ON_PAGE);
+			orderStatement.setInt(3, lastIndex);
 			orderSet = orderStatement.executeQuery();
 			while (orderSet.next()) {
 				Order currentOrder = new Order();
@@ -218,6 +162,70 @@ public class OrderDAOImpl extends OrderDAO {
 			close(orderStatement);
 		}
 		return orders;
+	}
+
+	@Override
+	public void addOrder(User user, HashMap<MenuItem, Integer> cart, String datetime) throws DAOException {
+		PreparedStatement createOrderStatement = null;
+		PreparedStatement findOrderStatement = null;
+		PreparedStatement cartStatement = null;
+		PreparedStatement priceStatement = null;
+		ResultSet rs = null;
+		ProxyConnection cn = null;
+		try {
+			cn = ConnectionPool.getInstance().takeConnection();
+			cn.setAutoCommit(false);
+			createOrderStatement = cn.prepareStatement(SQL_CREATE_ORDER);
+			createOrderStatement.setInt(1, user.getId());
+			createOrderStatement.setString(2, datetime);
+			String currentDate = new SimpleDateFormat("yyyy-MM-dd HH:mm").format(new Date());
+			createOrderStatement.setString(3, currentDate);
+			createOrderStatement.setString(4, Constant.ACTIVE);
+			createOrderStatement.executeUpdate();
+			findOrderStatement = cn.prepareStatement(SQL_FIND_ORDER_ID);
+			findOrderStatement.setInt(1, user.getId());
+			findOrderStatement.setString(2, currentDate);
+			rs = findOrderStatement.executeQuery();
+			int orderId;
+			if (rs.next()) {
+				orderId = rs.getInt(1);
+				BigDecimal totalPrice = new BigDecimal(0);
+				for (MenuItem item : cart.keySet()) {
+					cartStatement = cn.prepareStatement(SQL_ADD_IN_CART);
+					cartStatement.setInt(1, orderId);
+					cartStatement.setInt(2, item.getId());
+					cartStatement.setInt(3, cart.get(item));
+					cartStatement.executeUpdate();
+					totalPrice = totalPrice
+							.add(item.getPrice().multiply(user.getDiscount().multiply(new BigDecimal(cart.get(item)))));
+				}
+				priceStatement = cn.prepareStatement(SQL_ADD_PRICE);
+				priceStatement.setBigDecimal(1, totalPrice.setScale(2, BigDecimal.ROUND_HALF_UP));
+				priceStatement.setInt(2, orderId);
+				priceStatement.executeUpdate();
+			}
+			cn.commit();
+		} catch (SQLException e) {
+			try {
+				cn.rollback();
+			} catch (SQLException e1) {
+				LOGGER.log(Level.ERROR, "Rollback  error", e);
+			}
+			throw new DAOException("SQL creating order exception - " + e.getMessage(), e);
+		} finally {
+			try {
+				cn.setAutoCommit(true);
+			} catch (SQLException e) {
+				LOGGER.log(Level.ERROR, "Can't set autocommit - " + e.getMessage(), e);
+			}
+			close(cn);
+
+			close(createOrderStatement);
+			close(findOrderStatement);
+			close(cartStatement);
+			close(priceStatement);
+		}
+
 	}
 
 	/*
@@ -239,19 +247,19 @@ public class OrderDAOImpl extends OrderDAO {
 			orderStatement = cn.prepareStatement(SQL_DELETE_ORDER);
 			orderStatement.setInt(1, orderId);
 			orderStatement.executeUpdate();
-
+			cn.commit();
 		} catch (SQLException e) {
 			try {
 				cn.rollback();
 			} catch (SQLException e1) {
-				throw new DAOException("Rollback  error", e);
+				LOGGER.log(Level.ERROR, "Rollback  error", e);
 			}
 			throw new DAOException("SQL cancel order exception - " + e.getMessage(), e);
 		} finally {
 			try {
 				cn.setAutoCommit(true);
 			} catch (SQLException e) {
-				throw new DAOException("Can't set autocommit - " + e.getMessage(), e);
+				LOGGER.log(Level.ERROR, "Can't set autocommit - " + e.getMessage(), e);
 			}
 			close(cn);
 
@@ -329,6 +337,26 @@ public class OrderDAOImpl extends OrderDAO {
 
 		} catch (SQLException e) {
 			throw new DAOException("SQL edit order exception - " + e.getMessage(), e);
+		} finally {
+			close(cn);
+			close(ps);
+		}
+
+	}
+
+	@Override
+	public void changeStatus(int orderId, String status) throws DAOException {
+		PreparedStatement ps = null;
+		ProxyConnection cn = null;
+		try {
+			cn = ConnectionPool.getInstance().takeConnection();
+			ps = cn.prepareStatement(SQL_CHANGE_STATUS);
+			ps.setString(1, status);
+			ps.setInt(2, orderId);
+			ps.executeUpdate();
+
+		} catch (SQLException e) {
+			throw new DAOException("SQL changing status exception - " + e.getMessage(), e);
 		} finally {
 			close(cn);
 			close(ps);

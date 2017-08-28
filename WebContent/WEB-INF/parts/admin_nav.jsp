@@ -5,7 +5,7 @@
 <div class=" col-sm-3">
 			
 			<ul class="nav nav-pills nav-stacked text-center">
-				<li><a href="${pageContext.request.contextPath}/jsp/admin/admin.jsp">general stat</a></li>
+				<li><a href="${pageContext.request.contextPath}/controller?command=admin_open_profile">general stat</a></li>
   				<li><a href="${pageContext.request.contextPath}/controller?command=admin_open_orders&filter=all&pageNumber=1">orders</a></li>
   				<li><a href="${pageContext.request.contextPath}/controller?command=admin_open_users&filter=all&pageNumber=1">users</a></li>
   				<li><a href="${pageContext.request.contextPath}/controller?command=admin_open_menu&filter=all&pageNumber=1">menu</a></li>

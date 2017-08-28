@@ -7,7 +7,7 @@
 			<img alt="avatar" class="img-responsive img-thumbnail center-block" src="${pageContext.request.contextPath}/img/avatars/${user.avatarImg}">
 			
 			<ul class="nav nav-pills nav-stacked text-center">
-				<li><a href="${pageContext.request.contextPath}/jsp/user/profile.jsp">info</a></li>
+				<li><a href="${pageContext.request.contextPath}/controller?command=user_open_profile&userId=${user.id}">info</a></li>
   				<li><a href="${pageContext.request.contextPath}/jsp/user/settings.jsp">edit</a></li>
   				<li><a href="${pageContext.request.contextPath}/controller?command=user_open_orders&filter=all&pageNumber=1">orders</a></li>
   			</ul>

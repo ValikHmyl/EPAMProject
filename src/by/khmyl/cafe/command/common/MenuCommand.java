@@ -11,6 +11,7 @@ import org.apache.log4j.Logger;
 import by.khmyl.cafe.command.AbstractCommand;
 import by.khmyl.cafe.command.Router;
 import by.khmyl.cafe.command.Router.RouteType;
+import by.khmyl.cafe.constant.Constant;
 import by.khmyl.cafe.constant.PathConstant;
 import by.khmyl.cafe.entity.MenuItem;
 import by.khmyl.cafe.exception.ReceiverException;
@@ -22,8 +23,6 @@ import by.khmyl.cafe.receiver.impl.CommonReceiverImpl;
  */
 public class MenuCommand extends AbstractCommand {
 	private static final Logger LOGGER = LogManager.getLogger(MenuCommand.class);
-	private static final String CATEGORY = "category";
-	private static final String MENU = "menu";
 
 	private CommonReceiver receiver = new CommonReceiverImpl();
 
@@ -32,13 +31,16 @@ public class MenuCommand extends AbstractCommand {
 	 */
 	@Override
 	public Router execute(HttpServletRequest request) {
-		String category = request.getParameter(CATEGORY);
-		Router router = new Router(PathConstant.MENU, RouteType.FORWARD);
+		String category = request.getParameter(Constant.CATEGORY);
+		Router router = new Router();
 		try {// mb if null add msg
 			ArrayList<MenuItem> menuList = receiver.getMenu(category);
-			request.setAttribute(MENU, menuList);
+			request.setAttribute(Constant.MENU, menuList);
+			router.setPath(PathConstant.MENU);
+			router.setRouteType(RouteType.FORWARD);
 		} catch (ReceiverException e) {
 			LOGGER.log(Level.ERROR, e);
+			router.setRouteType(RouteType.REDIRECT);
 			router.setPath(PathConstant.ERROR_500);
 		}
 

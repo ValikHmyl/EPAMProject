@@ -79,7 +79,7 @@
 			</div>
 			<div class="col-sm-4">	
 				<div class="category">	
-					<a href="${pageContext.request.contextPath}/controller?command=menu&category=десерт"><img alt="dessert" src="img/category/dessert.jpg"><span>${dessert }</span></a>
+					<a href="${pageContext.request.contextPath}/controller?command=menu&category=десерты"><img alt="dessert" src="img/category/dessert.jpg"><span>${dessert }</span></a>
 				</div>
 			</div>
 					

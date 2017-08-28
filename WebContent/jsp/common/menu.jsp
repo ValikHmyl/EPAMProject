@@ -41,11 +41,11 @@
   				<li><a href="${pageContext.request.contextPath}/controller?command=menu&category=супы">${soup }</a></li>
   				<li><a href="${pageContext.request.contextPath}/controller?command=menu&category=бургеры">${burger }</a></li>
   				<li><a href="${pageContext.request.contextPath}/controller?command=menu&category=сэндвичи">${sandwich }</a></li>
-  				<li><a href="${pageContext.request.contextPath}/controller?command=menu&category=десерт">${dessert }</a></li>
+  				<li><a href="${pageContext.request.contextPath}/controller?command=menu&category=десерты">${dessert }</a></li>
 			</ul>
 		</div>
 		<div class="col-xs-8 col-sm-9">
-			<c:forEach var="item" items="${menu}">
+			<c:if test="${menu.isEmpty() }"> <div class="alert alert-warning"> empty</div></c:if><c:forEach var="item" items="${menu}">
 			<c:if test="${item.status }">
 				<div class="col-sm-6">
 				<div class="menu-item text-center">

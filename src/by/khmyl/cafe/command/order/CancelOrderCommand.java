@@ -1,4 +1,4 @@
-package by.khmyl.cafe.command.user;
+package by.khmyl.cafe.command.order;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -11,6 +11,7 @@ import com.google.gson.JsonObject;
 
 import by.khmyl.cafe.command.AbstractCommand;
 import by.khmyl.cafe.command.Router;
+import by.khmyl.cafe.constant.Constant;
 import by.khmyl.cafe.entity.User;
 import by.khmyl.cafe.exception.ReceiverException;
 import by.khmyl.cafe.receiver.OrderReceiver;
@@ -21,11 +22,6 @@ import by.khmyl.cafe.receiver.impl.OrderReceiverImpl;
  */
 public class CancelOrderCommand extends AbstractCommand {
 	private static final Logger LOGGER = LogManager.getLogger(CancelOrderCommand.class);
-	private static final String ORDER_ID = "orderId";
-	private static final String USER = "user";
-	private static final String SUCCESS = "success";
-	private static final String ERROR = "error";
-	private static final String ERROR_MSG = "errorMsg";
 
 	private OrderReceiver receiver = new OrderReceiverImpl();
 
@@ -35,24 +31,24 @@ public class CancelOrderCommand extends AbstractCommand {
 	@Override
 	public Router execute(HttpServletRequest request) {
 		Router router = new Router();
-		int orderId = Integer.parseInt(request.getParameter(ORDER_ID));
+		int orderId = Integer.parseInt(request.getParameter(Constant.ORDER_ID));
 		HttpSession session = request.getSession(true);
-		User user = (User) session.getAttribute(USER);
+		User user = (User) session.getAttribute(Constant.USER);
 		JsonObject jsonObj = new JsonObject();
 		if (user != null) {
 			StringBuilder message = new StringBuilder();
 			try {
 				if (receiver.cancelOrder(orderId, message)) {
-					jsonObj.addProperty(SUCCESS, true);
+					jsonObj.addProperty(Constant.SUCCESS, true);
 				} else {
-					jsonObj.addProperty(ERROR_MSG, message.toString());
+					jsonObj.addProperty(Constant.ERROR_MESSAGE, message.toString());
 				}
 			} catch (ReceiverException e) {
 				LOGGER.log(Level.ERROR, e);
-				jsonObj.addProperty(ERROR_MSG, message.toString());
+				jsonObj.addProperty(Constant.ERROR_MESSAGE, message.toString());
 			}
 		} else {
-			jsonObj.addProperty(ERROR, true);
+			jsonObj.addProperty(Constant.ERROR, true);
 		}
 		router.setJson(jsonObj.toString());
 		return router;

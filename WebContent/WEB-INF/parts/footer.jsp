@@ -19,7 +19,6 @@
 </div>
 <script src="${pageContext.request.contextPath}/js/header.js"></script>
 <script src="${pageContext.request.contextPath}/js/order.js"></script>
-<script src="${pageContext.request.contextPath}/js/edit_profile.js"></script>
 <script src="${pageContext.request.contextPath}/js/profile.js"></script>
 <script src="${pageContext.request.contextPath}/js/admin.js"></script>
 </body>

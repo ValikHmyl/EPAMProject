@@ -2,6 +2,7 @@ package by.khmyl.cafe.receiver;
 
 import java.math.BigDecimal;
 import java.util.Collection;
+import java.util.HashMap;
 
 import javax.servlet.http.Part;
 
@@ -28,7 +29,11 @@ public abstract class AdminReceiver {
 	public abstract void removeFromMenu(int menuId) throws ReceiverException;
 
 	public abstract void returnToMenu(int menuId) throws ReceiverException;
+
+	public abstract void confirmOrder(int orderId,int userId) throws ReceiverException;
+	public abstract HashMap<String, Long> openProfile() throws ReceiverException;
+
 	
-	public abstract Order searchOrder(int orderId) throws ReceiverException;
+	
 
 }

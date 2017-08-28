@@ -166,7 +166,7 @@ public class MenuItem {
 	 *
 	 * @return true, if is status
 	 */
-	public boolean isStatus() {
+	public boolean getStatus() {
 		return status;
 	}
 

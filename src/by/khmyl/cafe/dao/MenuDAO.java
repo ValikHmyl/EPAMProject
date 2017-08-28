@@ -36,7 +36,7 @@ public abstract class MenuDAO extends AbstractDAO {
 	public abstract void addMenuItem(String name, String category, BigDecimal price, String portion, String imageName)
 			throws DAOException;
 
-	public abstract ArrayList<MenuItem> findFilteredMenu(int startIndex, String filter) throws DAOException;
+	public abstract ArrayList<MenuItem> findFilteredMenu(int startIndex,int lastIndex, String filter) throws DAOException;
 
 	public abstract int countMenuItems(String filter) throws DAOException;
 }

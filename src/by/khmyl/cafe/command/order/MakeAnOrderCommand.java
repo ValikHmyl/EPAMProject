@@ -12,6 +12,7 @@ import org.apache.log4j.Logger;
 import by.khmyl.cafe.command.AbstractCommand;
 import by.khmyl.cafe.command.Router;
 import by.khmyl.cafe.command.Router.RouteType;
+import by.khmyl.cafe.constant.Constant;
 import by.khmyl.cafe.constant.PathConstant;
 import by.khmyl.cafe.entity.MenuItem;
 import by.khmyl.cafe.entity.User;
@@ -24,11 +25,6 @@ import by.khmyl.cafe.receiver.impl.OrderReceiverImpl;
  */
 public class MakeAnOrderCommand extends AbstractCommand {
 	private static final Logger LOGGER = LogManager.getLogger(MakeAnOrderCommand.class);
-	private static final String USER = "user";
-	private static final String CART = "cart";
-	private static final String DATE = "date";
-	private static final String TIME = "time";
-	private static final String ERROR_MSG = "errorMsg";
 
 	private OrderReceiver receiver = new OrderReceiverImpl();
 
@@ -41,11 +37,11 @@ public class MakeAnOrderCommand extends AbstractCommand {
 	@Override
 	public Router execute(HttpServletRequest request) {
 		HttpSession session = request.getSession(true);
-		User user = (User) session.getAttribute(USER);
-		String date = request.getParameter(DATE);
-		String time = request.getParameter(TIME);
-		Router router = new Router(RouteType.REDIRECT);
-		HashMap<MenuItem, Integer> cart = (HashMap<MenuItem, Integer>) session.getAttribute(CART);
+		User user = (User) session.getAttribute(Constant.USER);
+		String date = request.getParameter(Constant.DATE);
+		String time = request.getParameter(Constant.TIME);
+		Router router = new Router();
+		HashMap<MenuItem, Integer> cart = (HashMap<MenuItem, Integer>) session.getAttribute(Constant.CART);
 		String datetime = date + " " + time;
 		if (user == null) {
 			router.setPath(PathConstant.SIGN_IN);
@@ -57,13 +53,18 @@ public class MakeAnOrderCommand extends AbstractCommand {
 				if (receiver.makeAnOrder(user, cart, datetime)) {
 					cart.clear();
 					router.setPath(PathConstant.USER_ALL_ORDERS);
+					router.setRouteType(RouteType.REDIRECT);
 				} else {
-					request.setAttribute(ERROR_MSG, true);
+					request.setAttribute(Constant.ERROR_MESSAGE, true);
 					router.setPath(PathConstant.ORDER);
+					router.setRouteType(RouteType.FORWARD);
+
 				}
 			} catch (ReceiverException e) {
 				LOGGER.log(Level.ERROR, e);
 				router.setPath(PathConstant.ERROR_500);
+				router.setRouteType(RouteType.REDIRECT);
+
 			}
 
 		}

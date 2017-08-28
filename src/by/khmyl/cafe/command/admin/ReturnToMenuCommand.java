@@ -7,8 +7,10 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
 import by.khmyl.cafe.command.AbstractCommand;
+import by.khmyl.cafe.command.CommandType;
 import by.khmyl.cafe.command.Router;
 import by.khmyl.cafe.command.Router.RouteType;
+import by.khmyl.cafe.constant.Constant;
 import by.khmyl.cafe.constant.PathConstant;
 import by.khmyl.cafe.exception.ReceiverException;
 import by.khmyl.cafe.receiver.AdminReceiver;
@@ -16,18 +18,20 @@ import by.khmyl.cafe.receiver.impl.AdminReceiverImpl;
 
 public class ReturnToMenuCommand extends AbstractCommand {
 	private static final Logger LOGGER = LogManager.getLogger(ReturnToMenuCommand.class);
-	private static final String MENU_ID = "menuId";
 
 	private AdminReceiver receiver = new AdminReceiverImpl();
 
 	@Override
 	public Router execute(HttpServletRequest request) {
 		Router router = new Router();
-		int menuId = Integer.parseInt(request.getParameter(MENU_ID));
+		int menuId = Integer.parseInt(request.getParameter(Constant.ITEM_ID));
+		String filter = request.getParameter(Constant.FILTER);
+		String pageNumber = request.getParameter(Constant.PAGE_NUMBER);
+		String command = CommandType.ADMIN_OPEN_MENU.name().toLowerCase();
 		try {
 			receiver.returnToMenu(menuId);
-			router.setPath(PathConstant.ADMIN_ALL_MENU);
-			router.setRouteType(RouteType.REDIRECT);
+			router.generatePath(command, filter, pageNumber);
+			router.setRouteType(RouteType.FORWARD);
 		} catch (ReceiverException e) {
 			LOGGER.log(Level.ERROR, e);
 			router.setPath(PathConstant.ERROR_500);

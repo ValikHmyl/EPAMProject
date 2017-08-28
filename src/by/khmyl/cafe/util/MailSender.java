@@ -16,6 +16,8 @@ import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
+import by.khmyl.cafe.constant.Constant;
+
 public class MailSender extends Thread {
 	private static final Logger LOGGER = LogManager.getLogger(MailSender.class);
 	private Session session;
@@ -44,14 +46,14 @@ public class MailSender extends Thread {
 
 	private void init() {
 		ResourceBundle resource = ResourceBundle.getBundle("resources.mail");
-		String username = resource.getString("username");
-		String password = resource.getString("password");
+		String username = resource.getString(Constant.USERNAME);
+		String password = resource.getString(Constant.PASSWORD);
 		Properties props = new Properties();
 		props.put("mail.smtp.auth", true);
 		props.put("mail.smtp.starttls.enable", true);
-		props.put("mail.smtp.ssl.trust", resource.getString("host"));
-		props.put("mail.smtp.host", resource.getString("host"));
-		props.put("mail.smtp.port", resource.getString("port"));
+		props.put("mail.smtp.ssl.trust", resource.getString(Constant.HOST));
+		props.put("mail.smtp.host", resource.getString(Constant.HOST));
+		props.put("mail.smtp.port", resource.getString(Constant.PORT));
 
 		session = Session.getInstance(props, new Authenticator() {
 			protected PasswordAuthentication getPasswordAuthentication() {
