@@ -51,7 +51,7 @@ public class UserOpenOrdersCommand extends AbstractCommand {
 				request.setAttribute(Constant.LIMIT, Constant.MAX_ON_PAGE);
 				request.setAttribute(Constant.TOTAL_AMOUNT, orders.getAmount());
 				request.setAttribute(Constant.FILTER, filter);
-
+				request.setAttribute(Constant.PAGE_NUMBER, pageNumber);
 				router.setPath(PathConstant.USER_ORDERS);
 				router.setRouteType(RouteType.FORWARD);
 			} catch (ReceiverException e) {

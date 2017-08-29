@@ -37,6 +37,7 @@
 				 <div class="pagination">
                  		<ctg:pagination total="${total}" limit="${limit}" filter="${filter }" command= "admin_open_menu"/> find:${total }
          		   	</div>
+         		   	
          		   		<div class="row list">
          		   		<div class="col-sm-2 item-img">img</div>
 						<div class="col-xs-1 ">id</div>
@@ -48,7 +49,8 @@
 					</div>
 							<c:forEach var="item" items="${menu}">
 							<div class="list">
-							<div class="row"><div class="item-img col-sm-2"><img class="img-responsive" width="130" height="130" alt="" src="${pageContext.request.contextPath}/img/menu/${item.imageName}"></div>
+							<div class="row">
+							<div class="item-img col-sm-2"><img class="img-responsive" width="130" height="130" alt="" src="${pageContext.request.contextPath}/img/menu/${item.imageName}"></div>
 							<div class="col-xs-1">${item.id }</div>
 							<div class="col-xs-3">${item.name }</div>
 
@@ -59,19 +61,18 @@
 							<input type="hidden" name="itemId" value="${item.id }">
 							<input type="hidden" name="filter" value="${filter}">
 							<input type="hidden" name="pageNumber" value="${pageNumber}">
-							<button type="submit"> remove</button>
+							<button type="submit" class="btn btn-danger"> remove</button>
 							</form></c:if>
 							<c:if test="${!item.status }"><form method="POST" action="${pageContext.request.contextPath}/controller">
 							<input type="hidden" name="command" value="return_to_menu">
 							<input type="hidden" name="itemId" value="${item.id }">
 							<input type="hidden" name="filter" value="${filter}">
 							<input type="hidden" name="pageNumber" value="${pageNumber}">
-							<button type="submit"> return</button>
+							<button type="submit" class="btn btn-success"> return</button>
 							</form></c:if></div></div>
 							</div>
 							</c:forEach>
 							
-
 				</div>
 			</div>
 		</div>

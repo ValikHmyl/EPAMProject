@@ -8,6 +8,7 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
 import by.khmyl.cafe.command.AbstractCommand;
+import by.khmyl.cafe.command.CommandType;
 import by.khmyl.cafe.command.Router;
 import by.khmyl.cafe.command.Router.RouteType;
 import by.khmyl.cafe.constant.Constant;
@@ -28,6 +29,9 @@ public class EditOrderCommand extends AbstractCommand {
 		String date = request.getParameter(Constant.DATE);
 		String time = request.getParameter(Constant.TIME);
 		String newDatetime = date + " " + time;
+		String filter = request.getParameter(Constant.FILTER);
+		String pageNumber = request.getParameter(Constant.PAGE_NUMBER);
+		String command = CommandType.USER_OPEN_ORDERS.name().toLowerCase();
 		HttpSession session = request.getSession(true);
 		User user = (User) session.getAttribute(Constant.USER);
 		if (user != null) {
@@ -36,11 +40,9 @@ public class EditOrderCommand extends AbstractCommand {
 				if (!receiver.editOrder(orderId, newDatetime)) {
 					request.setAttribute(Constant.ERROR_MESSAGE, true);
 					request.setAttribute(Constant.ORDER_ID, orderId);
-					router.setRouteType(RouteType.FORWARD);
-				} else {
-					router.setRouteType(RouteType.REDIRECT);
 				}
-				router.setPath(PathConstant.USER_ALL_ORDERS);
+				router.setRouteType(RouteType.FORWARD);
+				router.generatePath(command, filter, pageNumber);
 			} catch (ReceiverException e) {
 				LOGGER.log(Level.ERROR, e);
 				router.setRouteType(RouteType.REDIRECT);

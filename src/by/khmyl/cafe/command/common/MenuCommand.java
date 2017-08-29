@@ -33,7 +33,7 @@ public class MenuCommand extends AbstractCommand {
 	public Router execute(HttpServletRequest request) {
 		String category = request.getParameter(Constant.CATEGORY);
 		Router router = new Router();
-		try {// mb if null add msg
+		try {
 			ArrayList<MenuItem> menuList = receiver.getMenu(category);
 			request.setAttribute(Constant.MENU, menuList);
 			router.setPath(PathConstant.MENU);

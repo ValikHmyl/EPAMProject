@@ -5,6 +5,7 @@ $(".details").click(function() {
 	var orderId = "#details" + $(this).data("id");
 	$(orderId).show();
 	$(orderId + " .cartDetails").toggle();
+	$("#hint").toggle();
 
 });
 $(".edit").click(function() {
@@ -22,7 +23,7 @@ $(".cancel").click(function() {
 $("#confirmCancel").click(
 		function(e) {
 			var orderId = $(this).data("id");
-			var find=parseInt($("#find").html());
+			var found=parseInt($("#found").html());
 			$.ajax({
 				type : "POST",
 				url : "/FinalProject/ajax",
@@ -35,12 +36,13 @@ $("#confirmCancel").click(
 					if (data.error) {
 						location.reload(true)
 					} else if (data.errorMsg != null) {
-						$("#details" + orderId + " #errorConfirm").show()
+						$("#changeError").hide();
+						$("#cancelError").show()
 								.delay(10000).fadeOut();
 					} else if (data.success) {
 						$("#" + orderId).remove();
 						$("#details" + orderId).remove();
-						$("#find").html(find-1);
+						$("#found").html(found-1);
 					}
 				},
 				complete : function(jqXHR, textStatus) {

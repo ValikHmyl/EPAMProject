@@ -53,7 +53,8 @@
 							filter="${filter }" command="admin_open_orders" />
 						find:${total }
 					</div>
-					<div class="row order">
+					<c:if test="${!orders.isEmpty() }">
+					<div class="row list">
 						<div class="col-xs-1">id</div>
 						<div class="col-xs-1">uid</div>
 						<div class="col-xs-3 col-sm-2">status</div>
@@ -61,7 +62,7 @@
 
 					</div>
 					<c:forEach var="order" items="${orders}">
-						<div class="order" id="${order.id }">
+						<div class="list" id="${order.id }">
 						<div class="row">
 							<div class="col-xs-1">${order.id }</div>
 							<div class="col-xs-1">${order.userId }</div>
@@ -91,7 +92,9 @@
 						</div>
 </div>
 					</c:forEach>
-
+</c:if>
+							<c:if test="${orders.isEmpty() }"><div class="alert alert-warning"> nothing founded</div></c:if>
+							
 
 
 

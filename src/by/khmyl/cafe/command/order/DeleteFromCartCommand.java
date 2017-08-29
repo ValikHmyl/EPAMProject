@@ -39,6 +39,7 @@ public class DeleteFromCartCommand extends AbstractCommand {
 		try {
 			HashMap<MenuItem, Integer> cart = (HashMap<MenuItem, Integer>) session.getAttribute(Constant.CART);
 			receiver.deleteFromCart(itemId, cart);
+			session.removeAttribute(Constant.CART);
 			session.setAttribute(Constant.CART, cart);
 			jsonObj.addProperty(Constant.SUCCESS, true);
 		} catch (ReceiverException e) {
