@@ -4,7 +4,7 @@ $(document)
 $("#addMenuForm").change(function() {
 	var isValid=true;
 	var priceRegex = new RegExp("^\\d+\.\\d{2}$");
-	var portionRegex = new RegExp("^\\d+((мл|г|шт)|(ml|g))$");
+	var portionRegex = new RegExp("^\\d+((мл|г|шт)|(ml|g|pcs))$");
 	if ($("#name").val() === "") {
 		isValid=false;
 	}

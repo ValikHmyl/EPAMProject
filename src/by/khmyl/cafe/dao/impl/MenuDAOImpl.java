@@ -21,8 +21,8 @@ public class MenuDAOImpl extends MenuDAO {
 	private static final String SQL_ADD_MENU_ITEM = "INSERT INTO `cafe`.`menu` (`name`, `price`, `category_id`, `portion`, `img_name`) VALUES (?, ?, (SELECT `id` FROM `cafe`.`category` WHERE `name` LIKE ?) , ?, ?)";
 	private static final String SQL_COUNT_FILTERED_MENU_ITEMS = "SELECT sum(`counts`) FROM (SELECT count(`id`) AS `counts`  FROM `cafe`.`menu` GROUP BY `category_id`  HAVING `category_id`=(SELECT `id` FROM `cafe`.`category` WHERE `name` LIKE ?)) AS `result`";
 	private static final String SQL_COUNT_ALL_MENU_ITEMS = "SELECT count(`id`) FROM `cafe`.`menu`";
-	private static final String SQL_FIND_FILTERED_MENU = "SELECT `menu`.`id`, `menu`.`name`, `menu`.`price`, `menu`.`category_id`, `menu`.`portion`, `menu`.`img_name`, `menu`.`status` FROM `cafe`.`menu` WHERE `category_id`= (SELECT `id` FROM `cafe`.`category` WHERE `name` LIKE ?) ORDER BY `id` DESC LIMIT ?, ?";
-	private static final String SQL_FIND_ALL_MENU = "SELECT `menu`.`id`, `menu`.`name`, `menu`.`price`, `menu`.`category_id`, `menu`.`portion`, `menu`.`img_name`, `menu`.`status` FROM `cafe`.`menu` ORDER BY `id` DESC LIMIT ?, ?";
+	private static final String SQL_FIND_FILTERED_MENU = "SELECT `menu`.`id`, `menu`.`name`, `menu`.`price`, `menu`.`category_id`, `menu`.`portion`, `menu`.`img_name`, `menu`.`status` FROM `cafe`.`menu` WHERE `category_id`= (SELECT `id` FROM `cafe`.`category` WHERE `name` LIKE ?) ORDER BY `id` LIMIT ?, ?";
+	private static final String SQL_FIND_ALL_MENU = "SELECT `menu`.`id`, `menu`.`name`, `menu`.`price`, `menu`.`category_id`, `menu`.`portion`, `menu`.`img_name`, `menu`.`status` FROM `cafe`.`menu` ORDER BY `id` LIMIT ?, ?";
 
 	/*
 	 * (non-Javadoc)

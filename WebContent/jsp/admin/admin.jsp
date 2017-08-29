@@ -10,8 +10,19 @@
 
 <fmt:setLocale value="${locale}" scope="session" />
 <fmt:setBundle basename="resources.pagecontent" />
+<fmt:message key="admin.orders.statistic" var="ordersStat" />
+<fmt:message key="admin.users.statistic" var="usersStat" />
+<fmt:message key="admin.menu.statistic" var="menuStat" />
+<fmt:message key="admin.active" var="active" />
+<fmt:message key="admin.title" var="title" />
 
-<title>admin</title>
+<fmt:message key="admin.total" var="totalAmount" />
+<fmt:message key="admin.users.banned" var="banned" />
+<fmt:message key="admin.menu.old" var="old" />
+<fmt:message key="profile.order.overdue" var="overdue" />
+<fmt:message key="profile.order.taken" var="taken" />
+
+<title>${title }</title>
 </head>
 <body>
 	<div class="wrapper">
@@ -21,12 +32,12 @@
 				<jsp:include page="/WEB-INF/parts/admin_nav.jsp" />
 				<div class="col-xs-8">
 					<div class="panel panel-default">
-						<div class="panel-heading">User stat</div>
+						<div class="panel-heading">${usersStat }</div>
 						<div class="panel-body row">
 							<div class="col-xs-6">
-								<p>tl</p>
-								<p>a</p>
-								<p>b</p>
+								<p class="text-primary">${totalAmount }</p>
+								<p class="text-success">${active }</p>
+								<p class="text-danger">${banned }</p>
 							</div>
 							<div class="col-xs-6">
 								<p>${generalStat['totalUsers'] }</p>
@@ -36,13 +47,13 @@
 						</div>
 					</div>
 					<div class="panel panel-default">
-						<div class="panel-heading">Order stat</div>
+						<div class="panel-heading">${orderStat }</div>
 						<div class="panel-body row">
 							<div class="col-xs-6">
-								<p>tl</p>
-								<p>a</p>
-								<p>t</p>
-								<p>o</p>
+								<p class="text-primary">${totalAmount }</p>
+								<p  class="text-warning">${active }</p>
+								<p class="text-success">${taken }</p>
+								<p class="text-danger">${overdue }</p>
 							</div>
 							<div class="col-xs-6">
 								<p>${generalStat['totalOrders'] }</p>
@@ -52,13 +63,13 @@
 							</div>
 						</div>
 					</div>
-				<div class="panel panel-default">
-						<div class="panel-heading">Menu stat</div>
+					<div class="panel panel-default">
+						<div class="panel-heading">${menuStat }</div>
 						<div class="panel-body row">
 							<div class="col-xs-6">
-								<p>tl</p>
-								<p>a</p>
-								<p>old</p>
+								<p class="text-primary">${totalAmount }</p>
+								<p class="text-success">${active }</p>
+								<p class="text-danger">${old }</p>
 							</div>
 							<div class="col-xs-6">
 								<p>${generalStat['total'] }</p>
@@ -67,8 +78,6 @@
 							</div>
 						</div>
 					</div>
-
-
 				</div>
 			</div>
 		</div>

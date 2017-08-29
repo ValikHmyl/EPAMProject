@@ -68,7 +68,7 @@
 							<div class="list" id="${order.id }">
 								<div class="row">
 									<div class="col-xs-1">${order.id }</div>
-									<div class="col-xs-3 col-sm-2 status">${order.status }</div>
+									<div class="col-xs-3 col-sm-2 status"><b>${order.status }</b></div>
 									<div class="col-xs-3 ">${order.orderDate }</div>
 									<div class="col-xs-5">
 										<div class=" btn-group btn-group-justified">
