@@ -40,14 +40,15 @@ public class MenuDAOImpl extends MenuDAO {
 			ps = cn.prepareStatement(SQL_FIND_MENU_BY_CATEGORY);
 			ps.setString(1, category);
 			rs = ps.executeQuery();
+			System.out.println(rs.getType());
 			while (rs.next()) {
 				menuList.add(extractData(rs));
 			}
 		} catch (SQLException e) {
 			throw new DAOException("SQL find menu exception - " + e.getMessage(), e);
 		} finally {
-			close(cn);
 			close(ps);
+			close(cn);
 		}
 		return menuList;
 	}
@@ -74,8 +75,8 @@ public class MenuDAOImpl extends MenuDAO {
 		} catch (SQLException e) {
 			throw new DAOException("SQL find menu item exception - " + e.getMessage(), e);
 		} finally {
-			close(cn);
 			close(ps);
+			close(cn);
 		}
 		return menuItem;
 	}
@@ -97,13 +98,13 @@ public class MenuDAOImpl extends MenuDAO {
 		} catch (SQLException e) {
 			throw new DAOException("SQL add user exception - " + e.getMessage(), e);
 		} finally {
-			close(cn);
 			close(ps);
+			close(cn);
 		}
 	}
 
 	@Override
-	public ArrayList<MenuItem> findFilteredMenu(int startIndex,int lastIndex, String filter) throws DAOException {
+	public ArrayList<MenuItem> findFilteredMenu(int startIndex, int lastIndex, String filter) throws DAOException {
 		ArrayList<MenuItem> menuList = new ArrayList<>();
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -128,8 +129,8 @@ public class MenuDAOImpl extends MenuDAO {
 		} catch (SQLException e) {
 			throw new DAOException("SQL find filtered menu exception - " + e.getMessage(), e);
 		} finally {
-			close(cn);
 			close(ps);
+			close(cn);
 		}
 		return menuList;
 	}
@@ -155,12 +156,10 @@ public class MenuDAOImpl extends MenuDAO {
 			}
 		} catch (SQLException e) {
 			throw new DAOException("SQL counting menu items exception - " + e.getMessage(), e);
-
 		} finally {
-			close(cn);
 			close(ps);
+			close(cn);
 		}
-
 		return amount;
 	}
 

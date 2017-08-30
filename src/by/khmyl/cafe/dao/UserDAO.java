@@ -22,10 +22,42 @@ public abstract class UserDAO extends AbstractDAO {
 	 */
 	public abstract User findUserByName(String username) throws DAOException;
 
+	/**
+	 * Find user by id.
+	 *
+	 * @param userId
+	 *            the user id
+	 * @return Object, that encapsulated information about user
+	 * @throws DAOException
+	 *             In case if occurred an error with SQL query or connection.
+	 * 
+	 */
 	public abstract User findUser(int userId) throws DAOException;
 
+	/**
+	 * Find users.
+	 *
+	 * @param startIndex
+	 *            the start index
+	 * @param filter
+	 *            the filter
+	 * @return list of users which are match the filter
+	 * @throws DAOException
+	 *             In case if occurred an error with SQL query or connection.
+	 * 
+	 */
 	public abstract ArrayList<User> findUsers(int startIndex, String filter) throws DAOException;
 
+	/**
+	 * Count users.
+	 *
+	 * @param filter
+	 *            the filter
+	 * @return amount of users which are match the filter
+	 * @throws DAOException
+	 *             In case if occurred an error with SQL query or connection.
+	 * 
+	 */
 	public abstract int countUsers(String filter) throws DAOException;
 
 	/**
@@ -69,7 +101,7 @@ public abstract class UserDAO extends AbstractDAO {
 	 *
 	 * @param email
 	 *            email
-	 * @return @{code true} if email is free, {@code false} otherwise
+	 * @return {@code true} if email is free, {@code false} otherwise
 	 * @throws DAOException
 	 *             In case if occurred an error with SQL query or connection.
 	 */
@@ -88,7 +120,18 @@ public abstract class UserDAO extends AbstractDAO {
 	 *             In case if occurred an error with SQL query or connection.
 	 */
 	public abstract void addUser(String username, String password, String email) throws DAOException;
-	public abstract void changeDiscount(int userId,BigDecimal discount) throws DAOException;
 
+	/**
+	 * Change discount.
+	 *
+	 * @param userId
+	 *            the user id
+	 * @param discount
+	 *            new discount
+	 * @throws DAOException
+	 *             In case if occurred an error with SQL query or connection.
+	 * 
+	 */
+	public abstract void changeDiscount(int userId, BigDecimal discount) throws DAOException;
 
 }

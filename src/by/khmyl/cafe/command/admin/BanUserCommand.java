@@ -16,11 +16,17 @@ import by.khmyl.cafe.exception.ReceiverException;
 import by.khmyl.cafe.receiver.AdminReceiver;
 import by.khmyl.cafe.receiver.impl.AdminReceiverImpl;
 
+/**
+ * Command for ban user in system.
+ */
 public class BanUserCommand extends AbstractCommand {
 	private static final Logger LOGGER = LogManager.getLogger(BanUserCommand.class);
 
 	private AdminReceiver receiver = new AdminReceiverImpl();
 
+	/* (non-Javadoc)
+	 * @see by.khmyl.cafe.command.AbstractCommand#execute(javax.servlet.http.HttpServletRequest)
+	 */
 	@Override
 	public Router execute(HttpServletRequest request) {
 		Router router = new Router();

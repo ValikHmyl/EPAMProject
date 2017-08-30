@@ -18,6 +18,10 @@ import org.apache.log4j.Logger;
 
 import by.khmyl.cafe.constant.Constant;
 
+/**
+ * Class that extends {@link Thread} and sends mail with specified subject and
+ * content to the user's email or any given email.
+ */
 public class MailSender extends Thread {
 	private static final Logger LOGGER = LogManager.getLogger(MailSender.class);
 	private Session session;
@@ -25,6 +29,16 @@ public class MailSender extends Thread {
 	private String content;
 	private String toEmail;
 
+	/**
+	 * Instantiates a new mail sender.
+	 *
+	 * @param subject
+	 *            the subject of mail
+	 * @param content
+	 *            the content of mail
+	 * @param toEmail
+	 *            email on which will be send mail
+	 */
 	public MailSender(String subject, String content, String toEmail) {
 		init();
 		this.subject = subject;
@@ -32,6 +46,11 @@ public class MailSender extends Thread {
 		this.toEmail = toEmail;
 	}
 
+	/**
+	 * Forms new message object and send it on email.
+	 * 
+	 * @see java.lang.Thread#run()
+	 */
 	public void run() {
 		try {
 			Message message = new MimeMessage(session);

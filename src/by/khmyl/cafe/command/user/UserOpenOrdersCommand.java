@@ -21,7 +21,7 @@ import by.khmyl.cafe.receiver.impl.UserReceiverImpl;
 import by.khmyl.cafe.util.PaginationHelper;
 
 /**
- * Command for present user's orders.
+ * Command for opening page with user's orders information.
  */
 public class UserOpenOrdersCommand extends AbstractCommand {
 	private static final Logger LOGGER = LogManager.getLogger(ChangePasswordCommand.class);

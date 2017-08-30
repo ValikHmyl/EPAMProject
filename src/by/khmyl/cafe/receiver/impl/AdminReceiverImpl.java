@@ -29,12 +29,19 @@ import by.khmyl.cafe.util.PaginationHelper;
 import by.khmyl.cafe.util.UploadHelper;
 import by.khmyl.cafe.util.Validator;
 
+/**
+ * Realizes validation of admin's requests and if they are valid sends them for
+ * further processing.
+ */
 public class AdminReceiverImpl extends AdminReceiver {
 	private static final String EMAIL_SUBJECT_BAN = "Ban in the McCafe system";
 	private static final String EMAIL_CONTENT_BAN = "<h2>Bad news for you</h2> <p>You were banned in the McCafe system</p> <hr> <p> For more information ask in cafe administration:</p> <p>by email mail@gmail.com</p><p> by phone +375 29 123 34 45</p> ";
 	private static final String EMAIL_SUBJECT_ACTIVATE = "Amnesty in McCafe system";
 	private static final String EMAIL_CONTENT_ACTIVATE = "<h2>Glad to inform you!</h2> <p>You were amnestied in the McCafe system, next time will be more carefull and responsible.</p> <hr> <p>With respect McCafe administration.</p> <p>email mail@gmail.com</p><p>  phone +375 29 123 34 45</p> ";
 
+	/* (non-Javadoc)
+	 * @see by.khmyl.cafe.receiver.AdminReceiver#openUsers(int, java.lang.String)
+	 */
 	@Override
 	public PaginationHelper<User> openUsers(int startIndex, String filter) throws ReceiverException {
 		UserDAO dao = new UserDAOImpl();
@@ -50,20 +57,27 @@ public class AdminReceiverImpl extends AdminReceiver {
 		return users;
 	}
 
+	/* (non-Javadoc)
+	 * @see by.khmyl.cafe.receiver.AdminReceiver#banUser(int, java.lang.String)
+	 */
 	@Override
 	public void banUser(int userId, String userEmail) throws ReceiverException {
 		AdminDAO adminDAO = new AdminDAOImpl();
 		UserDAO userDAO = new UserDAOImpl();
 		try {
-			adminDAO.banUser(userId);
+			User user = userDAO.findUser(userId);
+			user.setDiscount(Constant.RESET_DISCOUNT);
+			adminDAO.banUser(user);
 			MailSender sender = new MailSender(EMAIL_SUBJECT_BAN, EMAIL_CONTENT_BAN, userEmail);
 			sender.start();
-			userDAO.changeDiscount(userId, Constant.RESET_DISCOUNT);
 		} catch (DAOException e) {
 			throw new ReceiverException("Ban user exception: " + e.getMessage(), e);
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see by.khmyl.cafe.receiver.AdminReceiver#activateUser(int, java.lang.String)
+	 */
 	@Override
 	public void activateUser(int userId, String userEmail) throws ReceiverException {
 		AdminDAO dao = new AdminDAOImpl();
@@ -76,6 +90,9 @@ public class AdminReceiverImpl extends AdminReceiver {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see by.khmyl.cafe.receiver.AdminReceiver#openOrders(int, java.lang.String)
+	 */
 	@Override
 	public PaginationHelper<Order> openOrders(int startIndex, String filter) throws ReceiverException {
 		OrderDAO dao = new OrderDAOImpl();
@@ -102,6 +119,9 @@ public class AdminReceiverImpl extends AdminReceiver {
 		return orders;
 	}
 
+	/* (non-Javadoc)
+	 * @see by.khmyl.cafe.receiver.AdminReceiver#addMenu(java.lang.String, java.lang.String, java.math.BigDecimal, java.lang.String, java.lang.String, java.util.Collection)
+	 */
 	@Override
 	public boolean addMenu(String name, String category, BigDecimal price, String portion, String savePath,
 			Collection<Part> parts) throws ReceiverException {
@@ -126,6 +146,9 @@ public class AdminReceiverImpl extends AdminReceiver {
 		return false;
 	}
 
+	/* (non-Javadoc)
+	 * @see by.khmyl.cafe.receiver.AdminReceiver#openMenu(int, java.lang.String)
+	 */
 	@Override
 	public PaginationHelper<MenuItem> openMenu(int startIndex, String filter) throws ReceiverException {
 		MenuDAO dao = new MenuDAOImpl();
@@ -140,6 +163,9 @@ public class AdminReceiverImpl extends AdminReceiver {
 		return menu;
 	}
 
+	/* (non-Javadoc)
+	 * @see by.khmyl.cafe.receiver.AdminReceiver#removeFromMenu(int)
+	 */
 	@Override
 	public void removeFromMenu(int menuId) throws ReceiverException {
 		AdminDAO dao = new AdminDAOImpl();
@@ -151,6 +177,9 @@ public class AdminReceiverImpl extends AdminReceiver {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see by.khmyl.cafe.receiver.AdminReceiver#returnToMenu(int)
+	 */
 	@Override
 	public void returnToMenu(int menuId) throws ReceiverException {
 		AdminDAO dao = new AdminDAOImpl();
@@ -161,8 +190,11 @@ public class AdminReceiverImpl extends AdminReceiver {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see by.khmyl.cafe.receiver.AdminReceiver#confirmPayment(int, int)
+	 */
 	@Override
-	public void confirmOrder(int orderId, int userId) throws ReceiverException {
+	public void confirmPayment(int orderId, int userId) throws ReceiverException {
 		AdminDAO adminDAO = new AdminDAOImpl();
 		UserDAO userDAO = new UserDAOImpl();
 		try {
@@ -178,6 +210,9 @@ public class AdminReceiverImpl extends AdminReceiver {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see by.khmyl.cafe.receiver.AdminReceiver#openProfile()
+	 */
 	@Override
 	public HashMap<String, Long> openProfile() throws ReceiverException {
 		HashMap<String, Long> generalStatistic = new HashMap<>();

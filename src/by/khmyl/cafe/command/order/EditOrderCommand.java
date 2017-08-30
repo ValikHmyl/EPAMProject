@@ -18,11 +18,17 @@ import by.khmyl.cafe.exception.ReceiverException;
 import by.khmyl.cafe.receiver.OrderReceiver;
 import by.khmyl.cafe.receiver.impl.OrderReceiverImpl;
 
+/**
+ * Command for changing order's datetime by user.
+ */
 public class EditOrderCommand extends AbstractCommand {
 	private static final Logger LOGGER = LogManager.getLogger(EditOrderCommand.class);
 
 	private OrderReceiver receiver = new OrderReceiverImpl();
 
+	/* (non-Javadoc)
+	 * @see by.khmyl.cafe.command.AbstractCommand#execute(javax.servlet.http.HttpServletRequest)
+	 */
 	@Override
 	public Router execute(HttpServletRequest request) {
 		Router router = new Router();

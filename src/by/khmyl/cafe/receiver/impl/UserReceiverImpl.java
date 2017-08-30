@@ -135,6 +135,9 @@ public class UserReceiverImpl extends UserReceiver {
 		return orders;
 	}
 
+	/* (non-Javadoc)
+	 * @see by.khmyl.cafe.receiver.UserReceiver#openProfile(int)
+	 */
 	@Override
 	public HashMap<String, Long> openProfile(int userId) throws ReceiverException {
 		OrderDAO dao = new OrderDAOImpl();

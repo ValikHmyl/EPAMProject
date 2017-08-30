@@ -38,6 +38,19 @@ public abstract class OrderDAO extends AbstractDAO {
 	 */
 	public abstract void addOrder(User user, HashMap<MenuItem, Integer> cart, String datetime) throws DAOException;
 
+	/**
+	 * Find orders.
+	 *
+	 * @param startIndex
+	 *            the start index
+	 * @param lastIndex
+	 *            the last index
+	 * @param filter
+	 *            the filter
+	 * @return list of orders which are match the filter
+	 * @throws DAOException
+	 *             In case if occurred an error with SQL query or connection.
+	 */
 	public abstract ArrayList<Order> findOrders(int startIndex, int lastIndex, String filter) throws DAOException;
 
 	/**
@@ -47,7 +60,11 @@ public abstract class OrderDAO extends AbstractDAO {
 	 *            id of user
 	 * @param startIndex
 	 *            the start index
-	 * @return list of all user's {@link Order}s
+	 * @param lastIndex
+	 *            the last index
+	 * @param filter
+	 *            the filter
+	 * @return list of all user's {@link Order}s which are match the filter
 	 * @throws DAOException
 	 *             In case if occurred an error with SQL query or connection.
 	 */
@@ -59,12 +76,23 @@ public abstract class OrderDAO extends AbstractDAO {
 	 *
 	 * @param userId
 	 *            id of user
-	 * @return amount of orders
+	 * @param filter
+	 *            the filter
+	 * @return amount of user's orders which are match the filter
 	 * @throws DAOException
 	 *             In case if occurred an error with SQL query or connection.
 	 */
 	public abstract int countUserOrders(int userId, String filter) throws DAOException;
 
+	/**
+	 * Count orders.
+	 *
+	 * @param filter
+	 *            the filter
+	 * @return amount of orders which are match the filter
+	 * @throws DAOException
+	 *             In case if occurred an error with SQL query or connection.
+	 */
 	public abstract int countOrders(String filter) throws DAOException;
 
 	/**
@@ -77,8 +105,28 @@ public abstract class OrderDAO extends AbstractDAO {
 	 */
 	public abstract void cancelOrder(int orderId) throws DAOException;
 
+	/**
+	 * Edits the order.
+	 *
+	 * @param orderId
+	 *            the order id
+	 * @param newDatetime
+	 *            the new datetime
+	 * @throws DAOException
+	 *             In case if occurred an error with SQL query or connection.
+	 */
 	public abstract void editOrder(int orderId, String newDatetime) throws DAOException;
 
+	/**
+	 * Change status.
+	 *
+	 * @param orderId
+	 *            the order id
+	 * @param status
+	 *            the status
+	 * @throws DAOException
+	 *             In case if occurred an error with SQL query or connection.
+	 */
 	public abstract void changeStatus(int orderId, String status) throws DAOException;
 
 }

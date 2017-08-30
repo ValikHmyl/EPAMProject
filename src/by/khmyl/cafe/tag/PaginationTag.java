@@ -9,6 +9,9 @@ import by.khmyl.cafe.constant.Constant;
 
 import java.io.IOException;
 
+/**
+ * Tag for generate pagination on page.
+ */
 @SuppressWarnings("serial")
 public class PaginationTag extends TagSupport {
 
@@ -20,22 +23,45 @@ public class PaginationTag extends TagSupport {
 
 	private String filter;
 
+	/**
+	 * Sets the filter.
+	 *
+	 * @param filter the new filter
+	 */
 	public void setFilter(String filter) {
 		this.filter = filter;
 	}
 
+	/**
+	 * Sets the total.
+	 *
+	 * @param total the new total
+	 */
 	public void setTotal(int total) {
 		this.total = total;
 	}
 
+	/**
+	 * Sets the limit.
+	 *
+	 * @param limit the new limit
+	 */
 	public void setLimit(int limit) {
 		this.limit = limit;
 	}
 
+	/**
+	 * Sets the command.
+	 *
+	 * @param command the new command
+	 */
 	public void setCommand(String command) {
 		this.command = command;
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.servlet.jsp.tagext.TagSupport#doStartTag()
+	 */
 	@Override
 	public int doStartTag() throws JspException {
 		if (limit >= total) {
@@ -63,6 +89,9 @@ public class PaginationTag extends TagSupport {
 		return SKIP_BODY;
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.servlet.jsp.tagext.TagSupport#doEndTag()
+	 */
 	@Override
 	public int doEndTag() throws JspException {
 		return EVAL_PAGE;

@@ -112,6 +112,9 @@ public class OrderReceiverImpl extends OrderReceiver {
 		return true;
 	}
 
+	/* (non-Javadoc)
+	 * @see by.khmyl.cafe.receiver.OrderReceiver#editOrder(int, java.lang.String)
+	 */
 	@Override
 	public boolean editOrder(int orderId, String newDatetime) throws ReceiverException {
 		if (!Validator.validateDatetime(newDatetime,1)) {
@@ -127,6 +130,9 @@ public class OrderReceiverImpl extends OrderReceiver {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see by.khmyl.cafe.receiver.OrderReceiver#searchOrder(int)
+	 */
 	@Override
 	public Order searchOrder(int orderId) throws ReceiverException {
 		OrderDAO dao = new OrderDAOImpl();

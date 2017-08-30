@@ -24,19 +24,38 @@ public class AdminDAOImpl extends AdminDAO {
 	private static final String SQL_CHANGE_USER_DISCOUNT = "UPDATE `cafe`.`user` SET `discount`=? WHERE `id`=?";
 
 	@Override
-	public void banUser(int userId) throws DAOException {
-		PreparedStatement ps = null;
+	public void banUser(User user) throws DAOException {
+		PreparedStatement banStatement = null;
+		PreparedStatement discountStatement = null;
+
 		ProxyConnection cn = null;
 		try {
 			cn = ConnectionPool.getInstance().takeConnection();
-			ps = cn.prepareStatement(SQL_BAN_USER);
-			ps.setInt(1, userId);
-			ps.executeUpdate();
+			cn.setAutoCommit(false);
+			banStatement = cn.prepareStatement(SQL_BAN_USER);
+			banStatement.setInt(1, user.getId());
+			banStatement.executeUpdate();
+			discountStatement = cn.prepareStatement(SQL_CHANGE_USER_DISCOUNT);
+			discountStatement.setBigDecimal(1, user.getDiscount());
+			discountStatement.setInt(2, user.getId());
+			discountStatement.executeUpdate();
+			cn.commit();
 		} catch (SQLException e) {
-			throw new DAOException("SQL ban user exception - " + e.getMessage(), e);
+			try {
+				cn.rollback();
+			} catch (SQLException e1) {
+				LOGGER.log(Level.ERROR, "Rollback  error", e);
+			}
+			throw new DAOException("SQL ban user  exception - " + e.getMessage(), e);
 		} finally {
+			close(banStatement);
+			close(discountStatement);
+			try {
+				cn.setAutoCommit(true);
+			} catch (SQLException e) {
+				LOGGER.log(Level.ERROR, "Can't set autocommit - " + e.getMessage(), e);
+			}
 			close(cn);
-			close(ps);
 		}
 	}
 
@@ -69,8 +88,8 @@ public class AdminDAOImpl extends AdminDAO {
 		} catch (SQLException e) {
 			throw new DAOException("SQL remove menu exception - " + e.getMessage(), e);
 		} finally {
-			close(cn);
 			close(ps);
+			close(cn);
 		}
 	}
 
@@ -86,14 +105,13 @@ public class AdminDAOImpl extends AdminDAO {
 		} catch (SQLException e) {
 			throw new DAOException("SQL return menu exception - " + e.getMessage(), e);
 		} finally {
-			close(cn);
 			close(ps);
+			close(cn);
 		}
-
 	}
 
 	@Override
-	public void confirmPayment(int orderId,User user) throws DAOException {
+	public void confirmPayment(int orderId, User user) throws DAOException {
 		ProxyConnection cn = null;
 		PreparedStatement statusStatement = null;
 		PreparedStatement discountStatement = null;
@@ -126,9 +144,6 @@ public class AdminDAOImpl extends AdminDAO {
 				LOGGER.log(Level.ERROR, "Can't set autocommit - " + e.getMessage(), e);
 			}
 			close(cn);
-
 		}
-
 	}
-
 }

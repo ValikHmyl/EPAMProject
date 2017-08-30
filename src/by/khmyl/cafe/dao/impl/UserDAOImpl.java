@@ -51,8 +51,8 @@ public class UserDAOImpl extends UserDAO {
 		} catch (SQLException e) {
 			throw new DAOException("SQL finding user exception - " + e.getMessage(), e);
 		} finally {
-			close(cn);
 			close(ps);
+			close(cn);
 		}
 		return user;
 	}
@@ -74,8 +74,8 @@ public class UserDAOImpl extends UserDAO {
 		} catch (SQLException e) {
 			throw new DAOException("SQL finding user exception - " + e.getMessage(), e);
 		} finally {
-			close(cn);
 			close(ps);
+			close(cn);
 		}
 		return user;
 	}
@@ -100,8 +100,8 @@ public class UserDAOImpl extends UserDAO {
 		} catch (SQLException e) {
 			throw new DAOException("SQL add user exception - " + e.getMessage(), e);
 		} finally {
-			close(cn);
 			close(ps);
+			close(cn);
 		}
 	}
 
@@ -127,8 +127,8 @@ public class UserDAOImpl extends UserDAO {
 		} catch (SQLException e) {
 			throw new DAOException("SQL add user exception - " + e.getMessage(), e);
 		} finally {
-			close(cn);
 			close(ps);
+			close(cn);
 		}
 		return isFree;
 	}
@@ -151,8 +151,8 @@ public class UserDAOImpl extends UserDAO {
 		} catch (SQLException e) {
 			throw new DAOException("SQL changing password exception - " + e.getMessage(), e);
 		} finally {
-			close(cn);
 			close(ps);
+			close(cn);
 		}
 	}
 
@@ -174,8 +174,8 @@ public class UserDAOImpl extends UserDAO {
 		} catch (SQLException e) {
 			throw new DAOException("SQL changing email exception - " + e.getMessage(), e);
 		} finally {
-			close(cn);
 			close(ps);
+			close(cn);
 		}
 	}
 
@@ -197,8 +197,8 @@ public class UserDAOImpl extends UserDAO {
 		} catch (SQLException e) {
 			throw new DAOException("SQL changing avatar exception - " + e.getMessage(), e);
 		} finally {
-			close(cn);
 			close(ps);
+			close(cn);
 		}
 	}
 
@@ -221,8 +221,8 @@ public class UserDAOImpl extends UserDAO {
 		} catch (SQLException e) {
 			throw new DAOException("SQL finding users exception - " + e.getMessage(), e);
 		} finally {
-			close(cn);
 			close(ps);
+			close(cn);
 		}
 		return users;
 	}
@@ -243,12 +243,10 @@ public class UserDAOImpl extends UserDAO {
 			}
 		} catch (SQLException e) {
 			throw new DAOException("SQL counting users exception - " + e.getMessage(), e);
-
 		} finally {
-			close(cn);
 			close(ps);
+			close(cn);
 		}
-
 		return amount;
 	}
 
@@ -265,8 +263,8 @@ public class UserDAOImpl extends UserDAO {
 		} catch (SQLException e) {
 			throw new DAOException("SQL changing discount exception - " + e.getMessage(), e);
 		} finally {
-			close(cn);
 			close(ps);
+			close(cn);
 		}
 
 	}

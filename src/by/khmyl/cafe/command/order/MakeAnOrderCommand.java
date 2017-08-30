@@ -21,7 +21,7 @@ import by.khmyl.cafe.receiver.OrderReceiver;
 import by.khmyl.cafe.receiver.impl.OrderReceiverImpl;
 
 /**
- * Command for making user order.
+ * Command for making user's order.
  */
 public class MakeAnOrderCommand extends AbstractCommand {
 	private static final Logger LOGGER = LogManager.getLogger(MakeAnOrderCommand.class);

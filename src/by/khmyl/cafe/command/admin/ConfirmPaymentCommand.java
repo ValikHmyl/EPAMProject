@@ -15,10 +15,16 @@ import by.khmyl.cafe.exception.ReceiverException;
 import by.khmyl.cafe.receiver.AdminReceiver;
 import by.khmyl.cafe.receiver.impl.AdminReceiverImpl;
 
+/**
+ * Command for confirm payment for an order.
+ */
 public class ConfirmPaymentCommand extends AbstractCommand {
 	private static final Logger LOGGER = LogManager.getLogger(ConfirmPaymentCommand.class);
 	private AdminReceiver receiver = new AdminReceiverImpl();
 
+	/* (non-Javadoc)
+	 * @see by.khmyl.cafe.command.AbstractCommand#execute(javax.servlet.http.HttpServletRequest)
+	 */
 	@Override
 	public Router execute(HttpServletRequest request) {
 		Router router = new Router();
@@ -26,7 +32,7 @@ public class ConfirmPaymentCommand extends AbstractCommand {
 		int userId = Integer.parseInt(request.getParameter(Constant.USER_ID));
 
 		try {
-			receiver.confirmOrder(orderId, userId);
+			receiver.confirmPayment(orderId, userId);
 			router.setPath(PathConstant.ADMIN_ALL_ORDERS);
 			router.setRouteType(RouteType.REDIRECT);
 		} catch (ReceiverException e) {

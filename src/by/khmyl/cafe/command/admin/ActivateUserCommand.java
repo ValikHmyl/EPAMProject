@@ -16,11 +16,17 @@ import by.khmyl.cafe.exception.ReceiverException;
 import by.khmyl.cafe.receiver.AdminReceiver;
 import by.khmyl.cafe.receiver.impl.AdminReceiverImpl;
 
+/**
+ * Command for activation user after ban, if it needed.
+ */
 public class ActivateUserCommand extends AbstractCommand {
 	private static final Logger LOGGER = LogManager.getLogger(ActivateUserCommand.class);
 
 	private AdminReceiver receiver = new AdminReceiverImpl();
 
+	/* (non-Javadoc)
+	 * @see by.khmyl.cafe.command.AbstractCommand#execute(javax.servlet.http.HttpServletRequest)
+	 */
 	@Override
 	public Router execute(HttpServletRequest request) {
 		Router router = new Router();

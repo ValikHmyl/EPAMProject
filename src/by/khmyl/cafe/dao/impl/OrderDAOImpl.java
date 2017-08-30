@@ -70,13 +70,12 @@ public class OrderDAOImpl extends OrderDAO {
 			cn = ConnectionPool.getInstance().takeConnection();
 
 			orderStatement = cn.prepareStatement(SQL_FIND_USER_ORDERS);
-
 			orderStatement.setInt(1, userId);
 			orderStatement.setString(2, filter);
 			orderStatement.setInt(3, startIndex);
 			orderStatement.setInt(4, lastIndex);
-
 			orderSet = orderStatement.executeQuery();
+			
 			MenuDAO menuDAO = new MenuDAOImpl();
 			while (orderSet.next()) {
 				Order currentOrder = new Order();
@@ -92,13 +91,12 @@ public class OrderDAOImpl extends OrderDAO {
 				currentOrder.setCart(cart);
 				orders.add(currentOrder);
 			}
-
 		} catch (SQLException e) {
 			throw new DAOException("SQL finding user orders exception - " + e.getMessage(), e);
 		} finally {
-			close(cn);
 			close(cartStatement);
 			close(orderStatement);
+			close(cn);
 		}
 		return orders;
 	}
@@ -114,7 +112,6 @@ public class OrderDAOImpl extends OrderDAO {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		ProxyConnection cn = null;
-
 		try {
 			cn = ConnectionPool.getInstance().takeConnection();
 			ps = cn.prepareStatement(SQL_FIND_ORDER);
@@ -126,8 +123,8 @@ public class OrderDAOImpl extends OrderDAO {
 		} catch (SQLException e) {
 			throw new DAOException("SQL add user exception - " + e.getMessage(), e);
 		} finally {
-			close(cn);
 			close(ps);
+			close(cn);
 		}
 		return order;
 	}
@@ -141,7 +138,6 @@ public class OrderDAOImpl extends OrderDAO {
 		ArrayList<Order> orders = new ArrayList<>();
 		try {
 			cn = ConnectionPool.getInstance().takeConnection();
-
 			orderStatement = cn.prepareStatement(SQL_FIND_ORDERS);
 			orderStatement.setString(1, filter);
 			orderStatement.setInt(2, startIndex);
@@ -149,17 +145,15 @@ public class OrderDAOImpl extends OrderDAO {
 			orderSet = orderStatement.executeQuery();
 			while (orderSet.next()) {
 				Order currentOrder = new Order();
-
 				currentOrder = extractData(orderSet, cn);
 				orders.add(currentOrder);
 			}
-
 		} catch (SQLException e) {
 			throw new DAOException("SQL finding orders exception - " + e.getMessage(), e);
 		} finally {
-			close(cn);
 			close(cartStatement);
 			close(orderStatement);
+			close(cn);
 		}
 		return orders;
 	}
@@ -218,12 +212,11 @@ public class OrderDAOImpl extends OrderDAO {
 			} catch (SQLException e) {
 				LOGGER.log(Level.ERROR, "Can't set autocommit - " + e.getMessage(), e);
 			}
-			close(cn);
-
 			close(createOrderStatement);
 			close(findOrderStatement);
 			close(cartStatement);
 			close(priceStatement);
+			close(cn);
 		}
 
 	}
@@ -261,10 +254,9 @@ public class OrderDAOImpl extends OrderDAO {
 			} catch (SQLException e) {
 				LOGGER.log(Level.ERROR, "Can't set autocommit - " + e.getMessage(), e);
 			}
-			close(cn);
-
 			close(orderStatement);
 			close(cartStatement);
+			close(cn);
 		}
 	}
 
@@ -290,12 +282,10 @@ public class OrderDAOImpl extends OrderDAO {
 			}
 		} catch (SQLException e) {
 			throw new DAOException("SQL counting orders exception - " + e.getMessage(), e);
-
 		} finally {
-			close(cn);
 			close(ps);
+			close(cn);
 		}
-
 		return amount;
 	}
 
@@ -315,10 +305,9 @@ public class OrderDAOImpl extends OrderDAO {
 			}
 		} catch (SQLException e) {
 			throw new DAOException("SQL counting orders exception - " + e.getMessage(), e);
-
 		} finally {
-			close(cn);
 			close(ps);
+			close(cn);
 		}
 
 		return amount;
@@ -338,8 +327,8 @@ public class OrderDAOImpl extends OrderDAO {
 		} catch (SQLException e) {
 			throw new DAOException("SQL edit order exception - " + e.getMessage(), e);
 		} finally {
-			close(cn);
 			close(ps);
+			close(cn);
 		}
 
 	}
@@ -358,8 +347,8 @@ public class OrderDAOImpl extends OrderDAO {
 		} catch (SQLException e) {
 			throw new DAOException("SQL changing status exception - " + e.getMessage(), e);
 		} finally {
-			close(cn);
 			close(ps);
+			close(cn);
 		}
 
 	}

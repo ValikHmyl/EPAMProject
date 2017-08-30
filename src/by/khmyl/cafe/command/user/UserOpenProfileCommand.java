@@ -17,11 +17,17 @@ import by.khmyl.cafe.exception.ReceiverException;
 import by.khmyl.cafe.receiver.UserReceiver;
 import by.khmyl.cafe.receiver.impl.UserReceiverImpl;
 
+/**
+ *  Command for opening user's profile page with some kind of statistic and general information.
+ */
 public class UserOpenProfileCommand extends AbstractCommand {
 	private static final Logger LOGGER = LogManager.getLogger(UserOpenProfileCommand.class);
 
 	private UserReceiver receiver = new UserReceiverImpl();
 
+	/* (non-Javadoc)
+	 * @see by.khmyl.cafe.command.AbstractCommand#execute(javax.servlet.http.HttpServletRequest)
+	 */
 	@Override
 	public Router execute(HttpServletRequest request) {
 		Router router = new Router();

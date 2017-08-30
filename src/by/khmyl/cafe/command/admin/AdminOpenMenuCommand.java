@@ -18,11 +18,17 @@ import by.khmyl.cafe.receiver.AdminReceiver;
 import by.khmyl.cafe.receiver.impl.AdminReceiverImpl;
 import by.khmyl.cafe.util.PaginationHelper;
 
+/**
+ * Command for opening admin's page with information about menu.
+ */
 public class AdminOpenMenuCommand extends AbstractCommand {
 	private static final Logger LOGGER = LogManager.getLogger(AdminOpenMenuCommand.class);
 
 	private AdminReceiver receiver = new AdminReceiverImpl();
 
+	/* (non-Javadoc)
+	 * @see by.khmyl.cafe.command.AbstractCommand#execute(javax.servlet.http.HttpServletRequest)
+	 */
 	@Override
 	public Router execute(HttpServletRequest request) {
 		Router router = new Router();

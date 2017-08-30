@@ -12,7 +12,7 @@ import by.khmyl.cafe.command.admin.RemoveFromMenuCommand;
 import by.khmyl.cafe.command.admin.ReturnToMenuCommand;
 import by.khmyl.cafe.command.common.ChangeLocaleCommand;
 import by.khmyl.cafe.command.common.ErrorCommand;
-import by.khmyl.cafe.command.common.MenuCommand;
+import by.khmyl.cafe.command.common.OpenMenuCommand;
 import by.khmyl.cafe.command.common.SignInCommand;
 import by.khmyl.cafe.command.common.SignOutCommand;
 import by.khmyl.cafe.command.common.SignUpCommand;
@@ -33,7 +33,7 @@ public enum CommandType {
 	SIGN_OUT(new SignOutCommand()),
 	SIGN_UP(new SignUpCommand()),
 	CHANGE_LOCALE(new ChangeLocaleCommand()),
-	MENU(new MenuCommand()),
+	MENU(new OpenMenuCommand()),
 	ADD_TO_CART(new AddToCartCommand()),
 	ERROR(new ErrorCommand()),
 	DELETE_FROM_CART(new DeleteFromCartCommand()),

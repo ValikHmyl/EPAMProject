@@ -14,7 +14,7 @@ import by.khmyl.cafe.exception.ReceiverException;
 public abstract class OrderReceiver {
 
 	/**
-	 * Find {@link MenuItem} by id and add it into the cart
+	 * Find {@link MenuItem} by id and add it into the cart.
 	 *
 	 * @param itemId
 	 *            id of menu item
@@ -30,7 +30,7 @@ public abstract class OrderReceiver {
 			throws ReceiverException;
 
 	/**
-	 * Find {@link MenuItem} by id and delete it from the cart
+	 * Find {@link MenuItem} by id and delete it from the cart.
 	 *
 	 * @param itemId
 	 *            id of menu item
@@ -44,7 +44,7 @@ public abstract class OrderReceiver {
 
 	/**
 	 * Processes request for making an order from user and validates the input
-	 * parameters
+	 * parameters.
 	 *
 	 * @param user
 	 *            user
@@ -72,7 +72,27 @@ public abstract class OrderReceiver {
 	 */
 	public abstract boolean cancelOrder(int orderId, StringBuilder message) throws ReceiverException;
 
+	/**
+	 * Edits the order.
+	 *
+	 * @param orderId
+	 *            the order id
+	 * @param newDatetime
+	 *            the new datetime
+	 * @return {@code true} if successfully edit order, {@code false} otherwise
+	 * @throws ReceiverException
+	 *             if occurred an error, while processing client's requests
+	 */
 	public abstract boolean editOrder(int orderId, String newDatetime) throws ReceiverException;
 
+	/**
+	 * Search order.
+	 *
+	 * @param orderId
+	 *            the order id
+	 * @return {@link Order} that was found
+	 * @throws ReceiverException
+	 *             if occurred an error, while processing client's requests
+	 */
 	public abstract Order searchOrder(int orderId) throws ReceiverException;
 }

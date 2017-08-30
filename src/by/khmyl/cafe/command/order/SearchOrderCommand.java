@@ -17,11 +17,17 @@ import by.khmyl.cafe.exception.ReceiverException;
 import by.khmyl.cafe.receiver.OrderReceiver;
 import by.khmyl.cafe.receiver.impl.OrderReceiverImpl;
 
+/**
+ * Command for searching order by admin.
+ */
 public class SearchOrderCommand extends AbstractCommand {
 	private static final Logger LOGGER = LogManager.getLogger(AdminOpenMenuCommand.class);
 
 	private OrderReceiver receiver = new OrderReceiverImpl();
 
+	/* (non-Javadoc)
+	 * @see by.khmyl.cafe.command.AbstractCommand#execute(javax.servlet.http.HttpServletRequest)
+	 */
 	@Override
 	public Router execute(HttpServletRequest request) {
 		Router router = new Router();

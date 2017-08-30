@@ -19,10 +19,10 @@ import by.khmyl.cafe.receiver.CommonReceiver;
 import by.khmyl.cafe.receiver.impl.CommonReceiverImpl;
 
 /**
- * Command for present menu on page.
+ * Command for opening chosen category of menu .
  */
-public class MenuCommand extends AbstractCommand {
-	private static final Logger LOGGER = LogManager.getLogger(MenuCommand.class);
+public class OpenMenuCommand extends AbstractCommand {
+	private static final Logger LOGGER = LogManager.getLogger(OpenMenuCommand.class);
 
 	private CommonReceiver receiver = new CommonReceiverImpl();
 

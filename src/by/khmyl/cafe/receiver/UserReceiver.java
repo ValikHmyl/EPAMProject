@@ -18,7 +18,7 @@ public abstract class UserReceiver {
 
 	/**
 	 * Processes changing user's password request from client and validates the
-	 * input parameter
+	 * input parameter.
 	 *
 	 * @param userId
 	 *            if of user
@@ -35,8 +35,8 @@ public abstract class UserReceiver {
 
 	/**
 	 * Processes changing user's email request from client and validates the
-	 * input parameter
-	 * 
+	 * input parameter.
+	 *
 	 * @param userId
 	 *            id of user
 	 * @param newEmail
@@ -51,7 +51,7 @@ public abstract class UserReceiver {
 
 	/**
 	 * Processes changing user's avatar request from client and validates the
-	 * input parameter
+	 * input parameter.
 	 *
 	 * @param user
 	 *            user
@@ -65,10 +65,14 @@ public abstract class UserReceiver {
 	public abstract void changeAvatar(User user, String savePath, Collection<Part> parts) throws ReceiverException;
 
 	/**
-	 * Processes request from user for present all his orders
+	 * Processes request from user for present all his orders.
 	 *
 	 * @param userId
 	 *            id of user
+	 * @param startIndex
+	 *            the start index
+	 * @param filter
+	 *            the filter
 	 * @return list of {@link Order}s
 	 * @throws ReceiverException
 	 *             if occurred an error, while processing client's requests
@@ -76,6 +80,15 @@ public abstract class UserReceiver {
 	public abstract PaginationHelper<Order> openOrders(int userId, int startIndex, String filter)
 			throws ReceiverException;
 
+	/**
+	 * Open profile.
+	 *
+	 * @param userId
+	 *            the user id
+	 * @return the map with statistic to show it on page
+	 * @throws ReceiverException
+	 *            if occurred an error, while processing client's requests
+	 */
 	public abstract HashMap<String, Long> openProfile(int userId) throws ReceiverException;
 
 }

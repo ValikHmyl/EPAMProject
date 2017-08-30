@@ -35,6 +35,8 @@ public class MenuItem {
 	 *            portion
 	 * @param imageName
 	 *            image name
+	 * @param status
+	 *            status
 	 */
 	public MenuItem(int id, String name, BigDecimal price, int categoryId, String portion, String imageName,
 			boolean status) {
