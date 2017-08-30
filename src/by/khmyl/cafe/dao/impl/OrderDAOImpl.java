@@ -110,7 +110,7 @@ public class OrderDAOImpl extends OrderDAO {
 	 */
 	@Override
 	public Order findOrder(int orderId) throws DAOException {
-		Order order = new Order();
+		Order order = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		ProxyConnection cn = null;

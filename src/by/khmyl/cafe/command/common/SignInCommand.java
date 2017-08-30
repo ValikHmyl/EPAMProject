@@ -27,8 +27,11 @@ public class SignInCommand extends AbstractCommand {
 
 	private CommonReceiver receiver = new CommonReceiverImpl();
 
-	/* (non-Javadoc)
-	 * @see by.khmyl.cafe.command.AbstractCommand#execute(javax.servlet.http.HttpServletRequest)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see by.khmyl.cafe.command.AbstractCommand#execute(javax.servlet.http.
+	 * HttpServletRequest)
 	 */
 	@Override
 	public Router execute(HttpServletRequest request) {
@@ -41,15 +44,18 @@ public class SignInCommand extends AbstractCommand {
 			if (errorMessages.isEmpty()) {
 				HttpSession session = request.getSession(true);
 				session.setAttribute(Constant.USER, user);
-				router.setPath(PathConstant.MAIN);
+				if (user.getRole()) {
+					router.setPath(PathConstant.OPEN_ADMIN);
+				} else {
+					router.setPath(PathConstant.OPEN_USER+user.getId());
+				}
 				router.setRouteType(RouteType.REDIRECT);
-			
 			} else {
 				request.setAttribute(Constant.ERROR_MESSAGES, errorMessages);
 				router.setPath(PathConstant.SIGN_IN);
 				router.setRouteType(RouteType.FORWARD);
 				request.setAttribute(Constant.USERNAME, username);
-				
+
 			}
 		} catch (ReceiverException e) {
 			LOGGER.log(Level.ERROR, e);

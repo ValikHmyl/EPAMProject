@@ -5,8 +5,7 @@
 
 <html>
 <head>
-<link rel="shortcut icon" type="image/x-icon"
-	href="${pageContext.request.contextPath}/img/fork.ico" />
+<link rel="shortcut icon" type="image/x-icon" href="${pageContext.request.contextPath}/img/fork.ico" />
 
 <fmt:setLocale value="${locale}" scope="session" />
 <fmt:setBundle basename="resources.pagecontent" />

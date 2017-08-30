@@ -12,8 +12,6 @@
 <link href="https://fonts.googleapis.com/css?family=Sedgwick+Ave|Arizonia" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/css/style.css" rel="stylesheet">
 
-
-
 <fmt:setLocale value="${locale}" scope="session" />
 <fmt:setBundle basename="resources.pagecontent" />
 <fmt:message key="signIn" var="signIn" />

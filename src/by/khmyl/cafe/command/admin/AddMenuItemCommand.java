@@ -33,15 +33,14 @@ public class AddMenuItemCommand extends AbstractCommand {
 		String savePath = appPath + Constant.UPLOAD_PATH_MENU;
 		String menuName = request.getParameter(Constant.NAME);
 		String category = request.getParameter(Constant.CATEGORY);
-		BigDecimal price = new BigDecimal(request.getParameter(Constant.PRICE));
-		price.setScale(2,BigDecimal.ROUND_HALF_UP);	
 		String portion = request.getParameter(Constant.PORTION);
-
+		BigDecimal price = new BigDecimal(request.getParameter(Constant.PRICE));
+		price.setScale(2, BigDecimal.ROUND_HALF_UP);
 		Collection<Part> parts;
 		try {
 			parts = request.getParts();
 			receiver.addMenu(menuName, category, price, portion, savePath, parts);
-			router.setPath(PathConstant.ADMIN_MENU);
+			router.setPath(PathConstant.ADMIN_ADD_MENU);
 			router.setRouteType(RouteType.REDIRECT);
 
 		} catch (IOException | ServletException | ReceiverException e) {

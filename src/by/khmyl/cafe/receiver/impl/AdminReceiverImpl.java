@@ -52,11 +52,13 @@ public class AdminReceiverImpl extends AdminReceiver {
 
 	@Override
 	public void banUser(int userId, String userEmail) throws ReceiverException {
-		AdminDAO dao = new AdminDAOImpl();
+		AdminDAO adminDAO = new AdminDAOImpl();
+		UserDAO userDAO = new UserDAOImpl();
 		try {
-			dao.banUser(userId);
+			adminDAO.banUser(userId);
 			MailSender sender = new MailSender(EMAIL_SUBJECT_BAN, EMAIL_CONTENT_BAN, userEmail);
 			sender.start();
+			userDAO.changeDiscount(userId, Constant.RESET_DISCOUNT);
 		} catch (DAOException e) {
 			throw new ReceiverException("Ban user exception: " + e.getMessage(), e);
 		}

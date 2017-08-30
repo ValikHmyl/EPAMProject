@@ -16,11 +16,11 @@ import by.khmyl.cafe.pool.ProxyConnection;
  * realizes a set of requests to database for menu.
  */
 public class MenuDAOImpl extends MenuDAO {
-	private static final String SQL_SELECT_MENU_BY_CATEGORY = "SELECT `menu`.`id`, `menu`.`name`, `menu`.`price`, `menu`.`category_id`, `menu`.`portion`, `menu`.`img_name`, `menu`.`status` FROM `cafe`.`menu` JOIN `cafe`.`category` ON `menu`.`category_id`=`category`.`id` WHERE `category`.`name` LIKE ? AND `menu`.`status`=true";
 	private static final String SQL_SELECT_MENU_ITEM = "SELECT `id`, `name`, `price`, `category_id`, `portion`, `img_name`, `menu`.`status` FROM `cafe`.`menu` WHERE `menu`.`id`=?";
 	private static final String SQL_ADD_MENU_ITEM = "INSERT INTO `cafe`.`menu` (`name`, `price`, `category_id`, `portion`, `img_name`) VALUES (?, ?, (SELECT `id` FROM `cafe`.`category` WHERE `name` LIKE ?) , ?, ?)";
 	private static final String SQL_COUNT_FILTERED_MENU_ITEMS = "SELECT sum(`counts`) FROM (SELECT count(`id`) AS `counts`  FROM `cafe`.`menu` GROUP BY `category_id`  HAVING `category_id`=(SELECT `id` FROM `cafe`.`category` WHERE `name` LIKE ?)) AS `result`";
 	private static final String SQL_COUNT_ALL_MENU_ITEMS = "SELECT count(`id`) FROM `cafe`.`menu`";
+	private static final String SQL_FIND_MENU_BY_CATEGORY = "SELECT `menu`.`id`, `menu`.`name`, `menu`.`price`, `menu`.`category_id`, `menu`.`portion`, `menu`.`img_name`, `menu`.`status` FROM `cafe`.`menu` JOIN `cafe`.`category` ON `menu`.`category_id`=`category`.`id` WHERE `category`.`name` LIKE ? AND `menu`.`status`=true";
 	private static final String SQL_FIND_FILTERED_MENU = "SELECT `menu`.`id`, `menu`.`name`, `menu`.`price`, `menu`.`category_id`, `menu`.`portion`, `menu`.`img_name`, `menu`.`status` FROM `cafe`.`menu` WHERE `category_id`= (SELECT `id` FROM `cafe`.`category` WHERE `name` LIKE ?) ORDER BY `id` LIMIT ?, ?";
 	private static final String SQL_FIND_ALL_MENU = "SELECT `menu`.`id`, `menu`.`name`, `menu`.`price`, `menu`.`category_id`, `menu`.`portion`, `menu`.`img_name`, `menu`.`status` FROM `cafe`.`menu` ORDER BY `id` LIMIT ?, ?";
 
@@ -37,7 +37,7 @@ public class MenuDAOImpl extends MenuDAO {
 		ProxyConnection cn = null;
 		try {
 			cn = ConnectionPool.getInstance().takeConnection();
-			ps = cn.prepareStatement(SQL_SELECT_MENU_BY_CATEGORY);
+			ps = cn.prepareStatement(SQL_FIND_MENU_BY_CATEGORY);
 			ps.setString(1, category);
 			rs = ps.executeQuery();
 			while (rs.next()) {

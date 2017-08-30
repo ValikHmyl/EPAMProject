@@ -43,6 +43,8 @@ public class ChangeEmailCommand extends AbstractCommand {
 				int userId = user.getId();
 				if (receiver.changeEmail(userId, newEmail, message)) {
 					jsonObj.addProperty(Constant.SUCCESS, true);
+					user.setEmail(newEmail);
+					session.setAttribute(Constant.USER, user);
 				} else {
 					jsonObj.addProperty(Constant.ERROR_MESSAGE, message.toString());
 				}

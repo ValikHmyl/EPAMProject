@@ -70,7 +70,7 @@ td {
 	border-radius: 4px;
 }
 
-.menu-item p, .table-condensed td {
+.menu-item p, .table-condensed td, .error {
 	font-family: 'Sedgwick Ave', cursive;
 	font-size: 22px;
 }

@@ -17,7 +17,7 @@
 <fmt:message key="profile.order.status" var="status" />
 <fmt:message key="profile.order.date" var="date" />
 <fmt:message key="profile.order.details" var="details" />
-<fmt:message key="profile.order.confirmDate" var="confirmDate" />
+<fmt:message key="admin.orders.confirmDate" var="confirmDate" />
 <fmt:message key="profile.order.totalPrice" var="totalPrice" />
 <fmt:message key="profile.order.hint" var="hint" />
 <fmt:message key="pagination.filter.all" var="all" />
@@ -72,9 +72,7 @@
 								<div class="row">
 									<div class="col-xs-1">${order.id }</div>
 									<div class="col-xs-1">${order.userId }</div>
-									<div class="col-xs-3 col-sm-2 status">
-										<b>${order.status }</b>
-									</div>
+									<div class="col-xs-3 col-sm-2 status"><b>${order.status}</b></div>
 									<div class="col-xs-3 col-sm-4">${order.orderDate }</div>
 									<div class="col-xs-3 col-sm-2">
 										<button class="btn btn-info details" data-id="${order.id }">${details}</button>
