@@ -22,7 +22,7 @@ public class ConfirmPaymentCommand extends AbstractCommand {
 	private static final Logger LOGGER = LogManager.getLogger(ConfirmPaymentCommand.class);
 	private AdminReceiver receiver = new AdminReceiverImpl();
 
-	/* (non-Javadoc)
+	/**
 	 * @see by.khmyl.cafe.command.AbstractCommand#execute(javax.servlet.http.HttpServletRequest)
 	 */
 	@Override

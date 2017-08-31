@@ -39,7 +39,7 @@ public class UserReceiverImpl extends UserReceiver {
 	public boolean changePassword(int userId, String newPassword, StringBuilder message) throws ReceiverException {
 		boolean isValid = true;
 		if (Validator.validatePassword(newPassword)) {
-			UserDAO dao = new UserDAOImpl();
+			UserDAOImpl dao = new UserDAOImpl();
 			try {
 				newPassword = EncryptManager.enñrypt(newPassword);
 				dao.changePassword(userId, newPassword);
@@ -64,7 +64,7 @@ public class UserReceiverImpl extends UserReceiver {
 	public boolean changeEmail(int userId, String newEmail, StringBuilder message) throws ReceiverException {
 		boolean isValid = true;
 		if (Validator.validateEmail(newEmail)) {
-			UserDAO dao = new UserDAOImpl();
+			UserDAOImpl dao = new UserDAOImpl();
 			try {
 				if (dao.checkEmail(newEmail)) {
 					dao.changeEmail(userId, newEmail);
@@ -92,7 +92,7 @@ public class UserReceiverImpl extends UserReceiver {
 	 */
 	@Override
 	public void changeAvatar(User user, String savePath, Collection<Part> parts) throws ReceiverException {
-		UserDAO dao = new UserDAOImpl();
+		UserDAOImpl dao = new UserDAOImpl();
 		UploadHelper helper = new UploadHelper(savePath);
 		try {
 			String imageName = null;

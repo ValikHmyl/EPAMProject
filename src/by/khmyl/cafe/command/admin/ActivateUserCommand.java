@@ -24,7 +24,7 @@ public class ActivateUserCommand extends AbstractCommand {
 
 	private AdminReceiver receiver = new AdminReceiverImpl();
 
-	/* (non-Javadoc)
+	/**
 	 * @see by.khmyl.cafe.command.AbstractCommand#execute(javax.servlet.http.HttpServletRequest)
 	 */
 	@Override
@@ -35,7 +35,7 @@ public class ActivateUserCommand extends AbstractCommand {
 		String filter = request.getParameter(Constant.FILTER);
 		String pageNumber = request.getParameter(Constant.PAGE_NUMBER);
 		String command = CommandType.ADMIN_OPEN_USERS.name().toLowerCase();
-		
+
 		try {
 			receiver.activateUser(userId, userEmail);
 			router.generatePath(command, filter, pageNumber);
@@ -45,7 +45,7 @@ public class ActivateUserCommand extends AbstractCommand {
 			router.setPath(PathConstant.ERROR_500);
 			router.setRouteType(RouteType.REDIRECT);
 		}
-		
+
 		return router;
 	}
 

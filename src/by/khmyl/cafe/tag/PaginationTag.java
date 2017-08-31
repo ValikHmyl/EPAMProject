@@ -59,9 +59,6 @@ public class PaginationTag extends TagSupport {
 		this.command = command;
 	}
 
-	/* (non-Javadoc)
-	 * @see javax.servlet.jsp.tagext.TagSupport#doStartTag()
-	 */
 	@Override
 	public int doStartTag() throws JspException {
 		if (limit >= total) {
@@ -89,9 +86,6 @@ public class PaginationTag extends TagSupport {
 		return SKIP_BODY;
 	}
 
-	/* (non-Javadoc)
-	 * @see javax.servlet.jsp.tagext.TagSupport#doEndTag()
-	 */
 	@Override
 	public int doEndTag() throws JspException {
 		return EVAL_PAGE;

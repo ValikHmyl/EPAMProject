@@ -14,6 +14,9 @@ import by.khmyl.cafe.exception.DAOException;
 import by.khmyl.cafe.pool.ConnectionPool;
 import by.khmyl.cafe.pool.ProxyConnection;
 
+/**
+ * The Class AdminDAOImpl.
+ */
 public class AdminDAOImpl extends AdminDAO {
 	private static final Logger LOGGER = LogManager.getLogger(AdminDAOImpl.class);
 	private static final String SQL_BAN_USER = "UPDATE `cafe`.`user` SET `status`=false WHERE `id`=?";
@@ -23,6 +26,9 @@ public class AdminDAOImpl extends AdminDAO {
 	private static final String SQL_CHANGE_ORDER_STATUS = "UPDATE `cafe`.`order` SET `status`=? WHERE `id`=?";
 	private static final String SQL_CHANGE_USER_DISCOUNT = "UPDATE `cafe`.`user` SET `discount`=? WHERE `id`=?";
 
+	/**
+	 * @see by.khmyl.cafe.dao.AdminDAO#banUser(by.khmyl.cafe.entity.User)
+	 */
 	@Override
 	public void banUser(User user) throws DAOException {
 		PreparedStatement banStatement = null;
@@ -59,6 +65,9 @@ public class AdminDAOImpl extends AdminDAO {
 		}
 	}
 
+	/**
+	 * @see by.khmyl.cafe.dao.AdminDAO#activateUser(int)
+	 */
 	@Override
 	public void activateUser(int userId) throws DAOException {
 		PreparedStatement ps = null;
@@ -76,6 +85,9 @@ public class AdminDAOImpl extends AdminDAO {
 		}
 	}
 
+	/**
+	 * @see by.khmyl.cafe.dao.AdminDAO#removeFromMenu(int)
+	 */
 	@Override
 	public void removeFromMenu(int menuItemId) throws DAOException {
 		PreparedStatement ps = null;
@@ -93,6 +105,9 @@ public class AdminDAOImpl extends AdminDAO {
 		}
 	}
 
+	/**
+	 * @see by.khmyl.cafe.dao.AdminDAO#returnToMenu(int)
+	 */
 	@Override
 	public void returnToMenu(int menuItemId) throws DAOException {
 		PreparedStatement ps = null;
@@ -110,6 +125,9 @@ public class AdminDAOImpl extends AdminDAO {
 		}
 	}
 
+	/**
+	 * @see by.khmyl.cafe.dao.AdminDAO#confirmPayment(int, by.khmyl.cafe.entity.User)
+	 */
 	@Override
 	public void confirmPayment(int orderId, User user) throws DAOException {
 		ProxyConnection cn = null;

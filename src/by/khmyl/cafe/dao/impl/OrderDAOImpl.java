@@ -45,17 +45,8 @@ public class OrderDAOImpl extends OrderDAO {
 	private static final String SQL_EDIT_ORDER = "UPDATE `cafe`.`order` SET `confirm_date`=? WHERE `id`=?";
 	private static final String SQL_CHANGE_STATUS = "UPDATE `cafe`.`order` SET `status`=? WHERE `id`=?";
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see by.khmyl.cafe.dao.OrderDAO#addOrder(by.khmyl.cafe.entity.User,
-	 * java.util.HashMap, java.lang.String)
-	 */
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see by.khmyl.cafe.dao.OrderDAO#findUserOrders(int)
+	/**
+	 * @see by.khmyl.cafe.dao.OrderDAO#findUserOrders(int, int, int, java.lang.String)
 	 */
 	@Override
 	public ArrayList<Order> findUserOrders(int userId, int startIndex, int lastIndex, String filter)
@@ -101,9 +92,8 @@ public class OrderDAOImpl extends OrderDAO {
 		return orders;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	
+	/**
 	 * @see by.khmyl.cafe.dao.OrderDAO#findOrder(int)
 	 */
 	@Override
@@ -129,6 +119,10 @@ public class OrderDAOImpl extends OrderDAO {
 		return order;
 	}
 
+
+	/**
+	 * @see by.khmyl.cafe.dao.OrderDAO#findOrders(int, int, java.lang.String)
+	 */
 	@Override
 	public ArrayList<Order> findOrders(int startIndex, int lastIndex, String filter) throws DAOException {
 		PreparedStatement orderStatement = null;
@@ -158,6 +152,10 @@ public class OrderDAOImpl extends OrderDAO {
 		return orders;
 	}
 
+	
+	/**
+	 * @see by.khmyl.cafe.dao.OrderDAO#addOrder(by.khmyl.cafe.entity.User, java.util.HashMap, java.lang.String)
+	 */
 	@Override
 	public void addOrder(User user, HashMap<MenuItem, Integer> cart, String datetime) throws DAOException {
 		PreparedStatement createOrderStatement = null;
@@ -221,9 +219,7 @@ public class OrderDAOImpl extends OrderDAO {
 
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/**
 	 * @see by.khmyl.cafe.dao.OrderDAO#cancelOrder(int)
 	 */
 	@Override
@@ -260,10 +256,8 @@ public class OrderDAOImpl extends OrderDAO {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see by.khmyl.cafe.dao.OrderDAO#countOrders(int)
+	/**
+	 * @see by.khmyl.cafe.dao.OrderDAO#countUserOrders(int, java.lang.String)
 	 */
 	@Override
 	public int countUserOrders(int userId, String filter) throws DAOException {
@@ -289,6 +283,9 @@ public class OrderDAOImpl extends OrderDAO {
 		return amount;
 	}
 
+	/**
+	 * @see by.khmyl.cafe.dao.OrderDAO#countOrders(java.lang.String)
+	 */
 	@Override
 	public int countOrders(String filter) throws DAOException {
 		PreparedStatement ps = null;
@@ -312,7 +309,10 @@ public class OrderDAOImpl extends OrderDAO {
 
 		return amount;
 	}
-
+ 
+	/**
+	 * @see by.khmyl.cafe.dao.OrderDAO#editOrder(int, java.lang.String)
+	 */
 	@Override
 	public void editOrder(int orderId, String newDatetime) throws DAOException {
 		PreparedStatement ps = null;
@@ -333,6 +333,9 @@ public class OrderDAOImpl extends OrderDAO {
 
 	}
 
+	/**
+	 * @see by.khmyl.cafe.dao.OrderDAO#changeStatus(int, java.lang.String)
+	 */
 	@Override
 	public void changeStatus(int orderId, String status) throws DAOException {
 		PreparedStatement ps = null;

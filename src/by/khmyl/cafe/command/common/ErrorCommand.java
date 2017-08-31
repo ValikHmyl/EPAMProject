@@ -12,7 +12,7 @@ import by.khmyl.cafe.constant.PathConstant;
  */
 public class ErrorCommand extends AbstractCommand {
 
-	/* (non-Javadoc)
+	/** 
 	 * @see by.khmyl.cafe.command.AbstractCommand#execute(javax.servlet.http.HttpServletRequest)
 	 */
 	@Override

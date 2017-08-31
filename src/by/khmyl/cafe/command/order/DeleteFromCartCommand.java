@@ -27,7 +27,7 @@ public class DeleteFromCartCommand extends AbstractCommand {
 	private static final Logger LOGGER = LogManager.getLogger(DeleteFromCartCommand.class);
 	private OrderReceiver receiver = new OrderReceiverImpl();
 
-	/* (non-Javadoc)
+	/**
 	 * @see by.khmyl.cafe.command.AbstractCommand#execute(javax.servlet.http.HttpServletRequest)
 	 */
 	@Override

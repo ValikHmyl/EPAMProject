@@ -24,11 +24,8 @@ public class SignUpCommand extends AbstractCommand {
 
 	private CommonReceiver receiver = new CommonReceiverImpl();
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see by.khmyl.cafe.command.AbstractCommand#execute(javax.servlet.http.
-	 * HttpServletRequest)
+	/** 
+	 * @see by.khmyl.cafe.command.AbstractCommand#execute(javax.servlet.http.HttpServletRequest)
 	 */
 	@Override
 	public Router execute(HttpServletRequest request) {

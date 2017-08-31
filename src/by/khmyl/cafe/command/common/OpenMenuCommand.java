@@ -26,7 +26,7 @@ public class OpenMenuCommand extends AbstractCommand {
 
 	private CommonReceiver receiver = new CommonReceiverImpl();
 
-	/* (non-Javadoc)
+	/**
 	 * @see by.khmyl.cafe.command.AbstractCommand#execute(javax.servlet.http.HttpServletRequest)
 	 */
 	@Override

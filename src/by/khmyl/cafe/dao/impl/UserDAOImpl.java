@@ -29,10 +29,8 @@ public class UserDAOImpl extends UserDAO {
 	private static final String SQL_FIND_USERS = "SELECT `id`, `username`, `password`, `email`, `role`, `status`, `discount`, `avatar_img_name` FROM `user` WHERE `status` LIKE ? AND `role`=false ORDER BY `id` LIMIT ?, ?";
 	private static final String SQL_CHANGE_DISCOUNT = "UPDATE `cafe`.`user` SET `discount`=? WHERE `id`=?";
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see by.khmyl.cafe.dao.UserDAO#findUser(java.lang.String)
+	/**
+	 * @see by.khmyl.cafe.dao.UserDAO#findUserByName(java.lang.String)
 	 */
 	@Override
 	public User findUserByName(String username) throws DAOException {
@@ -57,6 +55,9 @@ public class UserDAOImpl extends UserDAO {
 		return user;
 	}
 
+	/**
+	 * @see by.khmyl.cafe.dao.UserDAO#findUser(int)
+	 */
 	@Override
 	public User findUser(int userId) throws DAOException {
 		PreparedStatement ps = null;
@@ -80,9 +81,7 @@ public class UserDAOImpl extends UserDAO {
 		return user;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/** 
 	 * @see by.khmyl.cafe.dao.UserDAO#addUser(java.lang.String,
 	 * java.lang.String, java.lang.String)
 	 */
@@ -105,9 +104,7 @@ public class UserDAOImpl extends UserDAO {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/** 
 	 * @see by.khmyl.cafe.dao.UserDAO#checkEmail(java.lang.String)
 	 */
 	@Override
@@ -133,9 +130,12 @@ public class UserDAOImpl extends UserDAO {
 		return isFree;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/**
+	 * Change password.
+	 *
+	 * @param userId the user id
+	 * @param newPassword the new password
+	 * @throws DAOException the DAO exception
 	 * @see by.khmyl.cafe.dao.UserDAO#changePassword(int, java.lang.String)
 	 */
 	@Override
@@ -156,9 +156,7 @@ public class UserDAOImpl extends UserDAO {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/** 
 	 * @see by.khmyl.cafe.dao.UserDAO#changeEmail(int, java.lang.String)
 	 */
 	@Override
@@ -179,9 +177,7 @@ public class UserDAOImpl extends UserDAO {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/**
 	 * @see by.khmyl.cafe.dao.UserDAO#changeAvatar(int, java.lang.String)
 	 */
 	@Override
@@ -202,6 +198,9 @@ public class UserDAOImpl extends UserDAO {
 		}
 	}
 
+	/**
+	 * @see by.khmyl.cafe.dao.UserDAO#findUsers(int, java.lang.String)
+	 */
 	@Override
 	public ArrayList<User> findUsers(int startIndex, String filter) throws DAOException {
 		PreparedStatement ps = null;
@@ -227,6 +226,9 @@ public class UserDAOImpl extends UserDAO {
 		return users;
 	}
 
+	/**
+	 * @see by.khmyl.cafe.dao.UserDAO#countUsers(java.lang.String)
+	 */
 	@Override
 	public int countUsers(String filter) throws DAOException {
 		PreparedStatement ps = null;
@@ -250,6 +252,9 @@ public class UserDAOImpl extends UserDAO {
 		return amount;
 	}
 
+	/**
+	 * @see by.khmyl.cafe.dao.UserDAO#changeDiscount(int, java.math.BigDecimal)
+	 */
 	@Override
 	public void changeDiscount(int userId, BigDecimal discount) throws DAOException {
 		PreparedStatement ps = null;

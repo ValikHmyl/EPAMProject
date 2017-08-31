@@ -24,9 +24,7 @@ public class CommonReceiverImpl extends CommonReceiver {
 	private static final String EMAIL_SUBJECT = "Sign Up in McCafe";
 	private static final String EMAIL_CONTENT = "<h2>Welcome in McCafe system!</h2> <p>Your successfully sign up in system of McCafe.</p>";
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/** 
 	 * @see by.khmyl.cafe.receiver.CommonReceiver#signIn(java.lang.String,
 	 * java.lang.String, java.util.ArrayList)
 	 */
@@ -56,9 +54,7 @@ public class CommonReceiverImpl extends CommonReceiver {
 		return user;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/** 
 	 * @see by.khmyl.cafe.receiver.CommonReceiver#signUp(java.lang.String,
 	 * java.lang.String, java.lang.String, java.lang.String,
 	 * java.util.ArrayList)
@@ -105,9 +101,7 @@ public class CommonReceiverImpl extends CommonReceiver {
 		return isValid;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/** 
 	 * @see by.khmyl.cafe.receiver.CommonReceiver#getMenu(java.lang.String)
 	 */
 	@Override

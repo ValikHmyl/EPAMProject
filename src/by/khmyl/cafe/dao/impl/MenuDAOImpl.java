@@ -24,9 +24,7 @@ public class MenuDAOImpl extends MenuDAO {
 	private static final String SQL_FIND_FILTERED_MENU = "SELECT `menu`.`id`, `menu`.`name`, `menu`.`price`, `menu`.`category_id`, `menu`.`portion`, `menu`.`img_name`, `menu`.`status` FROM `cafe`.`menu` WHERE `category_id`= (SELECT `id` FROM `cafe`.`category` WHERE `name` LIKE ?) ORDER BY `id` LIMIT ?, ?";
 	private static final String SQL_FIND_ALL_MENU = "SELECT `menu`.`id`, `menu`.`name`, `menu`.`price`, `menu`.`category_id`, `menu`.`portion`, `menu`.`img_name`, `menu`.`status` FROM `cafe`.`menu` ORDER BY `id` LIMIT ?, ?";
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/** 
 	 * @see by.khmyl.cafe.dao.MenuDAO#findMenu(java.lang.String)
 	 */
 	@Override
@@ -53,9 +51,7 @@ public class MenuDAOImpl extends MenuDAO {
 		return menuList;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/**
 	 * @see by.khmyl.cafe.dao.MenuDAO#findMenuItem(int)
 	 */
 	@Override
@@ -81,6 +77,9 @@ public class MenuDAOImpl extends MenuDAO {
 		return menuItem;
 	}
 
+	/**
+	 * @see by.khmyl.cafe.dao.MenuDAO#addMenuItem(java.lang.String, java.lang.String, java.math.BigDecimal, java.lang.String, java.lang.String)
+	 */
 	@Override
 	public void addMenuItem(String name, String category, BigDecimal price, String portion, String imageName)
 			throws DAOException {
@@ -103,6 +102,9 @@ public class MenuDAOImpl extends MenuDAO {
 		}
 	}
 
+	/**
+	 * @see by.khmyl.cafe.dao.MenuDAO#findFilteredMenu(int, int, java.lang.String)
+	 */
 	@Override
 	public ArrayList<MenuItem> findFilteredMenu(int startIndex, int lastIndex, String filter) throws DAOException {
 		ArrayList<MenuItem> menuList = new ArrayList<>();
@@ -135,6 +137,9 @@ public class MenuDAOImpl extends MenuDAO {
 		return menuList;
 	}
 
+	/**
+	 * @see by.khmyl.cafe.dao.MenuDAO#countMenuItems(java.lang.String)
+	 */
 	@Override
 	public int countMenuItems(String filter) throws DAOException {
 		PreparedStatement ps = null;

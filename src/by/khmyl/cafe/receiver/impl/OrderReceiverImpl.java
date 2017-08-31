@@ -20,9 +20,7 @@ import by.khmyl.cafe.util.Validator;
  */
 public class OrderReceiverImpl extends OrderReceiver {
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/** 
 	 * @see by.khmyl.cafe.receiver.OrderReceiver#addToCart(int, int,
 	 * java.util.HashMap)
 	 */
@@ -44,9 +42,7 @@ public class OrderReceiverImpl extends OrderReceiver {
 		return menuItem;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/** 
 	 * @see by.khmyl.cafe.receiver.OrderReceiver#deleteFromCart(int,
 	 * java.util.HashMap)
 	 */
@@ -64,12 +60,9 @@ public class OrderReceiverImpl extends OrderReceiver {
 
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/** 
 	 * @see
-	 * by.khmyl.cafe.receiver.OrderReceiver#makeAnOrder(by.khmyl.cafe.entity.
-	 * User, java.util.HashMap, java.lang.String)
+	 * by.khmyl.cafe.receiver.OrderReceiver#makeAnOrder(by.khmyl.cafe.entity.User, java.util.HashMap, java.lang.String)
 	 */
 	@Override
 	public boolean makeAnOrder(User user, HashMap<MenuItem, Integer> cart, String datetime) throws ReceiverException {
@@ -85,9 +78,7 @@ public class OrderReceiverImpl extends OrderReceiver {
 		return true;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/** 
 	 * @see by.khmyl.cafe.receiver.OrderReceiver#cancelOrder(int,
 	 * java.lang.StringBuilder)
 	 */
@@ -112,7 +103,7 @@ public class OrderReceiverImpl extends OrderReceiver {
 		return true;
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see by.khmyl.cafe.receiver.OrderReceiver#editOrder(int, java.lang.String)
 	 */
 	@Override
@@ -130,7 +121,7 @@ public class OrderReceiverImpl extends OrderReceiver {
 
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see by.khmyl.cafe.receiver.OrderReceiver#searchOrder(int)
 	 */
 	@Override

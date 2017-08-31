@@ -25,7 +25,7 @@ public class CancelOrderCommand extends AbstractCommand {
 
 	private OrderReceiver receiver = new OrderReceiverImpl();
 
-	/* (non-Javadoc)
+	/**
 	 * @see by.khmyl.cafe.command.AbstractCommand#execute(javax.servlet.http.HttpServletRequest)
 	 */
 	@Override

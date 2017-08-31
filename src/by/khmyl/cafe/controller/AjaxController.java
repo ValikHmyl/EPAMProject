@@ -20,23 +20,11 @@ import by.khmyl.cafe.command.Router;
 public class AjaxController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see javax.servlet.http.HttpServlet#doGet(javax.servlet.http.
-	 * HttpServletRequest, javax.servlet.http.HttpServletResponse)
-	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		processRequest(request, response);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see javax.servlet.http.HttpServlet#doPost(javax.servlet.http.
-	 * HttpServletRequest, javax.servlet.http.HttpServletResponse)
-	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		processRequest(request, response);

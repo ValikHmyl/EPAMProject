@@ -26,7 +26,7 @@ public class ChangeEmailCommand extends AbstractCommand {
 
 	private UserReceiver receiver = new UserReceiverImpl();
 
-	/* (non-Javadoc)
+	/**
 	 * @see by.khmyl.cafe.command.AbstractCommand#execute(javax.servlet.http.HttpServletRequest)
 	 */
 	@Override

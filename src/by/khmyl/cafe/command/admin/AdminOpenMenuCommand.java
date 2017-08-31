@@ -26,7 +26,7 @@ public class AdminOpenMenuCommand extends AbstractCommand {
 
 	private AdminReceiver receiver = new AdminReceiverImpl();
 
-	/* (non-Javadoc)
+	/**
 	 * @see by.khmyl.cafe.command.AbstractCommand#execute(javax.servlet.http.HttpServletRequest)
 	 */
 	@Override

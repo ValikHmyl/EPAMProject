@@ -14,7 +14,7 @@ import by.khmyl.cafe.constant.Constant;
  */
 public class ChangeLocaleCommand extends AbstractCommand {
 
-	/* (non-Javadoc)
+	/**
 	 * @see by.khmyl.cafe.command.AbstractCommand#execute(javax.servlet.http.HttpServletRequest)
 	 */
 	@Override

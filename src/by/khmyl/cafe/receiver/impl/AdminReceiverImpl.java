@@ -39,7 +39,7 @@ public class AdminReceiverImpl extends AdminReceiver {
 	private static final String EMAIL_SUBJECT_ACTIVATE = "Amnesty in McCafe system";
 	private static final String EMAIL_CONTENT_ACTIVATE = "<h2>Glad to inform you!</h2> <p>You were amnestied in the McCafe system, next time will be more carefull and responsible.</p> <hr> <p>With respect McCafe administration.</p> <p>email mail@gmail.com</p><p>  phone +375 29 123 34 45</p> ";
 
-	/* (non-Javadoc)
+	/**
 	 * @see by.khmyl.cafe.receiver.AdminReceiver#openUsers(int, java.lang.String)
 	 */
 	@Override
@@ -57,7 +57,7 @@ public class AdminReceiverImpl extends AdminReceiver {
 		return users;
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see by.khmyl.cafe.receiver.AdminReceiver#banUser(int, java.lang.String)
 	 */
 	@Override
@@ -75,7 +75,7 @@ public class AdminReceiverImpl extends AdminReceiver {
 		}
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see by.khmyl.cafe.receiver.AdminReceiver#activateUser(int, java.lang.String)
 	 */
 	@Override
@@ -90,7 +90,7 @@ public class AdminReceiverImpl extends AdminReceiver {
 		}
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see by.khmyl.cafe.receiver.AdminReceiver#openOrders(int, java.lang.String)
 	 */
 	@Override
@@ -119,7 +119,7 @@ public class AdminReceiverImpl extends AdminReceiver {
 		return orders;
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see by.khmyl.cafe.receiver.AdminReceiver#addMenu(java.lang.String, java.lang.String, java.math.BigDecimal, java.lang.String, java.lang.String, java.util.Collection)
 	 */
 	@Override
@@ -146,7 +146,7 @@ public class AdminReceiverImpl extends AdminReceiver {
 		return false;
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see by.khmyl.cafe.receiver.AdminReceiver#openMenu(int, java.lang.String)
 	 */
 	@Override
@@ -163,7 +163,7 @@ public class AdminReceiverImpl extends AdminReceiver {
 		return menu;
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see by.khmyl.cafe.receiver.AdminReceiver#removeFromMenu(int)
 	 */
 	@Override
@@ -177,7 +177,7 @@ public class AdminReceiverImpl extends AdminReceiver {
 
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see by.khmyl.cafe.receiver.AdminReceiver#returnToMenu(int)
 	 */
 	@Override
@@ -190,7 +190,7 @@ public class AdminReceiverImpl extends AdminReceiver {
 		}
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see by.khmyl.cafe.receiver.AdminReceiver#confirmPayment(int, int)
 	 */
 	@Override
@@ -210,7 +210,7 @@ public class AdminReceiverImpl extends AdminReceiver {
 
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see by.khmyl.cafe.receiver.AdminReceiver#openProfile()
 	 */
 	@Override

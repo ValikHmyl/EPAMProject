@@ -28,11 +28,8 @@ public class MakeAnOrderCommand extends AbstractCommand {
 
 	private OrderReceiver receiver = new OrderReceiverImpl();
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see by.khmyl.cafe.command.AbstractCommand#execute(javax.servlet.http.
-	 * HttpServletRequest)
+	/**
+	 * @see by.khmyl.cafe.command.AbstractCommand#execute(javax.servlet.http.HttpServletRequest)
 	 */
 	@Override
 	public Router execute(HttpServletRequest request) {
